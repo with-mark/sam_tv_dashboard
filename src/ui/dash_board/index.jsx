@@ -26,7 +26,7 @@ const LandingPage = () => {
         <Layout style = {{minHeight:'100vh'}} >
             <Layout.Sider theme = "light" zeroWidthTriggerStyle = {{color:"blue"}} breakpoint = "md"  style = {{backgroundColor:"#ffffff"}} collapsible collapsed = {state.menuCollapse}  onCollapse = {collapseMenu}>
                 <div className="logo">
-                    <Image preview = {false} src={logo} alt="slider-logo" srcset="" />
+                    <Image  preview = {false} src={logo} alt="slider-logo" srcset="" />
                 </div>
                 <Divider/>
                 <Menu theme = "light" style = {{padding:"2em"}} mode = "inline" defaultOpenKeys = {["1"]} >
@@ -83,7 +83,7 @@ const LandingPage = () => {
             </Layout.Sider>
             <Layout>
                 <Layout.Header id = "header" style = {{backgroundColor:"#ffffff"}} >
-                    <div className="right-side"/>
+                    <div className="left-side"/>
                     <div className="right-side">
                        
                         <small>sarpotbemail@gmail.com</small>
