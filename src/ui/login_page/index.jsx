@@ -1,9 +1,11 @@
+import { Card } from 'antd'
 import React from 'react'
+import './styles/index.scss'
 
 const LoginPage = () => {
     return (
-        <div>
-            
+        <div className = "login-page" >
+            <Card id ="login-card"></Card>
         </div>
     )
 }

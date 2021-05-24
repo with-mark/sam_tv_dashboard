@@ -26,7 +26,8 @@ export const setAuthToken = token=>{
 }
 
 export const getAuthToken = ()=>{
-    const token = getItem("authToken");
+    return getItem("authToken");
+    
 }
 
 export const deleteAuthToken = ()=>{
@@ -41,17 +42,18 @@ export const setIsAuth = status=>{
 
 export const getIsAuth = ()=>{
     const status = getItem("isAuth")
+    return false ? status === null:status;
 }
 
 
 //Store authenticated user information
 
-export const setUserInfo= token=>{
-    setItem("userInfo",token)
+export const setUserInfo= userInfo=>{
+    setItem("userInfo",userInfo)
 }
 
 export const getUserInfo= ()=>{
-    const token = getItem("userInfo");
+    return getItem("userInfo");
 }
 
 export const deleteUserInfo= ()=>{
