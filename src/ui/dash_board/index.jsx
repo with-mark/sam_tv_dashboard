@@ -7,6 +7,11 @@ import { faBookReader, faChartLine, faDesktop, faPray, faRunning, faUser } from 
 import "./styles/index.scss"
 import { UserOutlined } from "@ant-design/icons"
 import StatisticsPage from '../statistics_page'
+import UsersPage from '../users_page'
+import MotivationPage from '../motivation_page'
+import PrayerRequestsPage from '../prayer_requests_page'
+import SermonesPage from '../sermons_page'
+import SamTvPage from '../samtv_page'
 const LandingPage = () => {
     const [state,setState] = useState({
         menuCollapse:false
@@ -42,13 +47,13 @@ const LandingPage = () => {
                         </Link>
                        
                         <Divider/>
-                        <Link to = "motivation" >
+                        <Link to = "/motivation" >
                         <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faRunning} />} key = "3" >
                         <span hidden = {state.menuCollapse} > Motovations</span>
                         </Menu.Item>
                         </Link>
                         <Divider/>
-                        <Link to = "prayer-requests" >
+                        <Link to = "/prayer-requests" >
                         <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faPray} />} key = "3" >
                         <span hidden = {state.menuCollapse} > Prayers Req... </span>
 
@@ -57,7 +62,7 @@ const LandingPage = () => {
                         </Link>
 
                         <Divider/>
-                        <Link to = "sermons" >
+                        <Link to = "/sermons" >
                         <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faBookReader} />} key = "3" >
                         <span hidden = {state.menuCollapse} > Sermones</span>
 
@@ -65,7 +70,7 @@ const LandingPage = () => {
                         </Menu.Item>
                         </Link>
                         <Divider/>
-                        <Link to = "users" >
+                        <Link to = "/users" >
                         <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faUser} />} key = "3" >
                         <span hidden = {state.menuCollapse} > Users</span>
 
@@ -88,6 +93,12 @@ const LandingPage = () => {
                 </Layout.Header>
                 <Layout.Content>
                     <Switch>
+                    <Route path = "/users" component = {UsersPage}  />
+                    <Route path = "/motivation" component = {MotivationPage}  />
+                    <Route path = "/sam-tv" component = {SamTvPage}  />
+                    <Route path = "/prayer-requests" component = {PrayerRequestsPage}  />
+                    <Route path = "/sermons" component = {SermonesPage}  />
+
                         <Route path = "/" component = {StatisticsPage}  />
 
                     </Switch>
