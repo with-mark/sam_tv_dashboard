@@ -26,7 +26,7 @@ const LandingPage = ({getMotivation}) => {
     }
     useEffect(() => {
         getMotivation()
-    }, [])
+    }, [getMotivation])
     return (
         <Layout style = {{minHeight:'100vh'}} >
             <Layout.Sider theme = "light" zeroWidthTriggerStyle = {{color:"blue"}} breakpoint = "md"  style = {{backgroundColor:"#ffffff"}} collapsible collapsed = {state.menuCollapse}  onCollapse = {collapseMenu}>

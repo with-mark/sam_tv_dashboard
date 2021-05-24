@@ -1,6 +1,7 @@
-import {fetchFireStoreItems} from "../../utils/networks/firestore_services"
+import firebase from "../../utils/networks/firebaseConfig"
 const FETCH_MOTIVATION_REQUEST = "FETCH_MOTIVATION_REQUEST"
 const FETCH_MOTIVATION_SUCCESS = "FETCH_MOTIVATION_SUCCESS"
+const FETCH_MOTIVATION_FAILURE = "FETCH_MOTIVATION_FAILURE"
 
 const fetchMotivationRequest= ()=>{
     return{
@@ -17,10 +18,18 @@ const fetchMotivationSuccess= motivations=>{
 
 
 
-export const fetchMotivations =()=>async dispatch=>{
+export const fetchMotivations =()=>dispatch=>{
    dispatch(fetchMotivationRequest())
-    const motivations = await fetchFireStoreItems("motivation")
-    dispatch(fetchMotivationSuccess(motivations))   
+    const ref = firebase.firestore().collection("motivation")
+    let motivations = []
+    ref.onSnapshot((querySnapshot)=>{
+        querySnapshot.forEach(doc=>{
+            motivations.push(doc.data())
+        })
+    dispatch(fetchMotivationSuccess(motivations))
+
+    })
+    
 }
 
 
@@ -29,7 +38,7 @@ export const fetchMotivations =()=>async dispatch=>{
 
 const initialState = {
 loading:false,
-motivations:[]
+data:[]
 }
 
 
@@ -43,9 +52,13 @@ export const motivationReducer = (state = initialState, { type, payload }) => {
         return{
             ...state,
             loading:false,
-            motivations:payload
+            data:payload
         }
-  
+    case FETCH_MOTIVATION_FAILURE:
+        return{
+            ...state,
+            loading:false
+        }
     default:
         return state
     }
