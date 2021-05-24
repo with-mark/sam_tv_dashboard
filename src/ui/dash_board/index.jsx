@@ -64,7 +64,7 @@ const LandingPage = () => {
                         <Divider/>
                         <Link to = "/sermons" >
                         <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faBookReader} />} key = "3" >
-                        <span hidden = {state.menuCollapse} > Sermones</span>
+                        <span hidden = {state.menuCollapse} > Sermons</span>
 
                             
                         </Menu.Item>
