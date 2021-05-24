@@ -1,0 +1,14 @@
+#header{
+    .right-side{
+        flex: 3;
+        margin-right: auto;
+    }
+    display: flex;
+    .right-side{
+        position: absolute;
+        right: 2em;
+        margin-left: auto;
+        display: flex;
+        flex: 12;
+    }
+}

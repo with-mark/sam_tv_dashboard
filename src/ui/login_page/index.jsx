@@ -1,13 +1,25 @@
-import { Button, Card, Form, Image, Input } from 'antd'
+import { Button, Card, Form, Image, Input, message } from 'antd'
 import React from 'react'
 import './styles/index.scss'
 import logo from '../../assets/images/logo.png'
+import { setIsAuth } from '../../utils/local_storage';
+import { useHistory } from 'react-router';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
   };
 
+
 const LoginPage = () => {
+    const history = useHistory()
+
+    const onSumit = values=>{
+        console.log(values);
+        setIsAuth(true)
+        message.success("You have succefully logged in");
+        history.push("/")
+  
+    }
     return (
         <div className = "login-page" >
             <Card id ="login-card">
@@ -21,6 +33,7 @@ const LoginPage = () => {
                     </h4>
                 </div>
             <Form
+            onFinish = {onSumit}
       {...layout}
       name="loginForm"
      
@@ -46,7 +59,7 @@ const LoginPage = () => {
   
 
         <Button id = "submit-button" shape = "round" type="primary" htmlType="submit">
-          Submit
+          LOGIN
         </Button>
     </Form>
             </Card>
