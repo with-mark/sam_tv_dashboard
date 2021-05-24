@@ -55,7 +55,7 @@ const LandingPage = () => {
                         <Divider/>
                         <Link to = "/prayer-requests" >
                         <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faPray} />} key = "3" >
-                        <span hidden = {state.menuCollapse} > Prayers Req... </span>
+                        <span hidden = {state.menuCollapse} > Prayers req... </span>
 
                             
                         </Menu.Item>
