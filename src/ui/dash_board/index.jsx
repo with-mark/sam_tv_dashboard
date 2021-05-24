@@ -1,5 +1,5 @@
 import { Avatar, Divider, Image, Layout, Menu } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,7 +12,9 @@ import MotivationPage from '../motivation_page'
 import PrayerRequestsPage from '../prayer_requests_page'
 import SermonesPage from '../sermons_page'
 import SamTvPage from '../samtv_page'
-const LandingPage = () => {
+import { fetchMotivations } from '../../state_mamger/functions/motivations'
+import { connect } from 'react-redux'
+const LandingPage = ({getMotivation}) => {
     const [state,setState] = useState({
         menuCollapse:false
     })
@@ -22,6 +24,9 @@ const LandingPage = () => {
             menuCollapse:status
         })
     }
+    useEffect(() => {
+        getMotivation()
+    }, [])
     return (
         <Layout style = {{minHeight:'100vh'}} >
             <Layout.Sider theme = "light" zeroWidthTriggerStyle = {{color:"blue"}} breakpoint = "md"  style = {{backgroundColor:"#ffffff"}} collapsible collapsed = {state.menuCollapse}  onCollapse = {collapseMenu}>
@@ -109,5 +114,14 @@ const LandingPage = () => {
         </Layout>
     )
 }
+const  mapDispatchToProps =(dispatch)=> {
+    return{
+        getMotivation:()=>dispatch(fetchMotivations())
+    } ;
+}
+const mapStateToProps =(state) =>{
+    return{
 
-export default LandingPage
+    } ;
+}
+export default connect(mapStateToProps,mapDispatchToProps)(LandingPage)
