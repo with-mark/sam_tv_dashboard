@@ -14,7 +14,8 @@ import SermonesPage from '../sermons_page'
 import SamTvPage from '../samtv_page'
 import { fetchMotivations } from '../../state_mamger/functions/motivations'
 import { connect } from 'react-redux'
-const LandingPage = ({getMotivation}) => {
+import { fetchStreamData } from '../../state_mamger/functions/liveStreams'
+const LandingPage = ({getMotivation,getStreamingData}) => {
     const [state,setState] = useState({
         menuCollapse:false
     })
@@ -26,7 +27,8 @@ const LandingPage = ({getMotivation}) => {
     }
     useEffect(() => {
         getMotivation()
-    }, [getMotivation])
+        getStreamingData()
+    }, [getMotivation,getStreamingData])
     return (
         <Layout style = {{minHeight:'100vh'}} >
             <Layout.Sider theme = "light" zeroWidthTriggerStyle = {{color:"blue"}} breakpoint = "md"  style = {{backgroundColor:"#ffffff"}} collapsible collapsed = {state.menuCollapse}  onCollapse = {collapseMenu}>
@@ -116,7 +118,8 @@ const LandingPage = ({getMotivation}) => {
 }
 const  mapDispatchToProps =(dispatch)=> {
     return{
-        getMotivation:()=>dispatch(fetchMotivations())
+        getMotivation:()=>dispatch(fetchMotivations()),
+        getStreamingData:()=>dispatch(fetchStreamData())
     } ;
 }
 const mapStateToProps =(state) =>{

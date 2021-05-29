@@ -3,7 +3,7 @@ import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 
-const StatisticsPage = ({motivationData}) => {
+const StatisticsPage = ({motivationData,streamData}) => {
     return (
         <div className = "stattistics-page" >
             <Container className = "mt-5" >
@@ -27,6 +27,12 @@ const StatisticsPage = ({motivationData}) => {
 
                         </Card>
                     </Col>
+                    <Col className = "mt-2" xs = "12" sm = "12" md = "6" >
+                        <Card style = {{height:"150px"}} >
+                            <Statistic value = {streamData.data.length} className = "text-center" title = "Number of scheduled live streams" loading = {streamData.loading} />
+
+                        </Card>
+                    </Col>
                 </Row>
             </Container>
         </div>
@@ -34,7 +40,8 @@ const StatisticsPage = ({motivationData}) => {
 }
 const mapStateToProps =(state) =>{
     return{
-        motivationData:state.motvation
+        motivationData:state.motvation,
+        streamData:state.liveStreams
         
     } ;
 }

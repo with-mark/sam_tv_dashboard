@@ -39,7 +39,7 @@ const initialState = {
 
 }
 
-export default (state = initialState, { type, payload }) => {
+export const streamReducer= (state = initialState, { type, payload }) => {
     switch (type) {
 
     case FETCH_LIVE_STREAM_DATA_REQUEST :
