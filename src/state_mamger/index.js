@@ -2,12 +2,14 @@ import {createStore,applyMiddleware,combineReducers} from 'redux'
 import thunk from 'redux-thunk'
 import { streamReducer } from './functions/liveStreams';
 import { motivationReducer } from './functions/motivations';
+import { prayerRequestReducer } from './functions/prayerRequest';
 
 
 
 const rootReducer = combineReducers({
 motvation:motivationReducer,
-liveStreams:streamReducer
+liveStreams:streamReducer,
+prayerRequest:prayerRequestReducer,
 })
 
  

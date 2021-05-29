@@ -15,7 +15,8 @@ import SamTvPage from '../samtv_page'
 import { fetchMotivations } from '../../state_mamger/functions/motivations'
 import { connect } from 'react-redux'
 import { fetchStreamData } from '../../state_mamger/functions/liveStreams'
-const LandingPage = ({getMotivation,getStreamingData}) => {
+import { fetchPrayers } from '../../state_mamger/functions/prayerRequest'
+const LandingPage = ({getMotivation,getStreamingData,fetchPrayerRequests}) => {
     const [state,setState] = useState({
         menuCollapse:false
     })
@@ -28,7 +29,8 @@ const LandingPage = ({getMotivation,getStreamingData}) => {
     useEffect(() => {
         getMotivation()
         getStreamingData()
-    }, [getMotivation,getStreamingData])
+        fetchPrayerRequests()
+    }, [getMotivation,getStreamingData,fetchPrayerRequests])
     return (
         <Layout style = {{minHeight:'100vh'}} >
             <Layout.Sider theme = "light" zeroWidthTriggerStyle = {{color:"blue"}} breakpoint = "md"  style = {{backgroundColor:"#ffffff"}} collapsible collapsed = {state.menuCollapse}  onCollapse = {collapseMenu}>
@@ -119,7 +121,8 @@ const LandingPage = ({getMotivation,getStreamingData}) => {
 const  mapDispatchToProps =(dispatch)=> {
     return{
         getMotivation:()=>dispatch(fetchMotivations()),
-        getStreamingData:()=>dispatch(fetchStreamData())
+        getStreamingData:()=>dispatch(fetchStreamData()),
+        fetchPrayerRequests:()=>dispatch(fetchPrayers())
     } ;
 }
 const mapStateToProps =(state) =>{
