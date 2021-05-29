@@ -4,29 +4,15 @@ import { Col, Row } from 'react-bootstrap'
 import "./styles/index.scss"
 import ListDescription from './listDescription'
 import { DeleteOutlined, EyeOutlined, SelectOutlined } from "@ant-design/icons"
+import { connect } from 'react-redux'
 
 
 
 
 
-const getPrayer = ()=>{
-    let prayers = []
-for(let i =0; i<20;i++){
-    prayers.push({
-        id:1,
-        title:"Some prayer",
-        description:" Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta quo quia quasi suscipit officia excepturi, tenetur voluptas hic aperiam eveniet id assumenda dolore laudantium debitis quis ab illo. Sed, maiores ",
-        author:"Thomas Sarpong",
-        date:"2020-12-12",
-        is_read:false,
-        done:false
-    })
-}
-return prayers
 
-}
-
-const PrayerRequestsPage = () => {
+const PrayerRequestsPage = ({requestsInfo}) => {
+    console.log(requestsInfo);
     return (
         <div className = "prayer-requests container" > 
             <Card id = "main-card" className = "mt-5" >
@@ -34,7 +20,7 @@ const PrayerRequestsPage = () => {
                     <Col xs = "8" ><h5 className="">Prayer requests</h5> </Col>
                 </Row>
                 <Divider/>
-                <List  dataSource = {getPrayer()} 
+                <List loading = {requestsInfo.loading}  dataSource = {requestsInfo.data} 
                     renderItem = {(item)=><List.Item 
                     actions = {[
                         <EyeOutlined/>,
@@ -50,4 +36,10 @@ const PrayerRequestsPage = () => {
     )
 }
 
-export default PrayerRequestsPage
+const mapStateToProps =(state) =>{
+    return{
+        requestsInfo: state.prayerRequest
+    } ;
+}
+
+export default connect(mapStateToProps)(PrayerRequestsPage)

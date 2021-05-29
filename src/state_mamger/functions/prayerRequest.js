@@ -24,9 +24,9 @@ const fetchPrayerSuccess = data=>{
 
 export const fetchPrayers = ()=>dispatch=>{
     dispatch(fetchPrayerRequest())
-    const ref= firebase.firestore().collection("prayerRequest")
+    const ref= firebase.firestore().collection("prayerRequests")
     const prayerRequests = []
-    ref.orderBy("date").onSnapshot(query=>{
+    ref.onSnapshot(query=>{
         query.forEach(doc=>{
             prayerRequests.push(doc.data())
         })
