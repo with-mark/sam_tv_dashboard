@@ -22,6 +22,7 @@ const UsersPage = () => {
             addUserModal:false
         })
     }
+
     return (
         <div className = "users-page container ">
             <AddUserModal OnCancel = {closeAddUserModal} visible = {state.addUserModal} />
