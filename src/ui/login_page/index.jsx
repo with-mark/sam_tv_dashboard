@@ -1,9 +1,10 @@
-import { Button, Card, Form, Image, Input, message } from 'antd'
-import React from 'react'
+import { Button, Card, Form, Image, Input, message, notification, Spin } from 'antd'
+import React, { useState } from 'react'
 import './styles/index.scss'
 import logo from '../../assets/images/logo.png'
 import { setIsAuth } from '../../utils/local_storage';
 import { useHistory } from 'react-router';
+import { auth, db } from '../../utils/networks/firebaseConfig';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -12,17 +13,63 @@ const layout = {
 
 const LoginPage = () => {
     const history = useHistory()
+    const [state,setState]=useState({
+      loading:false
+    })
+    const setLoading = status=>{
+      setState({
+        ...state,
+        loading:status
+      })
+    }
 
     const onSumit = values=>{
-        console.log(values);
-        setIsAuth(true)
-        message.success("You have succefully logged in");
-        history.push("/")
+      setLoading(true)
+      auth.signInWithEmailAndPassword(values.email,values.password)
+      .then(res=>{
+        console.log(res);
+        
+      }).catch(err=>{
+        setLoading(false)
+                if (err.code ==='auth/network-request-failed'){
+          notification.error({
+         
+            message:"Network error",
+            description:"Check internet connection and try again"
+  
+          })
+        }
+        else if(err.code === "auth/user-not-found"){
+          message.error("Invalid credentials")
+        }
+        else{
+          notification.error({
+         
+            message:"Error occured",
+            description:String(err)
+  
+          })
+        }
+      
+      
+      }
+      )
+        // console.log(values);
+        // setIsAuth(true)
+        // message.success("You have succefully logged in");
+        // history.push("/")
+
   
     }
+
+
+
     return (
         <div className = "login-page" >
             <Card id ="login-card">
+              <Spin spinning = {state.loading} >
+
+            
                 <div className="logo">
                 <Image id ="logo"  preview = {false} src = {logo} alt = "Logo" />
 
@@ -40,9 +87,12 @@ const LoginPage = () => {
     >
       <Form.Item
       className = "form-item"
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        label="Email"
+        name="email"
+        rules={[{ required: true, message: 'Please input your email!' },{
+          type:"email",
+          message:"Enter a valid email address"
+        }]}
       >
         <Input />
       </Form.Item>
@@ -62,6 +112,7 @@ const LoginPage = () => {
           LOGIN
         </Button>
     </Form>
+    </Spin>
             </Card>
         </div>
     )
