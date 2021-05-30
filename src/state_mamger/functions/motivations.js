@@ -24,8 +24,11 @@ export const fetchMotivations =()=>dispatch=>{
     let motivations = []
     ref.onSnapshot((querySnapshot)=>{
         querySnapshot.forEach(doc=>{
-            motivations.push(doc.data())
+            const data = doc.data()
+            const id = doc.id
+            motivations.push({id,...data})
         })
+        
     dispatch(fetchMotivationSuccess(motivations))
 
     })

@@ -7,7 +7,7 @@ import { prayerRequestReducer } from './functions/prayerRequest';
 
 
 const rootReducer = combineReducers({
-motvation:motivationReducer,
+motivation:motivationReducer,
 liveStreams:streamReducer,
 prayerRequest:prayerRequestReducer,
 })
