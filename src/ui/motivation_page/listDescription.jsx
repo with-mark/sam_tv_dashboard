@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 import { getDateInWords } from '../../utils/dateTimeConvert'
 
 const MotivationDescription = ({item}) => {
-    return item.type == "text"? (
+    return item.type === "text"? (
         <div>
            
             <Row>

@@ -1,9 +1,9 @@
-import { Card, Divider, Image, List, Tooltip } from 'antd'
+import { Card, Divider,  List, Tooltip } from 'antd'
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import MotivationDescription from './listDescription'
 import "./styles/index.scss"
-import { CheckOutlined, DeleteOutlined, EyeInvisibleOutlined, EyeOutlined ,CloseOutlined, EditOutlined} from "@ant-design/icons"
+import {  DeleteOutlined, EditOutlined} from "@ant-design/icons"
 
 
 const getMotivations = ()=>{
