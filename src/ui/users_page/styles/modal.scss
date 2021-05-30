@@ -1,0 +1,21 @@
+.submit-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    #btn{
+        border-color: royalblue;
+        color: royalblue;
+        width: 50%;
+        
+        
+        @media (min-width:400px) {
+            margin-left: 5em;
+        }
+        @media (min-width:500px) and (max-width:558) {
+            margin-left: 0em;
+        }
+    }
+   
+}
