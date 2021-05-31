@@ -4,7 +4,7 @@ import './styles/index.scss'
 import logo from '../../assets/images/logo.png'
 import { setIsAuth } from '../../utils/local_storage';
 import { useHistory } from 'react-router';
-import { auth, db } from '../../utils/networks/firebaseConfig';
+import { auth} from '../../utils/networks/firebaseConfig';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
