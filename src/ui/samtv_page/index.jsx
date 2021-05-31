@@ -6,6 +6,7 @@ import { Col, Row } from 'react-bootstrap';
 import {DeleteOutlined,  EyeOutlined, PlusCircleOutlined} from "@ant-design/icons"
 import CreateStreamDrawer from './createStreamDrawer';
 import DetailedStreamDrawer from './detailedDrawer';
+import StreamDeletePromptModal from './deletePromptModal'
 
 
   const getStream = ()=>{
@@ -33,16 +34,25 @@ const SamTvPage = () => {
     const [state,setState] = useState({
         addDrawer:false,
         detailedDrawer:false,
+        deleteModal:false,
         selectedStream:{}
     })
 
     const [selectedStream,setSelectedStream]=useState({})
 
- 
+    
     const setAddDrawer = status=>{
         setState({
             ...state,
             addDrawer:status
+        })
+
+    }
+
+    const setDeleteModal = status=>{
+        setState({
+            ...state,
+            deleteModal:status
         })
     }
 
@@ -87,7 +97,12 @@ const SamTvPage = () => {
                         style ={{color:"royalblue",fontSize:"1rem"}} />
                     </Tooltip>
                     <Tooltip title ="Delete stream info" >
-                    <DeleteOutlined style ={{color:"red",fontSize:"1rem"}} />
+                    <DeleteOutlined
+                    onClick = {()=>{
+                        setSelectedStream(record)
+                        setDeleteModal(true)
+                    }}
+                    style ={{color:"red",fontSize:"1rem"}} />
     
                     </Tooltip>
     
@@ -98,6 +113,7 @@ const SamTvPage = () => {
 
     return (
         <div className = "sm-tv-page container ">
+            <StreamDeletePromptModal onClose = {()=>setDeleteModal(false)} visible = {state.deleteModal} />
             <DetailedStreamDrawer stream = {selectedStream} onClose = {()=>setDetailedDrawer(false)} visible = {state.detailedDrawer} />
             <CreateStreamDrawer visible = {state.addDrawer} onClose = {()=>setAddDrawer(false)} />
         <Card id="main-card" className = "mt-5" >

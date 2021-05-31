@@ -3,14 +3,13 @@ const agoraConfig = {
 mode:"rtc", codec:"vp8"
 };
 
+import {RtcTokenBuilder,RtcRole} from "agora-access-token"
 
-
-const {RtcTokenBuilder,RtcRole} = require('agora-access-token')
-const appID =  '3fc30bdae6174ab9be11d72f2ddb43a7';
+const appID =  'c40594061e1f4580aae3b2af1963d01e';
 const appCertificate = '3fc30bdae6174ab9be11d72f2ddb43a7';
-const channelName = 'sam';
-// const uid = 2882341273;
-const account = "2882341273";
+const channelName = 'casa';
+const uid = "0";
+// const account = "2882341273";
 const role = RtcRole.PUBLISHER;
  
 const expirationTimeInSeconds = 3600*48
@@ -21,5 +20,5 @@ const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
  
 
 
-const tokenA = RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channelName, account, role, privilegeExpiredTs);
+const tokenA = RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channelName, uid, role, privilegeExpiredTs);
 export {tokenA, agoraConfig,expirationTimeInSeconds } 

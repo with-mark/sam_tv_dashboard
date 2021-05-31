@@ -4,15 +4,16 @@ import { Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { deletePrayer } from '../../state_mamger/functions/prayerRequest'
 
-const StreamDeletePromptModal = ({visible,onClose,prayer,deletePrayer}) => {
+const StreamDeletePromptModal = ({visible,onClose,stream,deletePrayer}) => {
     return (
         <Modal onCancel = {onClose} visible = {visible} footer = {null} >
             <h6 className="text-center">Deletion prompt</h6>
-            <p><span style = {{color:"red"}} > Note: </span> This action will permanently delete {prayer.author}'s the this prayer request from the data base. This action cannot be undone. <br /> Fill the form field below with <b><i>delete</i> </b> to confirm deletion. </p>
+            {/* <p><span style = {{color:"red"}} > Note: </span> This action will permanently delete {prayer.author}'s the this prayer request from the data base. This action cannot be undone. <br /> Fill the form field below with <b><i>delete</i> </b> to confirm deletion. </p> */}
+            <p>Are you sure u want to delete this information? This action will permanently delete this stream information. <br />  Fill the text field belo with <b> <i>delete</i></b> to complete the ction </p>
             <Form
             onFinish = {()=>{
                 onClose()
-                deletePrayer(prayer)
+                deletePrayer(stream)
             }}
             >
                 <Row>
