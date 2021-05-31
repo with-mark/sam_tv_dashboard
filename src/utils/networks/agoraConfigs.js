@@ -1,9 +1,10 @@
+import {RtcTokenBuilder,RtcRole} from "agora-access-token"
+
 
 const agoraConfig = {
 mode:"rtc", codec:"vp8"
 };
 
-import {RtcTokenBuilder,RtcRole} from "agora-access-token"
 
 const appID =  'c40594061e1f4580aae3b2af1963d01e';
 const appCertificate = '3fc30bdae6174ab9be11d72f2ddb43a7';

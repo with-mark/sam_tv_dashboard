@@ -1,17 +1,18 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
-import { notification } from 'antd';
-import axios from "axios"
-import { agoraToken } from '../../utils/networks/endpoints';
-
+import { Button, notification } from 'antd';
+import { tokenA } from '../../utils/networks/agoraConfigs';
+import { useHistory } from 'react-router';
 
 const config= {mode: "rtc", codec: "vp8"}
 const appId = "c40594061e1f4580aae3b2af1963d01e"
-
+const token = tokenA
+console.log(token);
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 const VideoPage = () => {
+    const history = useHistory()
     const client = useClient();;
     const { ready, tracks } = useMicrophoneAndCameraTracks();
     const [users,setUsers] = useState([])
@@ -51,43 +52,39 @@ useEffect(()=>{
         });
         
       });
-      axios.post(agoraToken,{},{headers:{"Content-Type":"application/json"}})
+      
+      
+      client.join(appId,"casa",token)
       .then(res=>{
-          console.log(res.data);
-        client.join(appId,"",res.data.agoraToken,client.uid)
-        .then(res=>{
-            client.setClientRole("host")
-            .then(res=>{
-                if(tracks) client.publish(tracks).then(
-                    res=>{
-                      setStart(true)
-                      if (ready && tracks) {
-                          console.log("init ready");
-                          init("channelName");
-                        }
-                    }
-                ).catch(err=>{
-                  notification.error(err)
-                })
-              
-            }).catch(err=>{
-              notification.error(err)
-            })
-            
+        if(tracks) client.publish(tracks).then(
+            res=>{
+              setStart(true)
+              if (ready && tracks) {
+                  console.log("init ready");
+                  init("channelName");
+                }
+            }
+        ).catch(err=>{
+            console.log("asd",err);
+          notification.error(err)
         })
-      }).catch(err=>{
-          console.log(err);
       })
-  
       .catch(err=>{
+          console.log(err);
         notification.error(err)
       })
 },[client,ready,tracks,users])
 
 
 
-    return (
-      start && tracks ? <AgoraVideoPlayer videoTrack={tracks[1]} style={{height: '40%', width: '40%'}} />:<p>gETTING REASDASD</p>
+    return (<>
+          {start && tracks ? <AgoraVideoPlayer videoTrack={tracks[1]} style={{height: '60%', width: '100'}} />:<p>gETTING REASDASD</p>}
+          <Button onClick= {()=>{client.unpublish(tracks).then(res=>{
+            //   history.push("/sam-tv")
+             
+          }) }} >Close</Button>
+
+    </>
     
     )}
 export default VideoPage

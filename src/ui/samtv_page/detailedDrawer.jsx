@@ -4,8 +4,10 @@ import "./styles/createStreamDrawer.scss"
 import "./styles/detailed.scss"
 import logo from  "../../assets/images/logo.png"
 import { Col, Row } from 'react-bootstrap'
+import { useHistory } from 'react-router'
   
 const DetailedStreamDrawer = ({visible,onClose,stream}) => {
+    const history = useHistory()
     return (
         <Drawer onClose = {onClose} visible = {visible} width = {400} >
             <div className="logo">
@@ -26,7 +28,13 @@ const DetailedStreamDrawer = ({visible,onClose,stream}) => {
                    {stream.description}
                 </Col>
                 <div className="submit mt-5">
-                <Button shape = "round" id = "submit-btn" >Start</Button>
+                <Button 
+                onClick = {()=>{
+                    
+                    history.push("/sam-tv/conference")
+                    onClose()
+                }}
+                shape = "round" id = "submit-btn" >Start</Button>
 
                 </div>
             </Row>
