@@ -5,6 +5,7 @@ import logo from  "../../assets/images/logo.png"
 import { Col, Row } from 'react-bootstrap';
 import {DeleteOutlined,  EyeOutlined, PlusCircleOutlined} from "@ant-design/icons"
 import CreateStreamDrawer from './createStreamDrawer';
+import DetailedStreamDrawer from './detailedDrawer';
 
 
   const getStream = ()=>{
@@ -22,54 +23,82 @@ import CreateStreamDrawer from './createStreamDrawer';
   
 
 
-  const columns = [
-    {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
-    },
-    {
-      title: 'Decription',
-      dataIndex: 'description',
-      key: 'description',
-      render:text=>(<p>{text.length>100?text.slice(0,100):text} {text.length>100?"...":""} </p>)
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render:status=>(<Tag  color = {status ==="pending" ? "yellow":status ==="in_session"?"green":"red"} >{status}</Tag>)
-    },
-    {
-        title:"Actions",
-        render:(text,record)=>(
-            <Space size="middle">
 
-                <Tooltip title = "View Detailed" >                 
-                    <EyeOutlined style ={{color:"royalblue",fontSize:"1rem"}} />
-                </Tooltip>
-                <Tooltip title ="Delete stream info" >
-                <DeleteOutlined style ={{color:"red",fontSize:"1rem"}} />
-
-                </Tooltip>
-
-            </Space>
-        )
-    }
-  ];
 
 const SamTvPage = () => {
+
+
+
+
     const [state,setState] = useState({
-        addDrawer:false
+        addDrawer:false,
+        detailedDrawer:false,
+        selectedStream:{}
     })
+
+    const [selectedStream,setSelectedStream]=useState({})
+
+ 
     const setAddDrawer = status=>{
         setState({
             ...state,
             addDrawer:status
         })
     }
+
+    const setDetailedDrawer = status=>{
+        setState({
+            ...state,
+            detailedDrawer:status
+        })
+    }
+
+
+    const columns = [
+        {
+          title: 'Title',
+          dataIndex: 'title',
+          key: 'title',
+        },
+        {
+          title: 'Decription',
+          dataIndex: 'description',
+          key: 'description',
+          render:text=>(<p>{text.length>100?text.slice(0,100):text} {text.length>100?"...":""} </p>)
+        },
+        {
+          title: 'Status',
+          dataIndex: 'status',
+          key: 'status',
+          render:status=>(<Tag  color = {status ==="pending" ? "yellow":status ==="in_session"?"green":"red"} >{status}</Tag>)
+        },
+        {
+            title:"Actions",
+            render:(text,record)=>(
+                <Space size="middle">
+    
+                    <Tooltip title = "View Detailed" >                 
+                        <EyeOutlined 
+                        onClick = {()=>{
+                            setSelectedStream(record)
+                            setDetailedDrawer(true)
+                            
+                        }}
+                        style ={{color:"royalblue",fontSize:"1rem"}} />
+                    </Tooltip>
+                    <Tooltip title ="Delete stream info" >
+                    <DeleteOutlined style ={{color:"red",fontSize:"1rem"}} />
+    
+                    </Tooltip>
+    
+                </Space>
+            )
+        }
+      ]
+
     return (
         <div className = "sm-tv-page container ">
+            <DetailedStreamDrawer stream = {selectedStream} onClose = {()=>setDetailedDrawer(false)} visible = {state.detailedDrawer} />
             <CreateStreamDrawer visible = {state.addDrawer} onClose = {()=>setAddDrawer(false)} />
         <Card id="main-card" className = "mt-5" >
             <div className="logo">
