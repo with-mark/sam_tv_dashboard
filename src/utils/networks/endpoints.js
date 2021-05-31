@@ -1,0 +1,1 @@
+export const agoraToken ="https://sam-tv-staging.herokuapp.com/"

@@ -40,7 +40,7 @@ const StatisticsPage = ({motivationData,streamData}) => {
 }
 const mapStateToProps =(state) =>{
     return{
-        motivationData:state.motvation,
+        motivationData:state.motivation,
         streamData:state.liveStreams
         
     } ;

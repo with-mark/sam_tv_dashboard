@@ -27,22 +27,24 @@ const LoginPage = () => {
       setLoading(true)
       auth.signInWithEmailAndPassword(values.email,values.password)
       .then(res=>{
+        setLoading(false)
         console.log(res);
-        
+        console.log(values);
+        setIsAuth(true)
+        message.success("You have succefully logged in");
+        history.push("/")
       }).catch(err=>{
         setLoading(false)
-                if (err.code ==='auth/network-request-failed'){
+        
+        console.log(err)
+        if (err.code ==='auth/network-request-failed'){
           notification.error({
          
             message:"Network error",
             description:"Check internet connection and try again"
   
           })
-        }
-        else if(err.code === "auth/user-not-found"){
-          message.error("Invalid credentials")
-        }
-        else{
+        }else{
           notification.error({
          
             message:"Error occured",
@@ -69,7 +71,7 @@ const LoginPage = () => {
             <Card id ="login-card">
               <Spin spinning = {state.loading} >
 
-            
+             
                 <div className="logo">
                 <Image id ="logo"  preview = {false} src = {logo} alt = "Logo" />
 

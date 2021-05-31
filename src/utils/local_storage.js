@@ -59,3 +59,16 @@ export const getUserInfo= ()=>{
 export const deleteUserInfo= ()=>{
     deleteItem("userInfo")
 }
+
+
+export const storeAgoraToken =token=>{
+    setItem("agoraToken",token)
+}
+
+export const getAgoraToken = ()=>{
+    return getItem("agoraToken")
+}
+
+export const deleteToken = ()=>{
+    deleteItem("agoraToken")
+}

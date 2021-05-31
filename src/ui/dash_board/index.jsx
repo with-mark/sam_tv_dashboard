@@ -16,6 +16,7 @@ import { fetchMotivations } from '../../state_mamger/functions/motivations'
 import { connect } from 'react-redux'
 import { fetchStreamData } from '../../state_mamger/functions/liveStreams'
 import { fetchPrayers } from '../../state_mamger/functions/prayerRequest'
+import VideoPage from "../samtv_page/videoPage"
 const LandingPage = ({getMotivation,getStreamingData,fetchPrayerRequests}) => {
     const [state,setState] = useState({
         menuCollapse:false
@@ -104,6 +105,8 @@ const LandingPage = ({getMotivation,getStreamingData,fetchPrayerRequests}) => {
                     <Switch>
                     <Route path = "/users" component = {UsersPage}  />
                     <Route path = "/motivation" component = {MotivationPage}  />
+                    
+                    <Route component = {VideoPage } path = {`/sam-tv/conference`}  />
                     <Route path = "/sam-tv" component = {SamTvPage}  />
                     <Route path = "/prayer-requests" component = {PrayerRequestsPage}  />
                     <Route path = "/sermons" component = {SermonesPage}  />

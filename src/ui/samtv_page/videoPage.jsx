@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
 import { notification } from 'antd';
+import axios from "axios"
+import { agoraToken } from '../../utils/networks/endpoints';
+
 
 const config= {mode: "rtc", codec: "vp8"}
 const appId = "c40594061e1f4580aae3b2af1963d01e"
-const token = "006c40594061e1f4580aae3b2af1963d01eIACs5pUkwzNmzNFgEohITA4FPNZKeyHSByKBIzh0fxeRPhhIE+YAAAAAEAA7EFxEM5qtYAEAAQAzmq1g"
 
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
@@ -49,28 +51,34 @@ useEffect(()=>{
         });
         
       });
-      
-      client.join(appId,"asdasdasd",token,client.uid)
+      axios.post(agoraToken,{},{headers:{"Content-Type":"application/json"}})
       .then(res=>{
-          client.setClientRole("host")
-          .then(res=>{
-              if(tracks) client.publish(tracks).then(
-                  res=>{
-                    setStart(true)
-                    if (ready && tracks) {
-                        console.log("init ready");
-                        init("channelName");
-                      }
-                  }
-              ).catch(err=>{
-                notification.error(err)
-              })
+          console.log(res.data);
+        client.join(appId,"",res.data.agoraToken,client.uid)
+        .then(res=>{
+            client.setClientRole("host")
+            .then(res=>{
+                if(tracks) client.publish(tracks).then(
+                    res=>{
+                      setStart(true)
+                      if (ready && tracks) {
+                          console.log("init ready");
+                          init("channelName");
+                        }
+                    }
+                ).catch(err=>{
+                  notification.error(err)
+                })
+              
+            }).catch(err=>{
+              notification.error(err)
+            })
             
-          }).catch(err=>{
-            notification.error(err)
-          })
-          
+        })
+      }).catch(err=>{
+          console.log(err);
       })
+  
       .catch(err=>{
         notification.error(err)
       })
