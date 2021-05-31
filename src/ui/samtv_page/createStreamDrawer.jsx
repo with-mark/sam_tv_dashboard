@@ -1,4 +1,4 @@
-import { Button, Drawer, Form, Image, Input } from 'antd'
+import { Button, Drawer, Form, Image, Input, TimePicker } from 'antd'
 import React from 'react'
 import "./styles/createStreamDrawer.scss"
 import logo from  "../../assets/images/logo.png"
@@ -10,7 +10,7 @@ const formLayout =  {
     wrapperCol: { span:16 },
   };
 
-  
+
   
 const CreateStreamDrawer = ({visible,onClose}) => {
     return (
@@ -30,6 +30,9 @@ const CreateStreamDrawer = ({visible,onClose}) => {
                     </Form.Item>
                     <Form.Item rules = {[{required:true}]} name = "description" label = "Description" >
                         <Input.TextArea placeholder= "Enter brief description of the livestream" />
+                    </Form.Item>
+                    <Form.Item name = "start_time" label = "Start time">
+                        <TimePicker  />
                     </Form.Item>
                     <div className="submit">
                     <Button htmlType = "submit" shape = "round" id = "submit-btn"> Create stream</Button>

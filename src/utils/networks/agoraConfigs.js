@@ -13,7 +13,7 @@ const channelName = 'sam';
 const account = "2882341273";
 const role = RtcRole.PUBLISHER;
  
-const expirationTimeInSeconds = 3600
+const expirationTimeInSeconds = 3600*48
  
 const currentTimestamp = Math.floor(Date.now() / 1000)
  
@@ -22,4 +22,4 @@ const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
 
 
 const tokenA = RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channelName, account, role, privilegeExpiredTs);
-export {tokenA, agoraConfig } 
+export {tokenA, agoraConfig,expirationTimeInSeconds } 
