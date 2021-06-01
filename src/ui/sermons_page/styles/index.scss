@@ -1,10 +1,17 @@
-#main-card{
-    width: 100%;
-    overflow-x: scroll;
-    @media (min-width:500px) and (max-width:1200px) {
+.sermons-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    #main-card{
         width: 100%;
+        overflow-x: scroll;
+        @media (min-width:500px) and (max-width:1200px) {
+            width: 100%;
+        }
+        @media (min-width:1200px) {
+            width: 80%;
+        }
     }
-    @media (min-width:1200px) {
-        width: 80%;
-    }
+
 }

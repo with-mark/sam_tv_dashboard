@@ -16,17 +16,18 @@ const formLayout =  {
   
 
 
-const CreateSermonDrawer = ({visible,onClose,sermon,createSermon}) => {
-
+const EditSermonDrawer = ({visible,onClose,sermon,createSermon,item}) => {
+    console.log(item.message);
     const [state,setState] = useState({
-        editorState:""
+        editorState:item.message
     })
-    const setEditorState= (state)=>{
+    const setEditorState= (editstate)=>{
         setState({
             ...state,
-            editorState:state
+            editorState:editstate
         })
     }
+
     const onSubmit = (value)=>{
       createSermon(
           {
@@ -35,8 +36,11 @@ const CreateSermonDrawer = ({visible,onClose,sermon,createSermon}) => {
           }
       );
     }
+   
     return (
+        
         <Drawer onClose = {onClose} visible = {visible} width = {450} >
+                {console.log(state)}
             <Spin tip = {"Uploading video"} spinning = {sermon.postLoading} >
 
             
@@ -44,23 +48,23 @@ const CreateSermonDrawer = ({visible,onClose,sermon,createSermon}) => {
                 <Image id = "logo" preview ={false} src = {logo} />
             </div>
             <div className="header-part text-center">
-                <h5>Post a sermon</h5>
+                <h5>Edit sermon</h5>
             </div>
             <div className="forms">
                 
-               {state.editorState}
                 <Form  
                 onFinish = {onSubmit}
                 {...formLayout} className = "mt-4 form " >
-                    <Form.Item name = "title" rules = {[{required:true,message:"Title of live stream is required"}]} label = "Title" >
+                    <Form.Item initialValue = {item.title} name = "title" rules = {[{required:true,message:"Title of live stream is required"}]} label = "Title" >
                             <Input placeholder = "Ener title of live stream" />
                     </Form.Item>
                    
-                    <Form.Item  rules = {[{required:true,message:"Sermon's video is required"}]} label = "Video" name = "videoLink" >
-                    <Input.TextArea placeholder = "Enter video link" />
+                    <Form.Item initialValue = {item.videoLink}  rules = {[{required:true,message:"Sermon's video is required"}]} label = "Video" name = "videoLink" >
+                    <Input placeholder = "Enter video link" />
                     </Form.Item>
                     <Form.Item 
-                    rules = {[{validator:(rule,value,callback)=>{
+                    initialValue = {item.message}
+                    rules = {[{validator:(_,value,callback)=>{
                         if( state.editorState === ""){
                             return callback("Message field cannot be empty")
                         }else{
@@ -70,10 +74,10 @@ const CreateSermonDrawer = ({visible,onClose,sermon,createSermon}) => {
                     name= "message"
                     label = "Message" >
 
-                   
+                   {console.log(state.editorState)}
                     <div className="editor">
                         <ReactQuill
-                        
+                        value = {state.editorState || item.message }
                         onChange = {e=>{
                             setEditorState(e)
                         }}
@@ -103,4 +107,4 @@ function mapDispatchToProps(dispatch) {
         createSermon : (sermon)=>dispatch(addSermon(sermon))
     };
 }
-export default connect(mapStateToProps,mapDispatchToProps)(CreateSermonDrawer)
+export default connect(mapStateToProps,mapDispatchToProps)(EditSermonDrawer)

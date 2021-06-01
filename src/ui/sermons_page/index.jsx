@@ -1,12 +1,13 @@
-import { Card, Divider, List } from 'antd'
+import { Card, Divider, List, Tooltip } from 'antd'
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { PlusCircleOutlined } from "@ant-design/icons"
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons"
 import  "./styles/index.scss"
 import DetailedDescription from './detailedDescription'
 import SermonVideoModal from './videoModal'
 import CreateSermonDrawer from './createSermonDrawer'
 import { connect } from 'react-redux'
+import EditSermonDrawer from './editSermonDrawer'
 
 
 
@@ -16,8 +17,15 @@ const SermonesPage = ({sermons}) => {
     const [selectedSermon,setSelectedSermon] = useState({})
     const [state,setState] = useState({
         videoModal:false,
-        sermonDrawer:false
+        sermonDrawer:false,
+        editDrawer:false
     })
+    const setEditDrawer = status=>{
+        setState({
+            ...state,
+            editDrawer:status
+        })
+    }
     const setSermonDrawer = status=>{
         setState({
             ...state,
@@ -30,13 +38,13 @@ const SermonesPage = ({sermons}) => {
             videoModal:status
         })
     }
-    const onPlay =(sermon,status)=>{
-        setSelectedSermon(sermon)
+    const onPlay =(status)=>{
         setVideoModal(status)
     }
     return (
         <div className = "sermons-page container" >
             <CreateSermonDrawer onClose = {()=>setSermonDrawer(false)} visible = {state.sermonDrawer} />
+            <EditSermonDrawer onClose  = {()=>setEditDrawer(false)} item = {selectedSermon} visible = {state.editDrawer} />
             <SermonVideoModal sermon = {selectedSermon} onclose = {()=>{setVideoModal(false)}} visible = {state.videoModal} />
            <Card id = "main-card" className = "mt-5" >
                <Row>
@@ -51,7 +59,22 @@ const SermonesPage = ({sermons}) => {
 
                </Row>
                <Divider/>
-                <List loading = {sermons.loading} pagination = {10} dataSource = {sermons.data} renderItem = {(item)=><List.Item>
+                <List loading = {sermons.loading} pagination = {10} dataSource = {sermons.data} renderItem = {(item)=><List.Item 
+                actions= {[
+                    <Tooltip title = "Edit Sermon">
+                    <EditOutlined
+                    onClick = {()=>{
+                        setSelectedSermon(item)
+                        setEditDrawer(true)
+                       
+                    }}
+                    style = {{color:"blue",}} />
+                    </Tooltip  >,
+                    <Tooltip title = "Delete sermon" >
+                    <DeleteOutlined style = {{color:"red"}} />
+                    </Tooltip>,
+                ]}
+                >
                     <List.Item.Meta title = {item.title} description = {<DetailedDescription onPlay = {onPlay} sermon = {item} />} />
                 </List.Item>} />
            </Card>
