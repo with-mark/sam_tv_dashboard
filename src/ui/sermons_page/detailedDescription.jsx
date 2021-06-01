@@ -9,11 +9,7 @@ const DetailedDescription = ({sermon,onPlay}) => {
         <div>
             
             <Row>
-            <Col xs = "12" sm = "12" md = "6" >
-
-                    <p> {sermon.message} </p>
-                </Col>
-                <Col  xs = "12" sm = "12" md = "3" >
+            <Col  xs = "12" sm = "12" md = "6" >
                     <div className="image-background">
                         <div className="overlay">
                             <div className="image">
@@ -26,6 +22,11 @@ const DetailedDescription = ({sermon,onPlay}) => {
                         </div>
                     </div>
                 </Col>
+            <Col xs = "12" sm = "12" md = "6" style = {{height:"300px",overflowY:"scroll"}} >
+
+                    <p> {sermon.message} </p>
+                </Col>
+           
                
             </Row>
            

@@ -6,6 +6,7 @@ import logo from "../../assets/images/logo.png"
 import  "./styles/index.scss"
 import DetailedDescription from './detailedDescription'
 import SermonVideoModal from './videoModal'
+import CreateSermonDrawer from './createSermonDrawer'
 
 
 
@@ -15,9 +16,9 @@ const getSermons = ()=>{
         items.push({
             id:1,
             title:"Some title for a fake sermon",
-            message: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi! ",
+            message: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi! v Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi!`,
             timestamp:"2020-12-09",
-            videoLink:"https://youtu.be/sWSLLO3DS1I",  
+            videoLink:"https://youtu.be/qCj9Lm4fRQY",  
         })
     }
     return items
@@ -40,10 +41,11 @@ const SermonesPage = () => {
     }
     return (
         <div className = "sermons-page container" >
+            <CreateSermonDrawer visible />
             <SermonVideoModal sermon = {selectedSermon} onclose = {()=>{setVideoModal(false)}} visible = {state.videoModal} />
            <Card id = "main-card" className = "mt-5" >
                <Row>
-                   <Col xs = "4" >
+                   <Col xs = "6" >
                      <h6 className="text-left">List of sermons</h6>
                    </Col>
                    <Col  className = "text-right">
