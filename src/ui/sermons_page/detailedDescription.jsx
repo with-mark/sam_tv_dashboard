@@ -14,7 +14,7 @@ const DetailedDescription = ({sermon}) => {
         <div>
             
             <Row>
-            <Col  xs = "12" sm = "12" md = "6" >
+            <Col className = "my-2"  xs = "12" sm = "12" md = "6" >
                 <div className="image-background">
                     <div className="overlay">
                       <Spin spinning = {state.bufferring} tip = {<p style = {{color:"#ffffff",textShadow:"none"}} >Video loading ...</p>} >
@@ -27,7 +27,7 @@ const DetailedDescription = ({sermon}) => {
              
         
                 </Col>
-            <Col xs = "12" sm = "12" md = "6" style = {{height:"300px",overflowY:"scroll"}} >
+            <Col className = "my-2" xs = "12" sm = "12" md = "6" style = {{height:"300px",overflowY:"scroll"}} >
 
                     <p> {ReactHtmlParser(sermon.message)} </p>
                 </Col>
