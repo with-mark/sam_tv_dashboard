@@ -1,10 +1,10 @@
 #main-card{
-    min-width: 100%;
+    width: 100%;
     overflow-x: scroll;
     @media (min-width:500px) and (max-width:1200px) {
-        min-width: 100%;
+        width: 100%;
     }
     @media (min-width:1200px) {
-        min-width: 80%;
+        width: 80%;
     }
 }

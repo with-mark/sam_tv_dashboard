@@ -17,7 +17,13 @@ import { connect } from 'react-redux'
 import { fetchStreamData } from '../../state_mamger/functions/liveStreams'
 import { fetchPrayers } from '../../state_mamger/functions/prayerRequest'
 import VideoPage from "../samtv_page/videoPage"
-const LandingPage = ({getMotivation,getStreamingData,fetchPrayerRequests}) => {
+import { fetchSermons } from '../../state_mamger/functions/sermons'
+const LandingPage = ({
+    getMotivation,
+    getStreamingData,
+    fetchPrayerRequests,
+    getSermons
+}) => {
     const [state,setState] = useState({
         menuCollapse:false
     })
@@ -31,7 +37,8 @@ const LandingPage = ({getMotivation,getStreamingData,fetchPrayerRequests}) => {
         getMotivation()
         getStreamingData()
         fetchPrayerRequests()
-    }, [getMotivation,getStreamingData,fetchPrayerRequests])
+        getSermons()
+    }, [getMotivation,getStreamingData,fetchPrayerRequests,getSermons])
     return (
         <Layout style = {{minHeight:'100vh'}} >
             <Layout.Sider theme = "light" zeroWidthTriggerStyle = {{color:"blue"}} breakpoint = "md"  style = {{backgroundColor:"#ffffff"}} collapsible collapsed = {state.menuCollapse}  onCollapse = {collapseMenu}>
@@ -125,7 +132,8 @@ const  mapDispatchToProps =(dispatch)=> {
     return{
         getMotivation:()=>dispatch(fetchMotivations()),
         getStreamingData:()=>dispatch(fetchStreamData()),
-        fetchPrayerRequests:()=>dispatch(fetchPrayers())
+        fetchPrayerRequests:()=>dispatch(fetchPrayers()),
+        getSermons:()=>dispatch(fetchSermons())
     } ;
 }
 const mapStateToProps =(state) =>{

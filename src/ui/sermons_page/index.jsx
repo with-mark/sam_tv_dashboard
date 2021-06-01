@@ -1,30 +1,18 @@
-import { Card, List } from 'antd'
+import { Card, Divider, List } from 'antd'
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { PlusCircleOutlined } from "@ant-design/icons"
-import logo from "../../assets/images/logo.png"
 import  "./styles/index.scss"
 import DetailedDescription from './detailedDescription'
 import SermonVideoModal from './videoModal'
 import CreateSermonDrawer from './createSermonDrawer'
+import { connect } from 'react-redux'
 
 
 
-const getSermons = ()=>{
-    let items = []
-    for(let i =0; i<10; i++){
-        items.push({
-            id:1,
-            title:"Some title for a fake sermon",
-            message: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi!Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi! v Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam culpa in eveniet libero corporis deserunt nulla temporibus inventore recusandae sed, architecto consequatur totam est cum earum officia commodi unde eligendi!`,
-            timestamp:"2020-12-09",
-            videoLink:"https://youtu.be/qCj9Lm4fRQY",  
-        })
-    }
-    return items
-}
 
-const SermonesPage = () => {
+
+const SermonesPage = ({sermons}) => {
     const [selectedSermon,setSelectedSermon] = useState({})
     const [state,setState] = useState({
         videoModal:false,
@@ -62,7 +50,8 @@ const SermonesPage = () => {
                    </Col>
 
                </Row>
-                <List pagination = {10} dataSource = {getSermons()} renderItem = {(item)=><List.Item>
+               <Divider/>
+                <List loading = {sermons.loading} pagination = {10} dataSource = {sermons.data} renderItem = {(item)=><List.Item>
                     <List.Item.Meta title = {item.title} description = {<DetailedDescription onPlay = {onPlay} sermon = {item} />} />
                 </List.Item>} />
            </Card>
@@ -70,4 +59,10 @@ const SermonesPage = () => {
     )
 }
 
-export default SermonesPage
+function mapStateToProps(state) {
+    return {
+        sermons:state.sermons
+    };
+}
+
+export default connect(mapStateToProps)(SermonesPage)

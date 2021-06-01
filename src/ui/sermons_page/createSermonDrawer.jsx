@@ -2,44 +2,42 @@ import { Button, Drawer, Form, Image, Input, message, Spin, TimePicker } from 'a
 import React, { useState } from 'react'
 import "./styles/createSermonDrawer.scss"
 import logo from  "../../assets/images/logo.png"
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import Dragger from 'antd/lib/upload/Dragger';
-import { InboxOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { storage } from '../../utils/networks/firebaseConfig';
+import ReactQuill   from "react-quill"
+import 'react-quill/dist/quill.snow.css';
+import { connect } from 'react-redux';
+import { addSermon } from '../../state_mamger/functions/sermons';
 
 
 const formLayout =  {
-    labelCol: { span: 4 },
-    wrapperCol: { span:24 },
+   messageString:""
   };
 
 
+  
 
-const CreateSermonDrawer = ({visible,onClose}) => {
+
+const CreateSermonDrawer = ({visible,onClose,sermon,createSermon}) => {
+
     const [state,setState] = useState({
-        imageUrl:null,
-        uploading:false,
-
+        editorState:""
     })
-
-    const setUploading =status=>{
+    const setEditorState= (state)=>{
         setState({
             ...state,
-            uploading:status
+            editorState:state
         })
     }
-
-    const setImageUrl = url=>{
-        setState({
-            ...state,
-            imageUrl:url
-        })
-
+    const onSubmit = (value)=>{
+      createSermon(
+          {
+              ...value,
+              message:state.editorState
+          }
+      );
     }
     return (
         <Drawer onClose = {onClose} visible = {visible} width = {450} >
-            <Spin tip = {"Uploading video"} spinning = {state.uploading} >
+            <Spin tip = {"Uploading video"} spinning = {sermon.postLoading} >
 
             
             <div className="logo">
@@ -50,35 +48,40 @@ const CreateSermonDrawer = ({visible,onClose}) => {
             </div>
             <div className="forms">
                 
-               
-                <Form  {...formLayout} className = "mt-4 form " >
+               {state.editorState}
+                <Form  
+                onFinish = {onSubmit}
+                {...formLayout} className = "mt-4 form " >
                     <Form.Item name = "title" rules = {[{required:true,message:"Title of live stream is required"}]} label = "Title" >
                             <Input placeholder = "Ener title of live stream" />
                     </Form.Item>
                    
-                    <Form.Item  rules = {[{required:true,message:"Sermon's video is required"}]} label = "Video" name = "start_time" >
+                    <Form.Item  rules = {[{required:true,message:"Sermon's video is required"}]} label = "Video" name = "videoLink" >
                     <Input.TextArea placeholder = "Enter video link" />
                     </Form.Item>
                     <Form.Item 
-                    rules = {[{required:true}]}
+                    rules = {[{validator:(rule,value,callback)=>{
+                        if( state.editorState === ""){
+                            return callback("Message field cannot be empty")
+                        }else{
+                            return callback()
+                        }
+                    }}]}
                     name= "message"
                     label = "Message" >
 
                    
                     <div className="editor">
-                        <Editor
-                        spellCheck
-                        
-                            // editorState={editorState}
-                            toolbarClassName="toolbarClassName"
-                            wrapperClassName="wrapperClassName"
-                            editorClassName="editorClassName"
-                            // onEditorStateChange={this.onEditorStateChange}
-                            />;
+                        <ReactQuill
+                        onChange = {e=>{
+                            setEditorState(e)
+                        }}
+                        />
                     </div>
+
                     </Form.Item>
                     <div className="submit">
-                    <Button disabled = {!state.imageUrl} htmlType = "submit" shape = "round" id = "submit-btn"> Create stream</Button>
+                    <Button  htmlType = "submit" shape = "round" id = "submit-btn"> Create stream</Button>
 
                     </div>
 
@@ -89,4 +92,14 @@ const CreateSermonDrawer = ({visible,onClose}) => {
     )
 }
 
-export default CreateSermonDrawer
+function mapStateToProps(state) {
+    return{
+        sermon: state.sermons
+    } ;
+}
+function mapDispatchToProps(dispatch) {
+    return {
+        createSermon : (sermon)=>dispatch(addSermon(sermon))
+    };
+}
+export default connect(mapStateToProps,mapDispatchToProps)(CreateSermonDrawer)

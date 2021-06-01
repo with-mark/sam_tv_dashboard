@@ -2,9 +2,11 @@ import { message, Spin } from 'antd'
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import "./styles/detailedDescription.scss"
+import ReactHtmlParser from "react-html-parser"
+
 
 import ReactPlayer from 'react-player'
-const DetailedDescription = ({sermon,onPlay}) => {
+const DetailedDescription = ({sermon}) => {
     const [state,setState] = useState({
         bufferring:true
     })
@@ -27,7 +29,7 @@ const DetailedDescription = ({sermon,onPlay}) => {
                 </Col>
             <Col xs = "12" sm = "12" md = "6" style = {{height:"300px",overflowY:"scroll"}} >
 
-                    <p> {sermon.message} </p>
+                    <p> {ReactHtmlParser(sermon.message)} </p>
                 </Col>
            
                
