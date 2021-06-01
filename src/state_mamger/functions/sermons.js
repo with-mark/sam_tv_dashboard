@@ -1,4 +1,3 @@
-import { fas } from "@fortawesome/free-solid-svg-icons"
 import { message, notification } from "antd"
 import { db } from "../../utils/networks/firebaseConfig"
 
@@ -6,6 +5,11 @@ const FETCH_SERMONS_REQUEST = "FETCH_SERMONS_REQUEST"
 const FETCH_SERMONS_SUCCESS = "FETCH_SERMONS_SUCCESS"
 const ADD_SERMONS_REQUEST = "ADD_SERMONS_REQUEST"
 const ADD_SERMONS_COMPLETED = "ADD_SERMONS_COMPLETED"
+const EDIT_SERMONS_REQUEST = "EDIT_SERMONS_REQUEST"
+const EDIT_SERMONS_COMPLETE = "EDIT_SERMONS_COMPLETE"
+const DELETE_SERMONS_REQUEST = "DELETE_SERMONS_REQUEST"
+const DELETE_SERMONS_COMPLETE = "DELETE_SERMONS_COMPLETE"
+
 
 const fetchSermonsRequest=()=>{
     return {
@@ -55,6 +59,69 @@ const addSermonsCompleted =()=>{
     }
 }
 
+
+
+
+
+const deleteSermonRequest = ()=>{
+    return {
+        type:DELETE_SERMONS_REQUEST
+    }
+}
+
+const deleteSermonsCompleted =()=>{
+    return {
+        type:{
+            type:DELETE_SERMONS_COMPLETE
+        }
+    }
+}
+
+
+export const deleteSermon = (sermon)=>dispatch=>{
+    dispatch(deleteSermonRequest())
+    db.collection("sermons").doc(sermon.id).delete()
+    .then(res=>{
+        dispatch(deleteSermonsCompleted())
+        message.success("Deletion completed successfully")
+    })
+    .catch(err=>{
+        dispatch(deleteSermonsCompleted())
+        notification.error({
+            message:"Error occured",
+            description:String(err)
+        })
+    })
+}
+
+const editSermonRequest = ()=>{
+    return{
+        type:EDIT_SERMONS_REQUEST
+    }
+}
+const editSermonSucceess = ()=>{
+    return {
+        type: EDIT_SERMONS_COMPLETE
+    }
+}
+
+
+export const editSermon = (sermon,fields)=> dispatch=>{
+    dispatch(editSermonRequest())
+    db.collection("sermons").doc(sermon.id).update({...fields})
+    .then(res=>{
+        dispatch(editSermonSucceess())
+        message.success("Sermon updated successfully")
+    })
+    .catch(err=>{
+        dispatch(editSermonSucceess())
+        notification.error({
+            message:"An error occured",
+            description:String(err)
+        })
+    })
+}
+
 export const addSermon = sermon=>dispatch=>{
     dispatch(addSermonRequest())
     db.collection("sermons").add(sermon).then(()=>{
@@ -74,6 +141,7 @@ export const addSermon = sermon=>dispatch=>{
 const initialState = {
     loading:false,
     postLoading:false,
+    editLoading:false,
     data:[]
 }
 
@@ -101,6 +169,28 @@ const sermonsReducer =  (state = initialState, { type, payload }) => {
         return {
             ...state,
             postLoading:false
+        }
+
+    case EDIT_SERMONS_REQUEST:
+        return{
+            ...state,
+            editLoading:true
+        }
+    case EDIT_SERMONS_COMPLETE:
+        return{
+            ...state,
+            editLoading:false
+        }
+    case DELETE_SERMONS_REQUEST:
+        return{
+            ...state,
+            loading:true,
+
+        }
+    case DELETE_SERMONS_COMPLETE:
+        return{
+            ...state,
+            loading:false
         }
 
 
