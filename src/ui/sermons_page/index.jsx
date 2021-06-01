@@ -27,8 +27,15 @@ const getSermons = ()=>{
 const SermonesPage = () => {
     const [selectedSermon,setSelectedSermon] = useState({})
     const [state,setState] = useState({
-        videoModal:false
+        videoModal:false,
+        sermonDrawer:false
     })
+    const setSermonDrawer = status=>{
+        setState({
+            ...state,
+            sermonDrawer:status
+        })
+    }
     const setVideoModal=status=>{
         setState({
             ...state,
@@ -41,7 +48,7 @@ const SermonesPage = () => {
     }
     return (
         <div className = "sermons-page container" >
-            <CreateSermonDrawer visible />
+            <CreateSermonDrawer onClose = {()=>setSermonDrawer(false)} visible = {state.sermonDrawer} />
             <SermonVideoModal sermon = {selectedSermon} onclose = {()=>{setVideoModal(false)}} visible = {state.videoModal} />
            <Card id = "main-card" className = "mt-5" >
                <Row>
@@ -49,7 +56,9 @@ const SermonesPage = () => {
                      <h6 className="text-left">List of sermons</h6>
                    </Col>
                    <Col  className = "text-right">
-                        <PlusCircleOutlined style = {{color:"green",fontSize:"1.2rem"}} />
+                        <PlusCircleOutlined 
+                        onClick = {()=>setSermonDrawer(true)}
+                        style = {{color:"green",fontSize:"1.2rem"}} />
                    </Col>
 
                </Row>

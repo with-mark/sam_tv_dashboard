@@ -1,26 +1,29 @@
-import { PlayCircleOutlined } from '@ant-design/icons'
-import { message } from 'antd'
-import React from 'react'
+import { message, Spin } from 'antd'
+import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import "./styles/detailedDescription.scss"
 
+import ReactPlayer from 'react-player'
 const DetailedDescription = ({sermon,onPlay}) => {
+    const [state,setState] = useState({
+        bufferring:true
+    })
     return (
         <div>
             
             <Row>
             <Col  xs = "12" sm = "12" md = "6" >
-                    <div className="image-background">
-                        <div className="overlay">
-                            <div className="image">
-                                <PlayCircleOutlined
-                                onClick = {()=>{
-                                    onPlay(sermon,true)}}
-                                style = {{fontSize:"4rem",zIndex:"100"}} />
-
-                            </div>
-                        </div>
+                <div className="image-background">
+                    <div className="overlay">
+                      <Spin spinning = {state.bufferring} tip = {<p style = {{color:"#ffffff",textShadow:"none"}} >Video loading ...</p>} >
+                          
+                        <ReactPlayer width = "100%" height = "300px" style = {{borderRadius:"10px"}} onReady = {()=>setState({...state,bufferring:false})} url = {sermon.videoLink}  />
+                        
+                        </Spin>
                     </div>
+                </div>
+             
+        
                 </Col>
             <Col xs = "12" sm = "12" md = "6" style = {{height:"300px",overflowY:"scroll"}} >
 

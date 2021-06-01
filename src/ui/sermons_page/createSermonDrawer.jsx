@@ -38,7 +38,7 @@ const CreateSermonDrawer = ({visible,onClose}) => {
 
     }
     return (
-        <Drawer onClose = {onClose} visible = {visible} width = {400} >
+        <Drawer onClose = {onClose} visible = {visible} width = {450} >
             <Spin tip = {"Uploading video"} spinning = {state.uploading} >
 
             
@@ -46,7 +46,7 @@ const CreateSermonDrawer = ({visible,onClose}) => {
                 <Image id = "logo" preview ={false} src = {logo} />
             </div>
             <div className="header-part text-center">
-                <h5>Create Live stream</h5>
+                <h5>Post a sermon</h5>
             </div>
             <div className="forms">
                 
@@ -57,53 +57,12 @@ const CreateSermonDrawer = ({visible,onClose}) => {
                     </Form.Item>
                    
                     <Form.Item  rules = {[{required:true,message:"Sermon's video is required"}]} label = "Video" name = "start_time" >
-                    <Dragger
-                    
-                    multiple = {false}
-                    customRequest = {({file,onSuccess})=>{
-                        setTimeout(() => {
-                            // onSuccess("ok");
-                            onSuccess("uploading")
-                          }, 2000);
-                    }}
-                    onChange = {(up)=>{
-                        const file = up.file
-                        setUploading(true)
-                        storage.ref(`videos/sermons/${file.name}`).put(file)
-                        
-                        .then(snapshot=>{
-                            message.success("Video uploaded successfully")
-                            // console.log(snapshot);
-                            storage.ref('videos/sermons/')
-                            .child(file.name)
-                            .getDownloadURL()
-                            .then(value=>{
-                                setUploading(false)
-                                setImageUrl(value)
-                            }).catch(err=>{
-                                message.error("Video upload failed")
-                                console.log(err);
-                            })
-                        })
-                        .catch(err=>{
-                            setUploading(false)
-                            message.error("Video upload failed")
-                            console.log(err);
-                        })
-                        
-
-                        
-                    }}
-
-                    >
-                        <p className="ant-upload-drag-icon">
-                        <VideoCameraOutlined />
-                        </p>
-                        <p className="ant-upload-text">Click or drag sermon video into this field</p>
-                       
-                    </Dragger>
+                    <Input.TextArea placeholder = "Enter video link" />
                     </Form.Item>
-                    <Form.Item label = "Message" >
+                    <Form.Item 
+                    rules = {[{required:true}]}
+                    name= "message"
+                    label = "Message" >
 
                    
                     <div className="editor">
