@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookReader, faChartLine, faDesktop, faPray, faRunning, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faUser } from '@fortawesome/free-solid-svg-icons'
 import "./styles/index.scss"
 import { UserOutlined } from "@ant-design/icons"
 import StatisticsPage from '../statistics_page'
@@ -18,6 +18,7 @@ import { fetchStreamData } from '../../state_mamger/functions/liveStreams'
 import { fetchPrayers } from '../../state_mamger/functions/prayerRequest'
 import VideoPage from "../samtv_page/videoPage"
 import { fetchSermons } from '../../state_mamger/functions/sermons'
+import EventsPage from '../events_page'
 const LandingPage = ({
     getMotivation,
     getStreamingData,
@@ -59,6 +60,14 @@ const LandingPage = ({
                         <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faDesktop} />} key = "2" >
                            
                             <span hidden = {state.menuCollapse} > Sam tv</span>
+
+                        </Menu.Item>
+                        </Link>
+                        <Divider/>
+                        <Link to = "/events" >
+                        <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faClock} />} key = "2" >
+                           
+                            <span hidden = {state.menuCollapse} >Events</span>
 
                         </Menu.Item>
                         </Link>
@@ -112,7 +121,7 @@ const LandingPage = ({
                     <Switch>
                     <Route path = "/users" component = {UsersPage}  />
                     <Route path = "/motivation" component = {MotivationPage}  />
-                    
+                    <Route path = "/events" component = {EventsPage}  />
                     <Route component = {VideoPage } path = {`/sam-tv/conference`}  />
                     <Route path = "/sam-tv" component = {SamTvPage}  />
                     <Route path = "/prayer-requests" component = {PrayerRequestsPage}  />

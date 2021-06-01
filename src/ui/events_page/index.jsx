@@ -3,7 +3,7 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { PlusCircleOutlined } from "@ant-design/icons"
 
-const SermonesPage = () => {
+const EventsPage = () => {
     return (
         <div className = "sermons-page container" >
            <Card id = "main-card" className = "mt-5" >
@@ -22,4 +22,4 @@ const SermonesPage = () => {
     )
 }
 
-export default SermonesPage
+export default EventsPage

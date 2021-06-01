@@ -13,7 +13,7 @@ const MotivationPage = ({motivationsInfo}) => {
         <div className = "motivation-page container" >
            <Card id = "main-card" className = "mt-5" >
            <Row>
-                <Col xs = "4" ><h6 className="">Prayer requests</h6> </Col>
+                <Col xs = "4" ><h6 className="">Motivations</h6> </Col>
                 </Row>
                 <Divider/>
                 <List 
