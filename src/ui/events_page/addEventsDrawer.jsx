@@ -1,14 +1,10 @@
-import { Button, Drawer, Form, Image, Input, message, notification, Spin, TimePicker, Upload } from 'antd'
+import { Button, Drawer, Form, Image, Input, message, notification, Spin } from 'antd'
 import React, { useState } from 'react'
 import "./styles/createEventsDrawer.scss"
 import logo from  "../../assets/images/logo.png"
-import ReactQuill   from "react-quill"
 import 'react-quill/dist/quill.snow.css';
 import { connect } from 'react-redux';
-import { addSermon } from '../../state_mamger/functions/sermons';
-import { addEvents } from '../../state_mamger/functions/events'
 import { db, storage } from '../../utils/networks/firebaseConfig'
-import Dragger from 'antd/lib/upload/Dragger'
 
 
 const formLayout =  {
@@ -140,7 +136,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        creatEvent : (event)=>dispatch(addEvents(event))
+        // creatEvent : (event)=>dispatch(addEvents(event))
     };
 }
 export default connect(mapStateToProps,mapDispatchToProps)(CreateEventsDrawer)

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
 import { Button, notification } from 'antd';
 import { tokenA } from '../../utils/networks/agoraConfigs';
-import { useHistory } from 'react-router';
 
 const config= {mode: "rtc", codec: "vp8"}
 const appId = "c40594061e1f4580aae3b2af1963d01e"
@@ -11,8 +10,8 @@ console.log(token);
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
+
 const VideoPage = () => {
-    const history = useHistory()
     const client = useClient();;
     const { ready, tracks } = useMicrophoneAndCameraTracks();
     const [users,setUsers] = useState([])

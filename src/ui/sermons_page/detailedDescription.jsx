@@ -1,4 +1,4 @@
-import { message, Spin } from 'antd'
+import {  Spin } from 'antd'
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import "./styles/detailedDescription.scss"
