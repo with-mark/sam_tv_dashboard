@@ -1,0 +1,27 @@
+.header-part{
+    h5{
+        color: #6b6868;
+    }
+}
+
+.submit{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #submit-btn{
+        width: 50%;
+        background: linear-gradient(to left, #852c2c,#df9470);
+        color: #fff;
+        margin-left: 3em;
+    }
+    #submit-btn:disabled{
+        background: linear-gradient(to left, #cccccc,#df9470);
+    }
+ }
+
+ .editor{
+     border: 1px solid #cccccc;
+     margin-bottom: 2em;
+ }

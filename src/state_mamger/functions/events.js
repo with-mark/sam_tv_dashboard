@@ -1,5 +1,5 @@
 import { message, notification } from "antd"
-import { db } from "../../utils/networks/firebaseConfig"
+import { db, storage } from "../../utils/networks/firebaseConfig"
 
 const FETCH_EVENTS_REQUEST = "FETCH_EVENTS_REQUEST"
 const FETCH_EVENTS_SUCCESS = "FETCH_EVENTS_SUCCESS"
@@ -53,9 +53,9 @@ const addEventsRequest = ()=>{
 
 const addEventsCompleted =()=>{
     return {
-        type:{
-            type:ADD_EVENTS_COMPLETED
-        }
+        
+        type:ADD_EVENTS_COMPLETED
+        
     }
 }
 
@@ -122,19 +122,40 @@ export const editEvents = (sermon,fields)=> dispatch=>{
     })
 }
 
-export const addEvents = sermon=>dispatch=>{
+export const addEvents = event=>dispatch=>{
+    console.log("adasdasdasd");
     dispatch(addEventsRequest())
-    db.collection("events").add(sermon).then(()=>{
-        dispatch(addEventsCompleted())
-        message.success("Event added sussfully")
-    }).catch(err=>{
-        dispatch(addEventsCompleted())
-        console.log(err);
-        notification.error({
-            message:"Error occured",
-            description:String(err)
-        })
-    })
+    storage.ref(`images/events/${event.file.name}`).put(event.file)
+            .then(res=>{
+                storage.ref('images/events')
+                .child(event.file.name)
+                .getDownloadURL()
+                .then(cover_image=>{
+                    db.collection("events").add({
+                        ...event.values,
+                        cover_image
+                    }).then(res=>{
+                        dispatch(addEventsCompleted())
+                        message.success("Succesffull")
+                    }).catch(err=>{
+                        dispatch(addEventsCompleted())
+                        message.error("Unsasadasd")
+                    })
+                })
+                .catch(err=>{
+                    dispatch(addEventsCompleted())
+                    notification.error({
+                        message:"Error occured",
+                        description:String(err)
+                    })
+                })
+            })
+            .catch(err=>{
+                notification.error({
+                    message:"Error occured",
+                    description:String(err)
+                })
+            })
 }
 
 

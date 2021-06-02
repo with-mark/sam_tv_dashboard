@@ -122,6 +122,7 @@ const LandingPage = ({
                     <Route path = "/users" component = {UsersPage}  />
                     <Route path = "/motivation" component = {MotivationPage}  />
                     <Route path = "/events" component = {EventsPage}  />
+
                     <Route component = {VideoPage } path = {`/sam-tv/conference`}  />
                     <Route path = "/sam-tv" component = {SamTvPage}  />
                     <Route path = "/prayer-requests" component = {PrayerRequestsPage}  />
