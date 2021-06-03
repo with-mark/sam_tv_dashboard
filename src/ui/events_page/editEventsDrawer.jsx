@@ -17,7 +17,7 @@ const formLayout =  {
   
 
 
-const CreateEventsDrawer = ({visible,closeModal}) => {
+const EditEventsDrawer = ({visible,closeModal,event,setEvent}) => {
 
     const [state,setState] = useState({
         loading:false,
@@ -42,7 +42,7 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
                 .then(cover_image=>{
                     db.collection("events").add({
                         ...value,
-                        cover_image
+                        
                     }).then(async()=>{
                         form.resetFields()
                         setLoading(false)
@@ -79,14 +79,23 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
                 })
             })
     }
+
+    console.log(event);
     return (
-        <Drawer onClose = {closeModal} visible = {visible} width = {450} >
+        <Drawer onClose = {()=>{
+            form.resetFields()
+            form.resetFields()
+            setEvent({})
+            setEvent({})
+            // closeModal()
+            
+        }} visible = {visible} width = {450} >
             <Spin tip = {state.imageUploading?"Uploading image":"Posting event"} spinning = {state.loading} >            
             <div className="logo">
                 <Image id = "logo" preview ={false} src = {logo} />
             </div>
             <div className="header-part text-center">
-                <h5>Post Event</h5>
+                <h5>Edit Event</h5>
             </div>
             <div className="forms">
                 
@@ -95,23 +104,23 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
                 form = {form}
                 onFinish = {onSubmit}
                 {...formLayout} className = "mt-4 form " >
-                    <Form.Item name = "title" rules = {[{required:true,message:"Title of live stream is required"}]} label = "Title" >
+                    <Form.Item initialValue = {event.title ||""} name = "title" rules = {[{required:true,message:"Title of live stream is required"}]} label = "Title" >
                             <Input 
                             
                             placeholder = "Ener title of event" />
                     </Form.Item>
                    
-                    <Form.Item  rules = {[{required:true,message:"Sermon's video is required"}]} label = "Reg. Link" name = "registration_link" >
+                    <Form.Item initialValue = {event.registration_link} rules = {[{required:true,message:"Sermon's video is required"}]} label = "Reg. Link" name = "registration_link" >
                     <Input.TextArea placeholder = "Enter registration link" />
                     </Form.Item>
                     <Form.Item 
-                    // rules = {[{required:true}]}
+                    initialValue = {event.caption}
                     name= "caption"
                     label = "Caption" >
 
                     <Input.TextArea placeholder = "Enter brief description or caption" />
                     </Form.Item>
-                    <Form.Item rules = {[{required:true,message:"Cover image is required"}]} name = "cover_image" label = "Cover image">
+                    <Form.Item  rules = {[{required:true,message:"Cover image is required"}]} name = "cover_image" label = "Cover image">
                         <Input 
                         accept = "image/*"
                         onChange = {(e)=>{
@@ -149,4 +158,4 @@ function mapDispatchToProps(dispatch) {
         // creatEvent : (event)=>dispatch(addEvents(event))
     };
 }
-export default connect(mapStateToProps,mapDispatchToProps)(CreateEventsDrawer)
+export default connect(mapStateToProps,mapDispatchToProps)(EditEventsDrawer)

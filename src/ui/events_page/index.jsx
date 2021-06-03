@@ -1,19 +1,21 @@
-import { Card, Divider, List } from 'antd'
+import { Button, Card, Divider, Image, List } from 'antd'
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { PlusCircleOutlined } from "@ant-design/icons"
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons"
 import CreateEventsDrawer from "./addEventsDrawer"
+import { connect } from 'react-redux'
+import EditEventsDrawer from './editEventsDrawer'
 
-for (let i =0;i<10;i++){
-    
-}
-
-
-const EventsPage = () => {
+const EventsPage = ({eventsInfo}) => {
     const [state,setState] = useState({
-        addDrawer:false
+        addDrawer:false,
+        editDrawer:false,
+        deleteModal:false
     })
 
+
+    const [selelctedEvents,setSelectedEvents]  =useState({})
+    
     const closeAddDrawer = ()=>{
         setState({
             ...state,
@@ -28,8 +30,37 @@ const EventsPage = () => {
             addDrawer:true
         })
     }
+    const closeEditDrawer = ()=>{
+        setState({
+            ...state,
+            editDrawer:false
+        })
+        
+    } 
+    
+    const openEditDrawer =()=>{
+        setState({
+            ...state,
+            editDrawer:true
+        })
+        const closeDeleteModal = ()=>{
+            setState({
+                ...state,
+                deleteModal:false
+            })
+            
+        } 
+        
+        const openDeleteModal =()=>{
+            setState({
+                ...state,
+                deleteModal:true
+            })
+        }
+    }
     return (
         <div className = "sermons-page container" >
+            <EditEventsDrawer setEvent = {setSelectedEvents} event = {selelctedEvents} visible = {state.editDrawer} closeModal = {closeEditDrawer}  />
             <CreateEventsDrawer closeModal = {closeAddDrawer} visible= {state.addDrawer} />
            <Card id = "main-card" className = "mt-5" >
                <Row>
@@ -44,7 +75,37 @@ const EventsPage = () => {
                 <Divider/>
 
                 <List
-                
+                dataSource = {eventsInfo.data}
+                loading = {eventsInfo.loading}
+                pagination = {10}
+                renderItem = {(item)=><List.Item
+                actions = {[
+                    <EditOutlined onClick = {()=>{
+                        // setSelectedEvents({})
+                        setSelectedEvents(item)
+                        openEditDrawer()
+                    }} style = {{color:"royalblue"}}  />,
+                    <DeleteOutlined onClick = {()=>{}} style = {{color:"red"}}/>
+                ]}
+                >
+                    <List.Item.Meta title = {item.title}
+                    description = {<div className = "mt-3">
+                        
+                        <Row>
+                            <Col>
+                            <p> {item.caption} </p>
+                            </Col>
+                            <Button
+                            
+                            target="blank" style = {{color:"royalblue",borderColor:"royalblue"}} shape = "round" size = "small" href= {item.registration_link} >Register here</Button>
+                        </Row>
+                        <Image width = "100%" src = {item.cover_image} />
+                       
+
+                    </div>}
+                    
+                    />
+                </List.Item>}
                 />
 
            </Card>
@@ -52,4 +113,10 @@ const EventsPage = () => {
     )
 }
 
-export default EventsPage
+function mapStateToProps(state) {
+    return {
+        eventsInfo: state.events
+    } ;
+}
+
+export default connect(mapStateToProps)(EventsPage)

@@ -1,16 +1,16 @@
 import { notification } from 'antd';
 import firebase from 'firebase'
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDYpBkB0nj2QAXdkvQQ5lXytn1XOBtk_3U",
-    authDomain: "sam-tv-ebd2b.firebaseapp.com",
-    projectId: "sam-tv-ebd2b",
-    storageBucket: "sam-tv-ebd2b.appspot.com",
-    messagingSenderId: "300037909449",
-    appId: "1:300037909449:web:91e9afd2d7330471911618",
-    measurementId: "G-L38Q39G37D"
-  };
 
+const firebaseConfig = {
+  apiKey: "AIzaSyBFvR9IeuODrqBWb_GmeeJve2I195wsXIc",
+  authDomain: "samtv-6a1be.firebaseapp.com",
+  projectId: "samtv-6a1be",
+  storageBucket: "samtv-6a1be.appspot.com",
+  messagingSenderId: "834096806219",
+  appId: "1:834096806219:web:5f74ed1c7c8cc84b2650ce",
+  measurementId: "G-CLT65CEMR6"
+};
 
 
 

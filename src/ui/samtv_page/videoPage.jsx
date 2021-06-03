@@ -77,7 +77,7 @@ useEffect(()=>{
 
 
     return (<>
-          {start && tracks ? <AgoraVideoPlayer videoTrack={tracks[1]} style={{height: '60%', width: '100'}} />:<p>gETTING REASDASD</p>}
+          {start && tracks ? <AgoraVideoPlayer videoTrack={tracks[1]} style={{height: '50%', width: '100'}} />:<p>gETTING REASDASD</p>}
           <Button onClick= {()=>{client.unpublish(tracks).then(res=>{
             //   history.push("/sam-tv")
              
