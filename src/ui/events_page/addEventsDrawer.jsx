@@ -5,6 +5,8 @@ import logo from  "../../assets/images/logo.png"
 import 'react-quill/dist/quill.snow.css';
 import { connect } from 'react-redux';
 import { db, storage } from '../../utils/networks/firebaseConfig'
+import axios from 'axios';
+import { pushNotificationPath } from '../../utils/networks/endpoints';
 
 
 const formLayout =  {
@@ -41,10 +43,18 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
                     db.collection("events").add({
                         ...value,
                         cover_image
-                    }).then(res=>{
+                    }).then(async()=>{
                         form.resetFields()
                         setLoading(false)
                         closeModal()
+                        await axios.post(pushNotificationPath,{
+                            notification:{
+                                title:"New sermon",
+                                body:value.title,
+                            },
+                            topic:"sam_tv"
+                        },{headers:{"Content-Type":"application/json"}})
+                        .catch(err=>console.log(err))
                         message.success("You have succesfully add an event")
                     }).catch(err=>{
                         setLoading(false)
