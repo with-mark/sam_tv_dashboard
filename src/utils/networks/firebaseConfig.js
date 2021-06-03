@@ -29,11 +29,13 @@ Notification.requestPermission().then(res=>{
 })
 
 messaging.onMessage(payload=>{
+  console.log(payload);
   notification.info({
-    message: payload.notification.title,
-    description:payload.notification.body,
+    message: payload.data.title,
+    description:payload.data.body,
   })
 })
+
 
 export {db,storage}
 export default firebase
