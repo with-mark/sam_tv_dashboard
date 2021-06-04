@@ -25,23 +25,7 @@ const ConferencePage = () => {
     const mounted = useRef(false)
     const [start,setStart] = useState(false)
     const [inCall,setInCall] = useState(false)
-  useEffect(() => {
-      if(mounted.current){
-        client.unpublish(tracks).then(res=>{
-            mounted.current =false
-            client.unsubscribe(tokenA)
-            client.leave()
-            notification.info({message:"Left page"})
-            // client.renewToken()
-           
-        })
-      }else{
-          
-        mounted.current =true
-      }
- 
-     
-  }, [])
+
 
   useEffect(() => {
     let init = async(name)=>{
@@ -85,7 +69,7 @@ const ConferencePage = () => {
               setStart(true)
               if (ready && tracks) {
                   console.log("init ready");
-                  init("channelName");
+                  init("casa");
                 }
             }
         ).catch(err=>{
@@ -153,7 +137,11 @@ export const Controls = ( {
     const leaveChannel = async () => {
       await client.leave();
       client.removeAllListeners();
-      tracks[0].close();
+      // tracks[0].close();
+      // tracks[1].close();
+      await tracks[1].setEnabled(false);
+      await tracks[0].setEnabled(false);
+            tracks[0].close();
       tracks[1].close();
       setStart(false);
       setInCall(false);
