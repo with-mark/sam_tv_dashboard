@@ -4,16 +4,19 @@ import { AgoraVideoPlayer,  createClient, createMicrophoneAndCameraTracks } from
 import logo from "../../assets/images/logo.png"
 import { Image, message, notification, Spin } from 'antd'
 import { tokenA } from '../../utils/networks/agoraConfigs';
+import {VideoCameraOutlined} from "@ant-design/icons"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
+import { useHistory } from 'react-router';
+const config = {mode: "rtc", codec: "vp8"}
 
-
-const config= {mode: "rtc", codec: "vp8"}
 const appId = "c40594061e1f4580aae3b2af1963d01e"
 const token = tokenA
+
+
+
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
-
-
-
 
 const ConferencePage = () => {
     const client = useClient();
@@ -21,7 +24,7 @@ const ConferencePage = () => {
     const [users,setUsers] = useState([])
     const mounted = useRef(false)
     const [start,setStart] = useState(false)
-    
+    const [inCall,setInCall] = useState(false)
   useEffect(() => {
       if(mounted.current){
         client.unpublish(tracks).then(res=>{
@@ -103,9 +106,9 @@ const ConferencePage = () => {
       })
   }, [])
 
-  console.log("tracks");
-    return (
-        <div className = "confrence-room" >
+
+  return (
+    <div className = "confrence-room" >
             <h2 className="text-light">{ready}</h2>
               <div className="logo">
                 <Image id = "logo" preview = {false}  src = {logo}  />
@@ -113,12 +116,66 @@ const ConferencePage = () => {
             <h3 className="text-light">
                 Live Mode
             </h3>
-            <div className="canvas">
-                  
-                    { tracks ?  <AgoraVideoPlayer onProgress = {(e)=>{console.log(e);}}   videoTrack={tracks[2]} style={{height: '200px', width: '100%'}} />:<Spin  spinning = {!ready && !start } />}
-            </div>
-        </div>
-    )
+            {ready && tracks && (
+        <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} />
+      )}
+
+{    ready && <AgoraVideoPlayer videoTrack={tracks[1]} style={{height: '400px', width: '400px'}} />
+}    </div>
+  )
 }
 
+
+export const Controls = ( {
+    tracks,
+    setStart,
+    setInCall
+  }) => {
+    const client = useClient();
+    const history = useHistory()
+
+    const [trackState, setTrackState] = useState({ video: true, audio: true });
+  
+    const mute = async (type) => {
+      if (type === "audio") {
+        await tracks[0].setEnabled(!trackState.audio);
+        setTrackState((ps) => {
+          return { ...ps, audio: !ps.audio };
+        });
+      } else if (type === "video") {
+        await tracks[1].setEnabled(!trackState.video);
+        setTrackState((ps) => {
+          return { ...ps, video: !ps.video };
+        });
+      }
+    };
+  
+    const leaveChannel = async () => {
+      await client.leave();
+      client.removeAllListeners();
+      tracks[0].close();
+      tracks[1].close();
+      setStart(false);
+      setInCall(false);
+      history.push("/sam-tv")
+      
+    };
+  
+    return (
+      <div className="controls">
+        
+        <p className={trackState.audio ? "on" : ""}
+          onClick={() => mute("audio")}>
+          {trackState.audio ?  <FontAwesomeIcon style = {{color:"white"}} icon = {faMicrophoneSlash}  />: <FontAwesomeIcon style = {{color:"white"}} icon = {faMicrophone}  />}
+        </p>
+        <p style = {{color:"white"}} className={trackState.video ? "on" : ""}
+          onClick={() => mute("video")}>
+          {trackState.video ? "MuteVideo" : "UnmuteVideo"}
+        </p>
+        {<p style = {{color:"white"}} onClick={() => leaveChannel()}>Leave</p>}
+      </div>
+    );
+  };
+
 export default ConferencePage
+

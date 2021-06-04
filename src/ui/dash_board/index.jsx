@@ -20,6 +20,8 @@ import VideoPage from "../samtv_page/videoPage"
 import { fetchSermons } from '../../state_mamger/functions/sermons'
 import EventsPage from '../events_page'
 import { fetchEvents } from '../../state_mamger/functions/events'
+import MeetingRoom from '../samtv_page/meetingRoom'
+import ConferencePage from '../samtv_page/ConferencePage'
 const LandingPage = ({
     getMotivation,
     getStreamingData,
@@ -126,8 +128,9 @@ const LandingPage = ({
                     <Route path = "/motivation" component = {MotivationPage}  />
                     <Route path = "/events" component = {EventsPage}  />
 
-                    <Route component = {VideoPage } path = {`/sam-tv/conference`}  />
-                    <Route path = "/sam-tv" component = {SamTvPage}  />
+                    <Route component = {SamTvPage } path = {`/sam-tv/schedules`}  />
+                    <Route path = "/sam-tv/live" component = { ConferencePage}  />
+                    <Route path = "/sam-tv" component = { MeetingRoom}  />
                     <Route path = "/prayer-requests" component = {PrayerRequestsPage}  />
                     <Route path = "/sermons" component = {SermonesPage}  />
 

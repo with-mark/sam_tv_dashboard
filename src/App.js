@@ -6,6 +6,7 @@ import Error404Page from './ui/error/404Page';
 import ProtectedRoutes from './ui/protectedRoutes';
 import LandingPage from './ui/dash_board';
 
+
 function App() {
   return (
     <Router >
@@ -15,6 +16,7 @@ function App() {
           <ProtectedRoutes component = {LandingPage}/>
         </Route>
         <Route component = {Error404Page}/>
+
       </Switch>
  
     </Router>
