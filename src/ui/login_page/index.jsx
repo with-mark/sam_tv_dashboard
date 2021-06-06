@@ -96,7 +96,7 @@ const LoginPage = () => {
           message:"Enter a valid email address"
         }]}
       >
-        <Input />
+        <Input style = {{height:"45px",borderRadius:"10px"}} />
       </Form.Item>
 
       <Form.Item
@@ -105,12 +105,12 @@ const LoginPage = () => {
         name="password"
         rules={[{ required: true, message: 'Please input your password!' }]}
       >
-        <Input.Password />
+                <Input.Password style={{ height: "45px", borderRadius: "10px" }}/>
       </Form.Item>
 
   
 
-        <Button id = "submit-button" shape = "round" type="primary" htmlType="submit">
+              <Button style={{ height: "45px" }} id = "submit-button" shape = "round" type="primary" htmlType="submit">
           LOGIN
         </Button>
     </Form>
