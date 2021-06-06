@@ -61,14 +61,26 @@ export const deleteUserInfo= ()=>{
 }
 
 
-export const storeAgoraToken =token=>{
+export const setAgoraToken =token=>{
     setItem("agoraToken",token)
 }
 
-export const getAgoraToken = ()=>{
+export const getLocalAgoraToken = ()=>{
     return getItem("agoraToken")
 }
 
 export const deleteToken = ()=>{
     deleteItem("agoraToken")
+}
+
+export const setVideoToken = token=>{
+    setItem("authToken",token)
+}
+
+export const getToken = ()=>{
+    return getItem("authToken")
+}
+
+export const delteToken =()=>{
+    deleteItem("authToken")
 }

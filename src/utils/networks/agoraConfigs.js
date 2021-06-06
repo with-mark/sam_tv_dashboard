@@ -21,5 +21,6 @@ const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
  
 
 
-const tokenA = RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channelName, uid, role, privilegeExpiredTs);
-export {tokenA, agoraConfig,expirationTimeInSeconds } 
+
+const getAgoraTOken =()=> RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channelName, uid, role, privilegeExpiredTs);
+export {getAgoraTOken, agoraConfig,expirationTimeInSeconds } 
