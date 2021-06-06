@@ -16,12 +16,10 @@ import { fetchMotivations } from '../../state_mamger/functions/motivations'
 import { connect } from 'react-redux'
 import { fetchStreamData } from '../../state_mamger/functions/liveStreams'
 import { fetchPrayers } from '../../state_mamger/functions/prayerRequest'
-import VideoPage from "../samtv_page/videoPage"
 import { fetchSermons } from '../../state_mamger/functions/sermons'
 import EventsPage from '../events_page'
 import { fetchEvents } from '../../state_mamger/functions/events'
 import MeetingRoom from '../samtv_page/meetingRoom'
-import ConferencePage from '../samtv_page/ConferencePage'
 const LandingPage = ({
     getMotivation,
     getStreamingData,
@@ -129,7 +127,6 @@ const LandingPage = ({
                     <Route path = "/events" component = {EventsPage}  />
 
                     <Route component = {SamTvPage } path = {`/sam-tv/schedules`}  />
-                    <Route path = "/sam-tv/live" component = { ConferencePage}  />
                     <Route path = "/sam-tv" component = { MeetingRoom}  />
                     <Route path = "/prayer-requests" component = {PrayerRequestsPage}  />
                     <Route path = "/sermons" component = {SermonesPage}  />

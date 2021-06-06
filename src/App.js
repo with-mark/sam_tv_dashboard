@@ -5,6 +5,7 @@ import LoginPage from './ui/login_page';
 import Error404Page from './ui/error/404Page';
 import ProtectedRoutes from './ui/protectedRoutes';
 import LandingPage from './ui/dash_board';
+import ConferencePage from './ui/samtv_page/ConferencePage';
 
 
 function App() {
@@ -12,6 +13,9 @@ function App() {
     <Router >
       <Switch>
         <Route path = "/login" component = {LoginPage} />
+           <Route path = "/sam-tv/live">
+          <ProtectedRoutes component = {ConferencePage}/>
+        </Route>
         <Route path = "/">
           <ProtectedRoutes component = {LandingPage}/>
         </Route>

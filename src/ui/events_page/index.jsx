@@ -43,20 +43,20 @@ const EventsPage = ({eventsInfo}) => {
             ...state,
             editDrawer:true
         })
-        const closeDeleteModal = ()=>{
-            setState({
-                ...state,
-                deleteModal:false
-            })
+        // const closeDeleteModal = ()=>{
+        //     setState({
+        //         ...state,
+        //         deleteModal:false
+        //     })
             
-        } 
+        // } 
         
-        const openDeleteModal =()=>{
-            setState({
-                ...state,
-                deleteModal:true
-            })
-        }
+        // const openDeleteModal =()=>{
+        //     setState({
+        //         ...state,
+        //         deleteModal:true
+        //     })
+        // }
     }
     return (
         <div className = "sermons-page container" >

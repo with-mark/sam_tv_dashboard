@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./styles/conferencePage.scss"
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
-import logo from "../../assets/images/logo.png"
-import { Image, message, notification, Spin } from 'antd'
+import { WechatOutlined } from "@ant-design/icons"
+import { message, notification } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
 import { getVideoToken } from '../../utils/agoraFunctions';
 const config = { mode: "rtc", codec: "vp8" }
@@ -21,7 +21,6 @@ const ConferencePage = () => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
   const [users, setUsers] = useState([])
-  const mounted = useRef(false)
   const [start, setStart] = useState(false)
   const [inCall, setInCall] = useState(false)
 
@@ -87,23 +86,25 @@ const ConferencePage = () => {
         }
         notification.error({ message: "Hello error", description: String(err) })
       })
-  }, [])
+  }, [client,tracks,start,inCall,ready,token,users])
 
 
   return (
     <div className="confrence-room" >
-      <h2 className="text-light">{ready}</h2>
-      <div className="logo">
-        <Image id="logo" preview={false} src={logo} />
-      </div>
-      <h3 className="text-light">
-        Live Mode
-      </h3>
-      <div className="main-canvas">
-        {ready && <AgoraVideoPlayer videoTrack={tracks[1]} style={{ height: '500px', width: '400px' }} />
+
+          <div className="content">
+        {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} />
         }
-      </div>
-      <div className="controls">
+        <div className="chats">
+
+        </div>
+          </div>
+
+      
+    
+      <div className="control-wrapper">
+
+
         {ready && tracks && (
           <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} />
         )}
@@ -141,8 +142,6 @@ export const Controls = ({
   const leaveChannel = async () => {
     await client.leave();
     client.removeAllListeners();
-    // tracks[0].close();
-    // tracks[1].close();
     await tracks[1].setEnabled(false);
     await tracks[0].setEnabled(false);
     tracks[0].close();
@@ -156,15 +155,23 @@ export const Controls = ({
   return (
     <div className="controls">
 
-      <p className={trackState.audio ? "on" : ""}
+      <div
+        div className="normal circle "
         onClick={() => mute("audio")}>
         {trackState.audio ? <FontAwesomeIcon style={{ color: "white" }} icon={faMicrophoneSlash} /> : <FontAwesomeIcon style={{ color: "white" }} icon={faMicrophone} />}
-      </p>
-      <p style={{ color: "white" }} className={trackState.video ? "on" : ""}
+      </div>
+      <div div className="normal circle " style={{ color: "white" }}
         onClick={() => mute("video")}>
-        {trackState.video ? "MuteVideo" : "UnmuteVideo"}
-      </p>
-      {<p style={{ color: "white" }} onClick={() => leaveChannel()}>Leave</p>}
+        <FontAwesomeIcon icon={faVideo} />
+      </div>
+      {<p style={{ color: "white" }} onClick={() => leaveChannel()}>
+        <div className="red circle ">
+          <FontAwesomeIcon icon={faPhoneSlash} />
+        </div>
+      </p>}
+      <div className="normal circle" >
+        <WechatOutlined style={{ fontSize: "1.5rem", color: "grey" }} />
+      </div>
     </div>
   );
 };
