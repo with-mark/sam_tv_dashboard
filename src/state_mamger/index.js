@@ -4,6 +4,7 @@ import eventsReducer from './functions/events';
 import { streamReducer } from './functions/liveStreams';
 import { motivationReducer } from './functions/motivations';
 import { prayerRequestReducer } from './functions/prayerRequest';
+import samTvReducer from './functions/samTv';
 import sermonsReducer from './functions/sermons';
 
 
@@ -14,6 +15,7 @@ liveStreams:streamReducer,
 prayerRequest:prayerRequestReducer,
 sermons:sermonsReducer,
 events:eventsReducer,
+samtv:samTvReducer
 })
 
  

@@ -84,3 +84,11 @@ export const getToken = ()=>{
 export const delteToken =()=>{
     deleteItem("authToken")
 }
+
+export const setSamTvStatus=status=>{
+    setItem("samTvStatus",status)
+}
+
+export const getSamTvStatus=()=>{
+    return getItem("samTvStatus")
+}

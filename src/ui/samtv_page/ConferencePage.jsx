@@ -59,53 +59,73 @@ const ConferencePage = () => {
       });
 
     });
-
-    client.join(appId, "casa", token)
-      .then(res => {
-        if (tracks) client.publish(tracks).then(
-          res => {
-            setStart(true)
-            if (ready && tracks) {
-              console.log("init ready");
-              init("casa");
-            }
+    if (client.connectionState === "CONNECTED") {
+      if (tracks) client.publish(tracks).then(
+        res => {
+          setStart(true)
+          if (ready && tracks) {
+            console.log("init ready");
+            init("casa");
           }
-        ).catch(err => {
-          console.log("asd", err);
-          notification.error({
-            message: String(err)
-          })
+        }
+      ).catch(err => {
+        console.log("asd", err);
+        notification.error({
+          message: String(err)
         })
       })
-      .catch(err => {
-        console.log(err);
-        if (err.code === "INVALID_OPERATION") {
-          setStart(true)
-        } else if (err.code === "OPERATION_ABORTED") {
-          message.error("Aborted")
-        }
-        notification.error({ message: "Hello error", description: String(err) })
-      })
-  }, [client,tracks,start,inCall,ready,token,users])
+
+    } else {
+      client.join(appId, "casa", token)
+        .then(res => {
+          if (tracks) client.publish(tracks).then(
+            res => {
+              setStart(true)
+              if (ready && tracks) {
+                console.log("init ready");
+                init("casa");
+              }
+            }
+          ).catch(err => {
+            console.log("asd", err);
+            notification.error({
+              message: String(err)
+            })
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          if (err.code === "INVALID_OPERATION") {
+            setStart(true)
+          } else if (err.code === "OPERATION_ABORTED") {
+            message.error("Aborted")
+          }
+          notification.error({ message: "Hello error", description: String(err) })
+        })
+    }
+    { console.log(client.connectionState); }
+
+  }, [client, tracks, start, inCall, ready, token, users])
 
 
   return (
     <div className="confrence-room" >
+      {console.log(tracks)}
 
-          <div className="content">
+      <div className="content">
         {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} />
         }
         <div className="chats">
 
         </div>
-          </div>
+      </div>
 
-      
-    
+
+
       <div className="control-wrapper">
 
 
-        {ready && tracks && (
+        {ready && (
           <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} />
         )}
       </div>
@@ -175,6 +195,13 @@ export const Controls = ({
     </div>
   );
 };
+const mapStateToProps = state=>{
+  return{
 
+  }
+}
+const mapDispatchToProps=dispatch=>{
+  
+}
 export default ConferencePage
 
