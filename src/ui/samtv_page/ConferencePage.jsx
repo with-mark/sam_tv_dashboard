@@ -2,118 +2,41 @@ import React, { useEffect, useState } from 'react'
 import "./styles/conferencePage.scss"
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
 import { WechatOutlined } from "@ant-design/icons"
-import { message, notification } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
 import { getVideoToken } from '../../utils/agoraFunctions';
-const config = { mode: "rtc", codec: "vp8" }
-
-const appId = "c40594061e1f4580aae3b2af1963d01e"
-
+import { connect } from 'react-redux';
+import { rejoineMeeting, startMeeting } from '../../state_mamger/functions/samTv';
+const config = { mode: "live", codec: "h264" }
 
 
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
-const ConferencePage = () => {
+const ConferencePage = ({ startStreaming, rejoinMeeting }) => {
   const token = getVideoToken()
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
-  const [users, setUsers] = useState([])
-  const [start, setStart] = useState(false)
-  const [inCall, setInCall] = useState(false)
-
 
   useEffect(() => {
-    let init = async (name) => {
-      console.log(name);
-      client.on("user-published", async (user, mediaType) => {
-        client.subscribe(user, mediaType)
-          .then(() => {
-            if (mediaType === "video") {
-              setUsers(prevUsers => [...prevUsers, users])
-            }
-            if (mediaType === "audio") {
-              user.audioTrack?.play()
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          })
-
-
-      })
+    if (client.connectionState === "CONNECTED" || client.connectionState === "CONNECTING") {
+      rejoinMeeting(tracks, client)
+    } else if (client.connectionState === "DISCONNECTED") {
+      startStreaming(tracks, ready, client)
     }
-    client.on("user-unpublished", (user, type) => {
-      if (type === "video") {
-        setUsers((prevUsers) => {
-          return prevUsers.filter((User) => User.uid !== user.uid);
-        });
-      }
-    });
-    client.on("user-left", (user) => {
-      console.log("leaving", user);
-      setUsers((prevUsers) => {
-        return prevUsers.filter((User) => User.uid !== user.uid);
-      });
 
-    });
-    if (client.connectionState === "CONNECTED") {
-      if (tracks) client.publish(tracks).then(
-        res => {
-          setStart(true)
-          if (ready && tracks) {
-            console.log("init ready");
-            init("casa");
-          }
-        }
-      ).catch(err => {
-        console.log("asd", err);
-        notification.error({
-          message: String(err)
-        })
-      })
+  }, [rejoinMeeting, startMeeting, client])
 
-    } else {
-      client.join(appId, "casa", token)
-        .then(res => {
-          if (tracks) client.publish(tracks).then(
-            res => {
-              setStart(true)
-              if (ready && tracks) {
-                console.log("init ready");
-                init("casa");
-              }
-            }
-          ).catch(err => {
-            console.log("asd", err);
-            notification.error({
-              message: String(err)
-            })
-          })
-        })
-        .catch(err => {
-          console.log(err);
-          if (err.code === "INVALID_OPERATION") {
-            setStart(true)
-          } else if (err.code === "OPERATION_ABORTED") {
-            message.error("Aborted")
-          }
-          notification.error({ message: "Hello error", description: String(err) })
-        })
-    }
-    { console.log(client.connectionState); }
 
-  }, [client, tracks, start, inCall, ready, token, users])
+
 
 
   return (
     <div className="confrence-room" >
-      {console.log(tracks)}
 
       <div className="content">
-        {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} />
+        {ready && <AgoraVideoPlayer style = {{minWidth:"50%"}} id="main-video" videoTrack={tracks[1]} />
         }
         <div className="chats">
 
@@ -126,7 +49,7 @@ const ConferencePage = () => {
 
 
         {ready && (
-          <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} />
+          <Controls tracks={tracks} />
         )}
       </div>
 
@@ -137,8 +60,6 @@ const ConferencePage = () => {
 
 export const Controls = ({
   tracks,
-  setStart,
-  setInCall
 }) => {
   const client = useClient();
   const history = useHistory()
@@ -166,8 +87,6 @@ export const Controls = ({
     await tracks[0].setEnabled(false);
     tracks[0].close();
     tracks[1].close();
-    setStart(false);
-    setInCall(false);
     history.push("/sam-tv")
 
   };
@@ -195,13 +114,16 @@ export const Controls = ({
     </div>
   );
 };
-const mapStateToProps = state=>{
-  return{
+const mapStateToProps = state => {
+  return {
 
   }
 }
-const mapDispatchToProps=dispatch=>{
-  
+const mapDispatchToProps = dispatch => {
+  return {
+    startStreaming: (tracks, ready, client) => dispatch(startMeeting(tracks, ready, client)),
+    rejoinMeeting: (tracks, cleint) => dispatch(rejoineMeeting(tracks, cleint))
+  }
 }
-export default ConferencePage
+export default connect(mapStateToProps, mapDispatchToProps)(ConferencePage)
 
