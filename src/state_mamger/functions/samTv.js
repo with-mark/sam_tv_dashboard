@@ -43,7 +43,7 @@ export const endMeeting = (payload)=>{
 
 
 
-export const leaveChannel = (tracks,history,client)=>dispatch=>{
+export const endStreaming = (tracks,history,client)=>dispatch=>{
       const token  = getAgoraTOken()
 
     client.leave().then(()=>{

@@ -3,10 +3,10 @@ import "./styles/conferencePage.scss"
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
 import { WechatOutlined } from "@ant-design/icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
-import { useHistory } from 'react-router';
+import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
-import { rejoineMeeting,  startMeeting } from '../../state_mamger/functions/samTv';
+import { rejoineMeeting, startMeeting } from '../../state_mamger/functions/samTv';
+import StopStreamingModal from './styles/StopStreamingModal';
 const config = { mode: "live", codec: "h264" }
 
 
@@ -16,29 +16,47 @@ const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo }) => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
-  
+
+  const [state, setState] = useState({
+    stopMaodal: false
+  })
+
+  const closeModal = () => {
+    setState({
+      ...state,
+      stopMaodal: false
+    })
+  }
+  const openModal = () => {
+    setState({
+      ...state,
+      stopMaodal: true
+    })
+  }
 
   useEffect(() => {
-    if (client.connectionState === "CONNECTED" ) {
+    if (client.connectionState === "CONNECTED") {
       rejoinMeeting(tracks, client)
     } else if (client.connectionState === "DISCONNECTED") {
       startStreaming(tracks, ready, client)
     }
 
-  }, [rejoinMeeting, startStreaming, client,ready,tracks])
+
+  }, [rejoinMeeting, startStreaming, client, ready, tracks])
 
 
 
 
-console.log(samTvInfo);
+  console.log(samTvInfo);
   return (
     <div className="confrence-room" >
-      
+      <StopStreamingModal client={client} tracks={tracks} visible={state.stopMaodal} onClose={closeModal} />
 
-   
+
+
 
       <div className="content">
-      
+
         <div className="top-layer">
           <div className="chatsWrapper">
 
@@ -48,14 +66,14 @@ console.log(samTvInfo);
                 <p className=" chat text-light" >Hello lores adsdasd dasdaskdlasd dasdasdasadsdasd dasdasd dasda dasdad dasdasd</p>
               </div>
             </div>
-        
+
           </div>
-          
+
           <div className="control-wrapper">
 
 
             {ready && (
-              <Controls tracks={tracks} />
+              <Controls openModal={openModal} tracks={tracks} />
             )}
           </div>
           {/* <div className="hearts">
@@ -69,13 +87,13 @@ console.log(samTvInfo);
         </div>
         {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} />
         }
-    
+
       </div>
 
 
 
-      
-   
+
+
     </div>
   )
 }
@@ -83,9 +101,9 @@ console.log(samTvInfo);
 
 export const Controls = ({
   tracks,
+  openModal,
 }) => {
-  const client = useClient();
-  const history = useHistory()
+
 
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
@@ -103,16 +121,7 @@ export const Controls = ({
     }
   };
 
-  const leaveChannel = async () => {
-    await client.leave();
-    client.removeAllListeners();
-    await tracks[1].setEnabled(false);
-    await tracks[0].setEnabled(false);
-    tracks[0].close();
-    tracks[1].close();
-    history.push("/sam-tv")
 
-  };
 
   return (
     <div className="controls">
@@ -126,7 +135,7 @@ export const Controls = ({
         onClick={() => mute("video")}>
         <FontAwesomeIcon icon={faVideo} />
       </div>
-      {<p style={{ color: "white" }} onClick={() => leaveChannel()}>
+      {<p style={{ color: "white" }} onClick={openModal}>
         <div className="red circle ">
           <FontAwesomeIcon icon={faPhoneSlash} />
         </div>
