@@ -3,7 +3,7 @@ import "./styles/conferencePage.scss"
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
 import { WechatOutlined } from "@ant-design/icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
+import {  faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { rejoineMeeting,  startMeeting } from '../../state_mamger/functions/samTv';

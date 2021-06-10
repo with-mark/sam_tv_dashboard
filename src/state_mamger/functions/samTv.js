@@ -1,11 +1,9 @@
 import { message, notification } from "antd"
 import {db}  from  "../../utils/networks/firebaseConfig"
 import { getAgoraTOken } from "../../utils/networks/agoraConfigs"
-import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react"
 const SET_SAMTV_PROGRESS = "SET_SAMTV_PROGRESS"
 const INIT_MEETING_REQUEST ="INIT_MEETING_REQUEST"
 const INIT_MEETING_COMPLETE = "INIT_MEETING_COMPLETE"
-const SET_USER_CONNECTION_UID = "SET_USER_CONNECTION_UID"
 // const UNSET_USER_CONNECTION_UID = "UNSET_USER_CONNECTION_UID"
 
 const appId = "c40594061e1f4580aae3b2af1963d01e"
@@ -44,12 +42,10 @@ export const endMeeting = (payload)=>{
 }
 
 
-const useClient = createClient()
-const useMeda = createMicrophoneAndCameraTracks()
-export const leaveChannel = (tracks,history)=>dispatch=>{
+
+export const leaveChannel = (tracks,history,client)=>dispatch=>{
       const token  = getAgoraTOken()
-    const {ready,tracks} = useMeda()
-    const client = useClient()
+
     client.leave().then(()=>{
         client.removeAllListeners()
         tracks[0].setEnabled(false).then(()=>{
