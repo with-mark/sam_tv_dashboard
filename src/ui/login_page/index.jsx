@@ -27,9 +27,9 @@ const LoginPage = () => {
       setLoading(true)
       auth.signInWithEmailAndPassword(values.email,values.password)
       .then(res=>{
-        setLoading(false)
         console.log(res);     
         res.user.getIdToken(true).then(token=>{
+          setLoading(false)
           console.log(token);
           setIsAuth(true)
           setAuthToken(token)
