@@ -3,56 +3,79 @@ import "./styles/conferencePage.scss"
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
 import { WechatOutlined } from "@ant-design/icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
-import { getVideoToken } from '../../utils/agoraFunctions';
 import { connect } from 'react-redux';
-import { rejoineMeeting, startMeeting } from '../../state_mamger/functions/samTv';
+import { rejoineMeeting,  startMeeting } from '../../state_mamger/functions/samTv';
 const config = { mode: "live", codec: "h264" }
 
 
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
-const ConferencePage = ({ startStreaming, rejoinMeeting }) => {
-  const token = getVideoToken()
+const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo }) => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
+  
 
   useEffect(() => {
-    if (client.connectionState === "CONNECTED" || client.connectionState === "CONNECTING") {
+    if (client.connectionState === "CONNECTED" ) {
       rejoinMeeting(tracks, client)
     } else if (client.connectionState === "DISCONNECTED") {
       startStreaming(tracks, ready, client)
     }
 
-  }, [rejoinMeeting, startMeeting, client])
+  }, [rejoinMeeting, startStreaming, client,ready,tracks])
 
 
 
 
-
+console.log(samTvInfo);
   return (
     <div className="confrence-room" >
+      
+
+   
 
       <div className="content">
-        {ready && <AgoraVideoPlayer style = {{minWidth:"50%"}} id="main-video" videoTrack={tracks[1]} />
-        }
-        <div className="chats">
+      
+        <div className="top-layer">
+          <div className="chatsWrapper">
+
+
+            <div className="chats">
+              <div sty className="single-chat">
+                <p className=" chat text-light" >Hello lores adsdasd dasdaskdlasd dasdasdasadsdasd dasdasd dasda dasdad dasdasd</p>
+              </div>
+            </div>
+        
+          </div>
+          
+          <div className="control-wrapper">
+
+
+            {ready && (
+              <Controls tracks={tracks} />
+            )}
+          </div>
+          {/* <div className="hearts">
+            <FontAwesomeIcon id="heart" icon={faHeart} />
+
+
+
+
+          </div> */}
 
         </div>
+        {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} />
+        }
+    
       </div>
 
 
 
-      <div className="control-wrapper">
-
-
-        {ready && (
-          <Controls tracks={tracks} />
-        )}
-      </div>
-
+      
+   
     </div>
   )
 }
@@ -116,7 +139,7 @@ export const Controls = ({
 };
 const mapStateToProps = state => {
   return {
-
+    samTvInfo: state.samtv
   }
 }
 const mapDispatchToProps = dispatch => {

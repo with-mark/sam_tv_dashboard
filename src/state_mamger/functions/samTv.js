@@ -1,15 +1,14 @@
-import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react"
-import { message } from "antd"
-import { getVideoToken } from "../../utils/agoraFunctions"
+import { message, notification } from "antd"
+import {db}  from  "../../utils/networks/firebaseConfig"
 import { getAgoraTOken } from "../../utils/networks/agoraConfigs"
+import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react"
 const SET_SAMTV_PROGRESS = "SET_SAMTV_PROGRESS"
 const INIT_MEETING_REQUEST ="INIT_MEETING_REQUEST"
 const INIT_MEETING_COMPLETE = "INIT_MEETING_COMPLETE"
 const SET_USER_CONNECTION_UID = "SET_USER_CONNECTION_UID"
-const UNSET_USER_CONNECTION_UID = "UNSET_USER_CONNECTION_UID"
+// const UNSET_USER_CONNECTION_UID = "UNSET_USER_CONNECTION_UID"
 
 const appId = "c40594061e1f4580aae3b2af1963d01e"
-const config = { mode: "live", codec: "H.264" }
 const channelName = "casa"
 
 export const samTvState= {
@@ -38,37 +37,75 @@ const initMeetingComplete =()=>{
     }
 }
 
-const setUsetConnectionUid= payload=>{
-    return{
-        type:SET_USER_CONNECTION_UID,
-        payload
-    }
-}
-const unsetUserConnectionUid=payload=>{
-    return{
-        type: UNSET_USER_CONNECTION_UID,
-        payload
-    }
+
+
+export const endMeeting = (payload)=>{
+
 }
 
 
-// export const endMeeting = (payload)=>{
+const useClient = createClient()
+const useMeda = createMicrophoneAndCameraTracks()
+export const leaveChannel = (tracks,history)=>dispatch=>{
+      const token  = getAgoraTOken()
+    const {ready,tracks} = useMeda()
+    const client = useClient()
+    client.leave().then(()=>{
+        client.removeAllListeners()
+        tracks[0].setEnabled(false).then(()=>{
+            tracks[0].stop()
+            tracks[0].close()
+            tracks[1].setEnabled(false).then(()=>{
+            tracks[1].stop()
+            tracks[1].close()
+            
+            })
+            db.collection("samTv").doc(token).update({
+                live:false
+            }).then(()=>{
+                dispatch(setSamTvProgress(samTvState.offline))
+                history.push("/sam-tv")
+            })
+        
 
-// }
+
+        })
+        
+        
+
+
+    }).catch(()=>{
+        message.error("Request to end live session failed")
+    })
+}
 
 
 
 
 export const startMeeting = (tracks,ready,client)=>dispatch=>{
     dispatch(initMeetingRequest())
+    const token  = getAgoraTOken()
+    if(!tracks && !ready) {
+        notification.error({
+            message:"Device not found",
+            description:"Make sure ur deivce is conneted to a camera and a microphone"
+        })
 
-    client.join(appId,channelName,getAgoraTOken(),null).then(uid=>{
-        dispatch(setUsetConnectionUid(uid))
+    }else{
+        console.log(tracks);
+            client.join(appId,channelName,token,null).then(uid=>{
         if(ready && tracks){
             client.setClientRole("host").then(err=>{
                 client.publish(tracks).then(res=>{
                     dispatch(setSamTvProgress(samTvState.online))
-                    message.success("Sam tv is online")
+                    db.collection("samTv").doc(token).set({
+                        token,
+                        live:true
+                    }).then(err=>{
+                            message.success("Sam tv is online")
+                    })
+                    
+                   
                 })
             })
         }
@@ -77,6 +114,9 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
         message.error(`Failed to connect to channel. Reason: ${String(err)}`)
         dispatch(initMeetingComplete())
     })
+        
+    }
+
 
 
 }
