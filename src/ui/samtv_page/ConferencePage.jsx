@@ -6,14 +6,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { rejoineMeeting, startMeeting } from '../../state_mamger/functions/samTv';
-import StopStreamingModal from './styles/StopStreamingModal';
+import StopStreamingModal from './StopStreamingModal';
+import Chats from './chat';
 const config = { mode: "live", codec: "h264" }
+
+
+
+
+
 
 
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
-const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo }) => {
+
+
+const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo}) => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
 
@@ -62,9 +70,7 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo }) => {
 
 
             <div className="chats">
-              <div sty className="single-chat">
-                <p className=" chat text-light" >Hello lores adsdasd dasdaskdlasd dasdasdasadsdasd dasdasd dasda dasdad dasdasd</p>
-              </div>
+              <Chats/>
             </div>
 
           </div>
@@ -76,13 +82,6 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo }) => {
               <Controls openModal={openModal} tracks={tracks} />
             )}
           </div>
-          {/* <div className="hearts">
-            <FontAwesomeIcon id="heart" icon={faHeart} />
-
-
-
-
-          </div> */}
 
         </div>
         {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} />
@@ -148,7 +147,8 @@ export const Controls = ({
 };
 const mapStateToProps = state => {
   return {
-    samTvInfo: state.samtv
+    samTvInfo: state.samtv,
+    chatsInfo: state.samTvChats
   }
 }
 const mapDispatchToProps = dispatch => {

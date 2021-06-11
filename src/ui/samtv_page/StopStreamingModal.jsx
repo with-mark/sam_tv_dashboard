@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal } from 'antd'
 import { connect } from 'react-redux'
-import { endStreaming } from '../../../state_mamger/functions/samTv'
+import { endStreaming } from '../../state_mamger/functions/samTv'
 import { useHistory } from 'react-router-dom'
 
 const StopStreamingModal = ({ visible, onClose, tracks, client, stopStreaming }) => {

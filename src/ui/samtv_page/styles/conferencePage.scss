@@ -32,7 +32,7 @@ html{
 .top-layer{
   background: none;
   position: absolute;
-    width: 90vw;
+    width: 100vw;
     height: 100vh;
     z-index: 9998999;
     display: flex;
@@ -40,7 +40,7 @@ html{
     flex-flow: row-reverse;
     .chats {
   border-radius: 20px;
-  width: 300px;
+  width: 400px;
   height: 100%;
   // background-color:rgba(41, 40, 40,.2);
   padding: 2em;

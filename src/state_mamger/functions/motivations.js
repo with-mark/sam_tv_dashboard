@@ -1,4 +1,4 @@
-import firebase from "../../utils/networks/firebaseConfig"
+import { db } from "../../utils/networks/firebaseConfig"
 const FETCH_MOTIVATION_REQUEST = "FETCH_MOTIVATION_REQUEST"
 const FETCH_MOTIVATION_SUCCESS = "FETCH_MOTIVATION_SUCCESS"
 const FETCH_MOTIVATION_FAILURE = "FETCH_MOTIVATION_FAILURE"
@@ -20,7 +20,7 @@ const fetchMotivationSuccess= motivations=>{
 
 export const fetchMotivations =()=>dispatch=>{
    dispatch(fetchMotivationRequest())
-    const ref = firebase.firestore().collection("motivation")
+    const ref = db.collection("motivation")
     let motivations = []
     ref.onSnapshot((querySnapshot)=>{
         querySnapshot.forEach(doc=>{
