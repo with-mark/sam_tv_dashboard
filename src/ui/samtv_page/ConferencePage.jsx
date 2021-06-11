@@ -21,7 +21,7 @@ const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 
 
-const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo}) => {
+const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo }) => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
 
@@ -29,7 +29,9 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo}) 
     stopMaodal: false
   })
 
-  const closeModal = () => {
+
+  const closeEndStreamModal = () => {
+    console.log("Hello");
     setState({
       ...state,
       stopMaodal: false
@@ -58,7 +60,7 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo}) 
   console.log(samTvInfo);
   return (
     <div className="confrence-room" >
-      <StopStreamingModal client={client} tracks={tracks} visible={state.stopMaodal} onClose={closeModal} />
+      <StopStreamingModal  onClose={closeEndStreamModal} client={client} tracks={tracks} visible={state.stopMaodal} />
 
 
 
@@ -70,7 +72,7 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo}) 
 
 
             <div className="chats">
-              <Chats/>
+              <Chats />
             </div>
 
           </div>

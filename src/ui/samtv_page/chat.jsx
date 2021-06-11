@@ -1,4 +1,3 @@
-import { List } from 'antd'
 import React from 'react'
 import "./styles/chats.scss"
 const getchats = () => {
