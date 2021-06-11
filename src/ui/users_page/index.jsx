@@ -25,7 +25,7 @@ const UsersPage = () => {
 
     return (
         <div className = "users-page container ">
-            <AddUserModal OnCancel = {closeAddUserModal} visible = {state.addUserModal} />
+            <AddUserModal onClose = {closeAddUserModal} visible = {state.addUserModal} />
             <Card id = "main-card" className = "mt-5" >
                 <Row>
                     <Col xs = "4" >

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import {auth, db} from "../../utils/networks/firebaseConfig"
 import "./styles/modal.scss"
 
-const AddUserModal = ({visible,OnCancel}) => {
+const AddUserModal = ({visible,onClose}) => {
     const [state,setState] = useState({
         loading:false
     })
@@ -31,14 +31,14 @@ const AddUserModal = ({visible,OnCancel}) => {
             .then(user=>{
                 console.log(cred);
                 message.success("You have succesfully add a user")
-                OnCancel()
+                onClose()
             }).catch(err=>{
                 setLoading(false)
                 notification.error({
                     message:"Error occured",
                     description:String(err)
                 })
-                OnCancel()
+                onClose()
             })
             
         })
@@ -48,12 +48,12 @@ const AddUserModal = ({visible,OnCancel}) => {
                 message:"Error occured",
                 description:String(err)
             })
-            OnCancel()
+            onClose()
         })
        
     }
     return (
-        <Modal visible = {visible} OnCancel={OnCancel} footer = {null} >
+        <Modal visible={visible} onCancel={onClose} footer = {null} >
             <Spin spinning = {state.loading} >
 
             
