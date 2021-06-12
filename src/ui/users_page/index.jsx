@@ -74,7 +74,7 @@ const UsersPage = ({ usersInfo, deleteUser }) => {
                     </Col>
                 </Row>
 
-                <Table id = "table" loading = {usersInfo.loading} columns={column} dataSource={usersInfo.data} />
+                <Table pagination = {10} id = "table" loading = {usersInfo.loading} columns={column} dataSource={usersInfo.data} />
             </Card>
         </div>
     )
