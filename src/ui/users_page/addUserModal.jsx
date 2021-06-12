@@ -22,27 +22,24 @@ const AddUserModal = ({visible,onClose}) => {
         })
       }
 
+      const [form] = Form.useForm()
+
     const signUpUser = (values)=>{
         setLoading(true)
         auth.createUserWithEmailAndPassword(values.email,values.password)
         .then(cred=>{
             console.log(cred);
             db.collection("userinfo").doc(cred.user.uid).set({...values})
-            .then(user=>{
-                console.log(cred);
-                message.success("You have succesfully add a user")
-                onClose()
-            }).catch(err=>{
+            .then(()=>{
+                form.resetFields()
                 setLoading(false)
-                notification.error({
-                    message:"Error occured",
-                    description:String(err)
-                })
+                message.success("You have succesfully add a user")
                 onClose()
             })
             
         })
         .catch(err=>{
+            form.resetFields()
             setLoading(false)
             notification.error({
                 message:"Error occured",
@@ -58,7 +55,7 @@ const AddUserModal = ({visible,onClose}) => {
 
             
             <h6 className="text-center">Add User</h6>
-            <Form onFinish={signUpUser} {...layout} >
+            <Form form = {form} onFinish={signUpUser} {...layout} >
                 <Form.Item style ={formItemStyle}  name = "name" label = "Full name" 
                 rules = {[{required:true,message:"This Field is required"}]}>
                     <Input placeholder = "Enter Users full name" />

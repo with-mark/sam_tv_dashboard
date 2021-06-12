@@ -56,9 +56,7 @@ export const endStreaming = (tracks,history,client)=>dispatch=>{
             tracks[1].close()
             
             })
-            db.collection("samTv").doc(token).update({
-                live:false
-            }).then(()=>{
+            db.collection("samTv").doc(token).delete().then(()=>{
                 dispatch(setSamTvProgress(samTvState.offline))
                 history.push("/sam-tv")
             })

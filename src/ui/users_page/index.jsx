@@ -1,35 +1,15 @@
-import { PlusCircleOutlined } from '@ant-design/icons'
-import { Card, Tooltip, Table } from 'antd'
+import { DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { Card, Tooltip, Table, Space, Popconfirm } from 'antd'
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { deleteUser } from '../../state_mamger/functions/users'
 import AddUserModal from './addUserModal'
 import "./styles/index.scss"
 
-const column = [{
-    title: "Name",
-    dataIndex: "name",
-    ellipsis: true,
-    key: "name"
-},
-    {
-        title: "Email",
-        dataIndex: "email",
-        ellipsis: true,
-        key: "email"
-    },
-    {
-        title:"Action",
-        key:"action",
-        render:()=>{
-
-        }
-    }
 
 
-]
-
-const UsersPage = ({ usersInfo }) => {
+const UsersPage = ({ usersInfo, deleteUser }) => {
     const [state, setState] = useState({
         addUserModal: false
     })
@@ -46,6 +26,37 @@ const UsersPage = ({ usersInfo }) => {
             addUserModal: false
         })
     }
+    const column = [{
+        title: "Name",
+        dataIndex: "name",
+        ellipsis: true,
+        key: "name",
+    },
+    {
+        title: "Email",
+        dataIndex: "email",
+        ellipsis: true,
+        key: "email",
+
+    },
+    {
+        title: "Action",
+        key: "action",
+        render: (item, record) => (<Space>
+            <Popconfirm
+                title="Are you sure u want to delete this user?"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={() => { deleteUser(item)}}
+            >
+                <DeleteOutlined style={{ fontSize: "1.2rem", color: "red" }} />
+
+            </Popconfirm>
+        </Space>)
+    }
+
+
+    ]
 
     return (
         <div className="users-page container ">
@@ -78,6 +89,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        deleteUser: (user)=>dispatch(deleteUser(user))
 
     }
 }

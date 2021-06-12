@@ -1,5 +1,5 @@
 import { message } from "antd"
-import { db } from "../../utils/networks/firebaseConfig"
+import { auth, db } from "../../utils/networks/firebaseConfig"
 
 const collectionName = "userinfo"
 const FETCH_USERS_REQUEST = "FETCH_USERS_REQUEST"
@@ -41,10 +41,11 @@ const deleteUsersCompleted=payload=>{
 
 export const deleteUser=(item)=>dispatch=>{
     dispatch(deleteUsersRequest())
+    const user = auth.user
     db.collection(collectionName).doc(item.id).delete()
     .then(()=>{
         dispatch(deleteUsersCompleted())
-        message.success("You have ")
+        message.success("You have successfully deleted a user ")
 
     }).catch(err=>{
         dispatch(deleteUsersCompleted())
