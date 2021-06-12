@@ -22,9 +22,9 @@ const fetchChatsSuccess=payload=>{
 }
 
 
-export const fetchChats=()=>dispatch=>{
+export const fetchChats=(streamId)=>dispatch=>{
     dispatch(fetchChatsRequest())
-    db.collection(collectionName).onSnapshot(query=>{
+    db.collection(collectionName).where("livestream","==",streamId).onSnapshot(query=>{
         let chats = []
         query.forEach(doc=>{
             chats.push({

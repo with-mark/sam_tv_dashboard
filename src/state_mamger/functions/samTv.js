@@ -1,7 +1,7 @@
 import { message, notification } from "antd"
 import {db}  from  "../../utils/networks/firebaseConfig"
-import { getAgoraTOken } from "../../utils/networks/agoraConfigs"
-import { deleteSamTvToken } from "../../utils/local_storage"
+import { deleteSamTvToken, getLocalAgoraToken } from "../../utils/local_storage"
+import { getVideoToken } from "../../utils/agoraFunctions"
 const SET_SAMTV_PROGRESS = "SET_SAMTV_PROGRESS"
 const INIT_MEETING_REQUEST ="INIT_MEETING_REQUEST"
 const INIT_MEETING_COMPLETE = "INIT_MEETING_COMPLETE"
@@ -45,7 +45,10 @@ export const endMeeting = (payload)=>{
 
 
 export const endStreaming = (tracks,history,client)=>dispatch=>{
-      const token  = getAgoraTOken()
+      const token  = getLocalAgoraToken()
+      if(!token){
+          
+      }
 
     client.leave().then(()=>{
         client.removeAllListeners()
@@ -80,7 +83,7 @@ export const endStreaming = (tracks,history,client)=>dispatch=>{
 
 export const startMeeting = (tracks,ready,client)=>dispatch=>{
     dispatch(initMeetingRequest())
-    const token  = getAgoraTOken()
+    getVideoToken().then(token=>{
     if(!tracks && !ready) {
         notification.error({
             message:"Device not found",
@@ -94,14 +97,7 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
             client.setClientRole("host").then(err=>{
                 client.publish(tracks).then(res=>{
                     dispatch(setSamTvProgress(samTvState.online))
-                    db.collection("samTv").doc(token).set({
-                        token,
-                        live:true
-                    }).then(err=>{
-                            message.success("Sam tv is online")
-                    })
-                    
-                   
+                       message.success("Sam tv is online")                 
                 })
             })
         }
@@ -112,6 +108,9 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
     })
         
     }
+
+    })
+
 
 
 
