@@ -5,9 +5,10 @@ import { WechatOutlined } from "@ant-design/icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
-import { rejoineMeeting, startMeeting } from '../../state_mamger/functions/samTv';
-import StopStreamingModal from './StopStreamingModal';
+import { endStreaming, rejoineMeeting, startMeeting } from '../../state_mamger/functions/samTv';
 import Chats from './chat';
+import { Popconfirm } from 'antd';
+import { useHistory } from 'react-router-dom';
 const config = { mode: "live", codec: "h264" }
 
 
@@ -21,28 +22,10 @@ const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 
 
-const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo }) => {
+const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, stopStreaming }) => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
 
-  const [state, setState] = useState({
-    stopMaodal: false
-  })
-
-
-  const closeEndStreamModal = () => {
-    console.log("Hello");
-    setState({
-      ...state,
-      stopMaodal: false
-    })
-  }
-  const openModal = () => {
-    setState({
-      ...state,
-      stopMaodal: true
-    })
-  }
 
   useEffect(() => {
     if (client.connectionState === "CONNECTED") {
@@ -60,7 +43,6 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo })
   console.log(samTvInfo);
   return (
     <div className="confrence-room" >
-      <StopStreamingModal  onClose={closeEndStreamModal} client={client} tracks={tracks} visible={state.stopMaodal} />
 
 
 
@@ -81,7 +63,7 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo })
 
 
             {ready && (
-              <Controls openModal={openModal} tracks={tracks} />
+              <Controls client = {client} stopStreaming = {stopStreaming} tracks={tracks} />
             )}
           </div>
 
@@ -102,10 +84,11 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo })
 
 export const Controls = ({
   tracks,
-  openModal,
+stopStreaming,
+client
 }) => {
 
-
+const history = useHistory()
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
   const mute = async (type) => {
@@ -136,11 +119,20 @@ export const Controls = ({
         onClick={() => mute("video")}>
         <FontAwesomeIcon icon={faVideo} />
       </div>
-      {<p style={{ color: "white" }} onClick={openModal}>
-        <div className="red circle ">
+      <div className="red circle ">
+        <Popconfirm
+          title="Are you sure you want to end this live session?"
+          okText="End live stream"
+          onConfirm={() => {
+            stopStreaming(tracks, client,history)
+
+
+          }}
+
+        >
           <FontAwesomeIcon icon={faPhoneSlash} />
-        </div>
-      </p>}
+        </Popconfirm>
+      </div>
       <div className="normal circle" >
         <WechatOutlined style={{ fontSize: "1.5rem", color: "grey" }} />
       </div>
@@ -156,7 +148,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     startStreaming: (tracks, ready, client) => dispatch(startMeeting(tracks, ready, client)),
-    rejoinMeeting: (tracks, cleint) => dispatch(rejoineMeeting(tracks, cleint))
+    rejoinMeeting: (tracks, cleint) => dispatch(rejoineMeeting(tracks, cleint)),
+    stopStreaming: (tracks, history, client) => dispatch(endStreaming(tracks, history, client))
+
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ConferencePage)

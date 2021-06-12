@@ -15,7 +15,6 @@ html{
 }
 
 .control-wrapper {
-  z-index: 999999;
   width: calc(100vw - 300px);
 
   display: flex;
@@ -34,7 +33,7 @@ html{
   position: absolute;
     width: 100vw;
     height: 100vh;
-    z-index: 9998999;
+    z-index: 10;
     display: flex;
     justify-content: space-between;
     flex-flow: row-reverse;
