@@ -3,7 +3,7 @@ import { db } from "../../utils/networks/firebaseConfig"
 
 const FETCH_CHATS_REQUEST = "FETCH_CHATS_REQUEST"
 const FETCH_CHATS_SUCCESS = "FETCH_CHATS_SUCCESS"
-const collectionName= "samTvChats"
+const collectionName= "liveComments"
 
 
 const fetchChatsRequest = ()=>{
@@ -22,9 +22,9 @@ const fetchChatsSuccess=payload=>{
 }
 
 
-export const fetchChats=(streamId)=>dispatch=>{
+export const fetchChats=()=>dispatch=>{
     dispatch(fetchChatsRequest())
-    db.collection(collectionName).where("livestream","==",streamId).onSnapshot(query=>{
+    db.collection(collectionName).onSnapshot(query=>{
         let chats = []
         query.forEach(doc=>{
             chats.push({

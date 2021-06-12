@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { fetchChats } from '../../state_mamger/functions/samTvChats'
 import "./styles/chats.scss"
@@ -15,7 +15,14 @@ import "./styles/chats.scss"
 //     return mychats
 // }
 
-const Chats = ({ chatsInfo }) => {
+
+
+const Chats = ({ chatsInfo, getChats }) => {
+    useEffect(() => {
+        getChats()
+
+
+    }, [getChats])
     // const myChat = getchats()
     return (
         <div className="text-light chatbox" >
@@ -43,7 +50,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        getChats: streamId => dispatch(fetchChats(streamId))
+        getChats: () => dispatch(fetchChats())
     }
 }
 

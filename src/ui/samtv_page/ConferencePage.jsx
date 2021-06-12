@@ -7,7 +7,7 @@ import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawe
 import { connect } from 'react-redux';
 import { endStreaming, rejoineMeeting, startMeeting } from '../../state_mamger/functions/samTv';
 import Chats from './chat';
-import { message, notification, Popconfirm } from 'antd';
+import { notification, Popconfirm } from 'antd';
 import { useHistory } from 'react-router-dom';
 const config = { mode: "live", codec: "h264" }
 
@@ -25,9 +25,9 @@ const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, stopStreaming }) => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
-  const [networkQuality,setNetworkQuality] = useState({
-    upload:3,
-    download:3
+  const [networkQuality, setNetworkQuality] = useState({
+    upload: 3,
+    download: 3
   })
 
 
@@ -38,28 +38,28 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, s
       startStreaming(tracks, ready, client)
     }
 
-    client.on("user-published",()=>{
-      message.success("Media resources are live")
+    client.on("user-published", () => {
+      // message.success("Media resources are live")
     })
-    client.on("user-unpublished",()=>{
+    client.on("user-unpublished", () => {
       notification.warning("Your media devices are offline")
     })
-    client.on("network-quality",(status)=>{
+    client.on("network-quality", (status) => {
       setNetworkQuality({
         ...networkQuality,
-        upload:status.uplinkNetworkQuality,
-        download:status.downlinkNetworkQuality
+        upload: status.uplinkNetworkQuality,
+        download: status.downlinkNetworkQuality
       })
-      
+
     })
 
 
-  }, [rejoinMeeting, startStreaming,networkQuality, client, ready, tracks])
+  }, [rejoinMeeting, startStreaming, networkQuality, client, ready, tracks])
 
 
 
 
-  console.log(samTvInfo);
+  // console.log(samTvInfo);
   return (
     <div className="confrence-room" >
 
@@ -82,7 +82,7 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, s
 
 
             {ready && (
-              <Controls client = {client} stopStreaming = {stopStreaming} tracks={tracks} />
+              <Controls client={client} stopStreaming={stopStreaming} tracks={tracks} />
             )}
           </div>
 
@@ -103,11 +103,11 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, s
 
 export const Controls = ({
   tracks,
-stopStreaming,
-client
+  stopStreaming,
+  client
 }) => {
 
-const history = useHistory()
+  const history = useHistory()
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
   const mute = async (type) => {

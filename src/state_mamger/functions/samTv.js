@@ -60,9 +60,13 @@ export const endStreaming = (tracks,history,client)=>dispatch=>{
             tracks[1].close()
             
             })
-            db.collection("samTv").doc(token).delete().then(()=>{
+            db.collection("samTv").doc("agoraToken").set({
+                token:null,
+                live:false
+            }).then(()=>{
                 dispatch(setSamTvProgress(samTvState.offline))
                 deleteSamTvToken()
+                message.success("You have successfully ended the live session")
                 history.push("/sam-tv")
             })
         
@@ -121,7 +125,7 @@ export const rejoineMeeting = (tracks,client)=> dispatch=> {
     client.setClientRole("host").then(()=>{
         client.publish(tracks).then(res=>{
             dispatch(setSamTvProgress(samTvState.online))
-            message.success("SAM Tv is back online")
+            // message.success("SAM Tv is back online")
         })
     })
 }
