@@ -69,7 +69,7 @@ export const getLocalAgoraToken = ()=>{
     return getItem("agoraToken")
 }
 
-export const deleteToken = ()=>{
+export const deleteSamTvToken = ()=>{
     deleteItem("agoraToken")
 }
 

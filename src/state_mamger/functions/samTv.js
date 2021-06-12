@@ -1,6 +1,7 @@
 import { message, notification } from "antd"
 import {db}  from  "../../utils/networks/firebaseConfig"
 import { getAgoraTOken } from "../../utils/networks/agoraConfigs"
+import { deleteSamTvToken } from "../../utils/local_storage"
 const SET_SAMTV_PROGRESS = "SET_SAMTV_PROGRESS"
 const INIT_MEETING_REQUEST ="INIT_MEETING_REQUEST"
 const INIT_MEETING_COMPLETE = "INIT_MEETING_COMPLETE"
@@ -58,6 +59,7 @@ export const endStreaming = (tracks,history,client)=>dispatch=>{
             })
             db.collection("samTv").doc(token).delete().then(()=>{
                 dispatch(setSamTvProgress(samTvState.offline))
+                deleteSamTvToken()
                 history.push("/sam-tv")
             })
         

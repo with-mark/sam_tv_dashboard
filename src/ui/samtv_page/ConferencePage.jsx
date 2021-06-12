@@ -7,7 +7,7 @@ import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawe
 import { connect } from 'react-redux';
 import { endStreaming, rejoineMeeting, startMeeting } from '../../state_mamger/functions/samTv';
 import Chats from './chat';
-import { Popconfirm } from 'antd';
+import { message, notification, Popconfirm } from 'antd';
 import { useHistory } from 'react-router-dom';
 const config = { mode: "live", codec: "h264" }
 
@@ -25,6 +25,10 @@ const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, stopStreaming }) => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
+  const [networkQuality,setNetworkQuality] = useState({
+    upload:3,
+    download:3
+  })
 
 
   useEffect(() => {
@@ -34,8 +38,23 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, s
       startStreaming(tracks, ready, client)
     }
 
+    client.on("user-published",()=>{
+      message.success("Media resources are live")
+    })
+    client.on("user-unpublished",()=>{
+      notification.warning("Your media devices are offline")
+    })
+    client.on("network-quality",(status)=>{
+      setNetworkQuality({
+        ...networkQuality,
+        upload:status.uplinkNetworkQuality,
+        download:status.downlinkNetworkQuality
+      })
+      
+    })
 
-  }, [rejoinMeeting, startStreaming, client, ready, tracks])
+
+  }, [rejoinMeeting, startStreaming,networkQuality, client, ready, tracks])
 
 
 
@@ -124,7 +143,7 @@ const history = useHistory()
           title="Are you sure you want to end this live session?"
           okText="End live stream"
           onConfirm={() => {
-            stopStreaming(tracks, client,history)
+            stopStreaming(tracks, history, client)
 
 
           }}
@@ -148,7 +167,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     startStreaming: (tracks, ready, client) => dispatch(startMeeting(tracks, ready, client)),
-    rejoinMeeting: (tracks, cleint) => dispatch(rejoineMeeting(tracks, cleint)),
+    rejoinMeeting: (tracks, history, client) => dispatch(rejoineMeeting(tracks, history, client)),
     stopStreaming: (tracks, history, client) => dispatch(endStreaming(tracks, history, client))
 
   }
