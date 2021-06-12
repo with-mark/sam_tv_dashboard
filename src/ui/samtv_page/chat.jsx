@@ -31,8 +31,8 @@ const Chats = ({ chatsInfo, getChats }) => {
                     chatsInfo.data.map(chat =>
                     (
                         <div className="chat-item">
-                            <small className="text-bold" >{chat.author} </small>
-                            <p className="text-start">{chat.message}</p>
+                            <small className="text-bold" >{chat.userName} </small>
+                            <p className="text-start">{chat.comment}</p>
                         </div>
                     ))
                 }

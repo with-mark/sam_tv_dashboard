@@ -32,6 +32,7 @@ export const fetchChats=()=>dispatch=>{
                 ...doc.data()
             })
         })
+        console.log(chats);
         dispatch(fetchChatsSuccess(chats))
     })
 }

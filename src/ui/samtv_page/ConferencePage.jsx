@@ -32,9 +32,7 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, s
 
 
   useEffect(() => {
-    if (client.connectionState === "CONNECTED") {
-      rejoinMeeting(tracks, client)
-    } else if (client.connectionState === "DISCONNECTED") {
+     if (client.connectionState === "DISCONNECTED") {
       startStreaming(tracks, ready, client)
     }
 
