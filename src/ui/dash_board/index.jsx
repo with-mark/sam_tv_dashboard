@@ -20,12 +20,14 @@ import { fetchSermons } from '../../state_mamger/functions/sermons'
 import EventsPage from '../events_page'
 import { fetchEvents } from '../../state_mamger/functions/events'
 import MeetingRoom from '../samtv_page/meetingRoom'
+import { fetchUsers } from '../../state_mamger/functions/users'
 const LandingPage = ({
     getMotivation,
     getStreamingData,
     fetchPrayerRequests,
     getSermons,
-    getEvents
+    getEvents,
+    getUsers
 }) => {
     const [state,setState] = useState({
         menuCollapse:false
@@ -41,8 +43,9 @@ const LandingPage = ({
         getStreamingData()
         fetchPrayerRequests()
         getSermons()
+        getUsers()
         getEvents()
-    }, [getMotivation,getStreamingData,fetchPrayerRequests,getSermons,getEvents])
+    }, [getMotivation, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
     return (
         <Layout style = {{minHeight:'100vh'}} >
             <Layout.Sider theme = "light" zeroWidthTriggerStyle = {{color:"blue"}} breakpoint = "md"  style = {{backgroundColor:"#ffffff"}} collapsible collapsed = {state.menuCollapse}  onCollapse = {collapseMenu}>
@@ -147,7 +150,8 @@ const  mapDispatchToProps =(dispatch)=> {
         getStreamingData:()=>dispatch(fetchStreamData()),
         fetchPrayerRequests:()=>dispatch(fetchPrayers()),
         getSermons:()=>dispatch(fetchSermons()),
-        getEvents:()=>dispatch(fetchEvents())
+        getEvents:()=>dispatch(fetchEvents()),
+        getUsers: () => dispatch(fetchUsers())
     } ;
 }
 const mapStateToProps =(state) =>{
