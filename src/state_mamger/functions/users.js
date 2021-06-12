@@ -1,5 +1,7 @@
-import { message } from "antd"
-import { auth, db } from "../../utils/networks/firebaseConfig"
+import { message, notification } from "antd"
+import axios from "axios"
+import { deleteUserPath } from "../../utils/networks/endpoints"
+import {  db } from "../../utils/networks/firebaseConfig"
 
 const collectionName = "userinfo"
 const FETCH_USERS_REQUEST = "FETCH_USERS_REQUEST"
@@ -41,15 +43,34 @@ const deleteUsersCompleted=payload=>{
 
 export const deleteUser=(item)=>dispatch=>{
     dispatch(deleteUsersRequest())
-    const user = auth.user
-    db.collection(collectionName).doc(item.id).delete()
+    axios.get(deleteUserPath(item.id))
     .then(()=>{
-        dispatch(deleteUsersCompleted())
+
+   
+        db.collection(collectionName).doc(item.id).delete()
+        .then(()=>{
+                 dispatch(deleteUsersCompleted())
         message.success("You have successfully deleted a user ")
+
+        })
 
     }).catch(err=>{
         dispatch(deleteUsersCompleted())
-        message.error(`Deleting user failed, reason : ${String(err)}`)
+        if(err.response){
+            if(err.response.status ===400){
+                message.error(err.response.data.message)
+            }else{
+                message.error(`Deleting user failed, reason : ${String(err)}`)
+
+            }
+
+        }else if(err.request){
+            notification.error({
+                message:"Network error",
+                description:"Check internet connection"
+            })
+
+        }
     })
 
 }
