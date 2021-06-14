@@ -2,6 +2,8 @@ import { message, notification } from "antd"
 import {db}  from  "../../utils/networks/firebaseConfig"
 import { deleteSamTvToken, getLocalAgoraToken } from "../../utils/local_storage"
 import { getVideoToken } from "../../utils/agoraFunctions"
+import axios from "axios"
+import { pushNotificationPath } from "../../utils/networks/endpoints"
 const SET_SAMTV_PROGRESS = "SET_SAMTV_PROGRESS"
 const INIT_MEETING_REQUEST ="INIT_MEETING_REQUEST"
 const INIT_MEETING_COMPLETE = "INIT_MEETING_COMPLETE"
@@ -66,6 +68,21 @@ export const endStreaming = (tracks,history,client)=>dispatch=>{
             }).then(()=>{
                 dispatch(setSamTvProgress(samTvState.offline))
                 deleteSamTvToken()
+                        const data = {
+                    notification:{
+                    title: "Sam Tv Livestream just ended",
+                    body:" "
+                    },
+                    topic:"sam_tv"
+                        }
+                
+                const config = {
+                    headers:{
+                        "Content-Type":"application/json"
+                    }
+                }
+
+                    axios.post(pushNotificationPath,data,config)
                 message.success("You have successfully ended the live session")
                 history.push("/sam-tv")
             })
@@ -100,8 +117,23 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
         if(ready && tracks){
             client.setClientRole("host").then(err=>{
                 client.publish(tracks).then(res=>{
+                    const data = {
+                                notification:{
+                                title: "SamTv is live with Pastor Sam Amoateng",
+                                body:" "
+                                },
+                                topic:"sam_tv"
+                            }
+                    
+                    const config = {
+                        headers:{
+                            "Content-Type":"application/json"
+                        }
+                    }
+
+                    axios.post(pushNotificationPath,data,config)
                     dispatch(setSamTvProgress(samTvState.online))
-                       message.success("Sam tv is online")                 
+                    message.success("Sam tv is online")                
                 })
             })
         }

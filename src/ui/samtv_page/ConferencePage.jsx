@@ -32,11 +32,12 @@ const ConferencePage = ({
 
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
-  const [networkQuality, setNetworkQuality] = useState({
-    upload: 3,
-    download: 3
-  })
+  // const [networkQuality, setNetworkQuality] = useState({
+  //   upload: 3,
+  //   download: 3
+  // })
 
+  
 
   useEffect(() => {
     if (client.connectionState === "DISCONNECTED") {
@@ -59,7 +60,7 @@ const ConferencePage = ({
     // })
     getLikes()
 
-  }, [rejoinMeeting, startStreaming, networkQuality, client, ready, tracks, getLikes])
+  }, [rejoinMeeting, startStreaming, client, ready, tracks, getLikes])
 
 
 
