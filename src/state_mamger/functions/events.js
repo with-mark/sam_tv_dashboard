@@ -182,16 +182,16 @@ const eventsReducer =  (state = initialState, { type, payload }) => {
             loading:false,
             data:payload
         }
-    // case ADD_EVENTS_REQUEST:
-    //     return {
-    //         ...state,
-    //         postLoading:true
-    //     }
-    // case ADD_EVENTS_COMPLETED:
-    //     return {
-    //         ...state,
-    //         postLoading:false
-    //     }
+    case ADD_EVENTS_REQUEST:
+        return {
+            ...state,
+            postLoading:true
+        }
+    case ADD_EVENTS_COMPLETED:
+        return {
+            ...state,
+            postLoading:false
+        }
 
     case EDIT_EVENTS_REQUEST:
         return{
