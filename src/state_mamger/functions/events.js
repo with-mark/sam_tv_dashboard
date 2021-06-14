@@ -3,10 +3,13 @@ import { db } from "../../utils/networks/firebaseConfig"
 
 const FETCH_EVENTS_REQUEST = "FETCH_EVENTS_REQUEST"
 const FETCH_EVENTS_SUCCESS = "FETCH_EVENTS_SUCCESS"
-// const ADD_EVENTS_REQUEST = "ADD_EVENTS_REQUEST"
-// const ADD_EVENTS_COMPLETED = "ADD_EVENTS_COMPLETED"
+
+const ADD_EVENTS_REQUEST = "ADD_EVENTS_REQUEST"
+const ADD_EVENTS_COMPLETED = "ADD_EVENTS_COMPLETED"
+
 const EDIT_EVENTS_REQUEST = "EDIT_EVENTS_REQUEST"
 const EDIT_EVENTS_COMPLETE = "EDIT_EVENTS_COMPLETE"
+
 const DELETE_EVENTS_REQUEST = "DELETE_EVENTS_REQUEST"
 const DELETE_EVENTS_COMPLETE = "DELETE_EVENTS_COMPLETE"
 
@@ -45,19 +48,19 @@ export const fetchEvents = ()=>dispatch=>{
 
 
 
-// const addEventsRequest = ()=>{
-//     return {
-//         type:ADD_EVENTS_REQUEST
-//     }
-// }
+const addEventsRequest = ()=>{
+    return {
+        type:ADD_EVENTS_REQUEST
+    }
+}
 
-// const addEventsCompleted =()=>{
-//     return {
+const addEventsCompleted =()=>{
+    return {
         
-//         type:ADD_EVENTS_COMPLETED
+        type:ADD_EVENTS_COMPLETED
         
-//     }
-// }
+    }
+}
 
 
 
@@ -78,7 +81,7 @@ const deleteEventsCompleted =()=>{
 }
 
 
-export const deleteSermon = (sermon)=>dispatch=>{
+export const deleteEvent = (sermon)=>dispatch=>{
     dispatch(deleteEventsRequest())
     db.collection("events").doc(sermon.id).delete()
     .then(res=>{
@@ -122,41 +125,37 @@ export const editEvents = (sermon,fields)=> dispatch=>{
     })
 }
 
-// export const addEvents = event=>dispatch=>{
-//     console.log("adasdasdasd");
-//     dispatch(addEventsRequest())
-//     storage.ref(`images/events/${event.file.name}`).put(event.file)
-//             .then(res=>{
-//                 storage.ref('images/events')
-//                 .child(event.file.name)
-//                 .getDownloadURL()
-//                 .then(cover_image=>{
-//                     db.collection("events").add({
-//                         ...event.values,
-//                         cover_image
-//                     }).then(res=>{
-//                         dispatch(addEventsCompleted())
-//                         message.success("Succesffull")
-//                     }).catch(err=>{
-//                         dispatch(addEventsCompleted())
-//                         message.error("Unsasadasd")
-//                     })
-//                 })
-//                 .catch(err=>{
-//                     dispatch(addEventsCompleted())
-//                     notification.error({
-//                         message:"Error occured",
-//                         description:String(err)
-//                     })
-//                 })
-//             })
-//             .catch(err=>{
-//                 notification.error({
-//                     message:"Error occured",
-//                     description:String(err)
-//                 })
-//             })
-// }
+export const addEvents = event=>dispatch=>{
+    dispatch(addEventsRequest())
+    storage.ref(`images/events/${event.file.name}`).put(event.file)
+            .then(()=>{
+                storage.ref('images/events')
+                .child(event.file.name)
+                .getDownloadURL()
+                .then(cover_image=>{
+                    db.collection("events").add({
+                        ...event.values,
+                        cover_image
+                    }).then(res=>{
+                        dispatch(addEventsCompleted())
+                        message.success("Succesffull")
+                    })
+                })
+                .catch(err=>{
+                    dispatch(addEventsCompleted())
+                    notification.error({
+                        message:"Error occured",
+                        description:String(err)
+                    })
+                })
+            })
+            .catch(err=>{
+                notification.error({
+                    message:"Error occured",
+                    description:String(err)
+                })
+            })
+}
 
 
 const initialState = {
