@@ -1,6 +1,6 @@
 import { message } from "antd"
 import { db } from "../../utils/networks/firebaseConfig"
-import pushNotification from "../../utils/pushNotification"
+import { pushNotificationNoImage } from "../../utils/pushNotification"
 const FETCH_MOTIVATION_REQUEST = "FETCH_MOTIVATION_REQUEST"
 const FETCH_MOTIVATION_SUCCESS = "FETCH_MOTIVATION_SUCCESS"
 // const FETCH_MOTIVATION_FAILURE = "FETCH_MOTIVATION_FAILURE"
@@ -98,7 +98,7 @@ export const postMotivation=(motivation)=>dispatch=>{
     dispatch(postMotivationRequest())
     db.collection(collectionName).add(motivation).then(()=>{
         dispatch(postMotivationCompleted())
-        pushNotification("Motivstion!",motivation.title,"sam_tv_motivation")
+        pushNotificationNoImage("Motivstion!",motivation.title,"sam_tv_motivation")
         message.success("Motivation posted successfully")
     }).catch(err=>{
         dispatch(postMotivationCompleted())

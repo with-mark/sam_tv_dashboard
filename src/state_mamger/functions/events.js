@@ -1,5 +1,6 @@
 import { message, notification } from "antd"
 import { db } from "../../utils/networks/firebaseConfig"
+import { pushNotificationCustomImage } from "../../utils/pushNotification"
 
 const FETCH_EVENTS_REQUEST = "FETCH_EVENTS_REQUEST"
 const FETCH_EVENTS_SUCCESS = "FETCH_EVENTS_SUCCESS"
@@ -138,7 +139,8 @@ export const addEvents = event=>dispatch=>{
                         cover_image
                     }).then(res=>{
                         dispatch(addEventsCompleted())
-                        message.success("Succesffull")
+                        pushNotificationCustomImage("New event posted",event.title,"sam_tv_event",cover_image)
+                        message.success("You hace successfully added an event")
                     })
                 })
                 .catch(err=>{

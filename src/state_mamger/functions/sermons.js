@@ -1,5 +1,6 @@
 import { message, notification } from "antd"
 import { db } from "../../utils/networks/firebaseConfig"
+import { pushNotificationNoImage } from "../../utils/pushNotification"
 
 const FETCH_SERMONS_REQUEST = "FETCH_SERMONS_REQUEST"
 const FETCH_SERMONS_SUCCESS = "FETCH_SERMONS_SUCCESS"
@@ -126,6 +127,7 @@ export const addSermon = sermon=>dispatch=>{
     dispatch(addSermonRequest())
     db.collection("sermons").add(sermon).then(()=>{
         dispatch(addSermonsCompleted())
+        pushNotificationNoImage("New sermon added",sermon.title,"sam_tv_sermons")
         message.success("Sermons added sussfully")
     }).catch(err=>{
         dispatch(addSermonsCompleted())
