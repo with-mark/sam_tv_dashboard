@@ -9,6 +9,7 @@ import { endStreaming, rejoineMeeting, startMeeting } from '../../state_mamger/f
 import Chats from './chat';
 import { notification, Popconfirm } from 'antd';
 import { useHistory } from 'react-router-dom';
+import { deleteAllChats, fetchLikes } from '../../state_mamger/functions/samTvChats';
 const config = { mode: "live", codec: "h264" }
 
 
@@ -22,7 +23,13 @@ const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 
 
-const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, stopStreaming }) => {
+const ConferencePage = ({
+  startStreaming,
+  rejoinMeeting,
+  getLikes,
+  deleteChats,
+  stopStreaming }) => {
+
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
   const [networkQuality, setNetworkQuality] = useState({
@@ -32,7 +39,7 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, s
 
 
   useEffect(() => {
-     if (client.connectionState === "DISCONNECTED") {
+    if (client.connectionState === "DISCONNECTED") {
       startStreaming(tracks, ready, client)
     }
 
@@ -42,17 +49,17 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, s
     client.on("user-unpublished", () => {
       notification.warning("Your media devices are offline")
     })
-    client.on("network-quality", (status) => {
-      setNetworkQuality({
-        ...networkQuality,
-        upload: status.uplinkNetworkQuality,
-        download: status.downlinkNetworkQuality
-      })
+    // client.on("network-quality", (status) => {
+    //   setNetworkQuality({
+    //     ...networkQuality,
+    //     upload: status.uplinkNetworkQuality,
+    //     download: status.downlinkNetworkQuality
+    //   })
 
-    })
+    // })
+    getLikes()
 
-
-  }, [rejoinMeeting, startStreaming, networkQuality, client, ready, tracks])
+  }, [rejoinMeeting, startStreaming, networkQuality, client, ready, tracks, getLikes])
 
 
 
@@ -80,7 +87,7 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, s
 
 
             {ready && (
-              <Controls client={client} stopStreaming={stopStreaming} tracks={tracks} />
+              <Controls deleteChats={deleteChats} client={client} stopStreaming={stopStreaming} tracks={tracks} />
             )}
           </div>
 
@@ -102,7 +109,8 @@ const ConferencePage = ({ startStreaming, rejoinMeeting, samTvInfo, chatsInfo, s
 export const Controls = ({
   tracks,
   stopStreaming,
-  client
+  client,
+  deleteChats
 }) => {
 
   const history = useHistory()
@@ -128,11 +136,11 @@ export const Controls = ({
     <div className="controls">
 
       <div
-        div className="normal circle "
+        div className={`${trackState.audio?"normal":"deactivated"} circle `}
         onClick={() => mute("audio")}>
         {trackState.audio ? <FontAwesomeIcon style={{ color: "white" }} icon={faMicrophoneSlash} /> : <FontAwesomeIcon style={{ color: "white" }} icon={faMicrophone} />}
       </div>
-      <div div className="normal circle " style={{ color: "white" }}
+      <div div className={`${trackState.video ? "normal" : "deactivated"} circle `} style={{ color: "white" }}
         onClick={() => mute("video")}>
         <FontAwesomeIcon icon={faVideo} />
       </div>
@@ -142,6 +150,7 @@ export const Controls = ({
           okText="End live stream"
           onConfirm={() => {
             stopStreaming(tracks, history, client)
+            deleteChats()
 
 
           }}
@@ -166,7 +175,10 @@ const mapDispatchToProps = dispatch => {
   return {
     startStreaming: (tracks, ready, client) => dispatch(startMeeting(tracks, ready, client)),
     rejoinMeeting: (tracks, history, client) => dispatch(rejoineMeeting(tracks, history, client)),
-    stopStreaming: (tracks, history, client) => dispatch(endStreaming(tracks, history, client))
+    stopStreaming: (tracks, history, client) => dispatch(endStreaming(tracks, history, client)),
+    deleteChats: () => dispatch(deleteAllChats()),
+    getLikes: () => dispatch(fetchLikes())
+
 
   }
 }

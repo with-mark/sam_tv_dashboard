@@ -50,7 +50,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        getChats: () => dispatch(fetchChats())
+        getChats: () => dispatch(fetchChats()),
     }
 }
 

@@ -46,7 +46,7 @@ html{
 
     .single-chat {
       margin-left: 2em;
-      background-color: rgba(226, 205, 174,.4);
+      background-color: rgba(65, 105, 225,.4);
       width: 300px;
       min-height: 40px;
       border-radius: 10px;
@@ -125,7 +125,11 @@ html{
   }
 
   .normal {
+    background-color: rgba(38, 86, 232, 0.6);
+  }
+  .deactivated{
     background-color: #ccc;
+
   }
 
 
