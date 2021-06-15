@@ -6,7 +6,6 @@ import 'react-quill/dist/quill.snow.css';
 import { connect } from 'react-redux';
 import { db, storage } from '../../utils/networks/firebaseConfig'
 import { pushNotificationCustomImage } from '../../utils/pushNotification';
-import firebase from "../../utils/networks/firebaseConfig"
 
 
 const formLayout =  {

@@ -84,8 +84,10 @@ export const updateMotivation =(motivation)=>dispatch=>{
 
 export const deleteMotivation=(motivation)=>dispatch=>{
     dispatch(deleteMotivationRequest())
-    const basePath = "images/motivations"
-    // storage.ref(basePath).child()
+    if(motivation.type === "picture" && motivation.imgRef){
+        storage.ref().child(motivation.imgRef)
+    }
+    
     db.collection(collectionName).doc(motivation.id).delete()
     .then(()=>{
         dispatch(deleteMotivationCompleted())
@@ -109,7 +111,6 @@ export const fetchMotivations =()=>dispatch=>{
             const id = doc.id
             motivations.push({id,...doc.data()})
         })
-        console.log(motivations);
      dispatch(fetchMotivationSuccess(motivations))
 
 

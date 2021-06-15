@@ -1,4 +1,4 @@
-import { Card, Divider,  List, Tooltip } from 'antd'
+import { Card, Divider,  List, Tooltip ,Popconfirm} from 'antd'
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import MotivationDescription from './listDescription'
@@ -6,10 +6,11 @@ import "./styles/index.scss"
 import {  DeleteOutlined, EditOutlined, PlusCircleOutlined} from "@ant-design/icons"
 import { connect } from 'react-redux'
 import AddMotivationDrawer from './addMotivationDrawer'
+import { deleteMotivation } from '../../state_mamger/functions/motivations'
 
 
 
-const MotivationPage = ({motivationsInfo}) => {
+const MotivationPage = ({ motivationsInfo, remove}) => {
     const [addMotivation,setAddMotivation] = useState(false)
 
     const closeAddMotivationModal = ()=>{
@@ -33,7 +34,7 @@ const MotivationPage = ({motivationsInfo}) => {
                 </Row>
                 <Divider/>
                 <List 
-                loading = {motivationsInfo.loading}
+                    loading={motivationsInfo.loading || motivationsInfo.deleteLoading}
                 renderItem = {item=>(<List.Item
                     actions = {[
                         <Tooltip title ={!item.is_read? "Set prayer request as viewed":"Set prayer request as not viewed"} >
@@ -42,12 +43,18 @@ const MotivationPage = ({motivationsInfo}) => {
                         </Tooltip>
                         ,
                         
-                        <Tooltip title = "Delete prayer request" >
-                            <DeleteOutlined onClick = {()=>{
-                            
-                            
-                        }} style = {{color:"red"}}/>
-                        </Tooltip>
+                            <Tooltip title = "Delete motivation" >
+                                <Popconfirm 
+                                okText = "yes"
+                                cancelText = "No"
+                                onConfirm = {()=>{remove(item)}}
+                                title = "Are you sure you want to delete this motivation?" >
+                                
+                                    <DeleteOutlined style={{ color: "red" }} />
+
+                                </Popconfirm>
+
+                            </Tooltip>
                       
                     ]}
                     
@@ -64,4 +71,10 @@ const mapStateToProps =(state) =>{
         motivationsInfo:state.motivation
     } ;
 }
-export default connect(mapStateToProps)(MotivationPage)
+
+const mapDispatchToProps = dispatch=>{
+    return{
+        remove:(motivation)=>dispatch(deleteMotivation(motivation))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(MotivationPage)
