@@ -6,7 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import { connect } from 'react-redux';
 import { db, storage } from '../../utils/networks/firebaseConfig'
 import { pushNotificationCustomImage } from '../../utils/pushNotification';
-import firebase from "firebase"
+import firebase from "../../utils/networks/firebaseConfig"
 
 
 const formLayout =  {
@@ -43,7 +43,8 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
                     db.collection("events").add({
                         ...value,
                         cover_image,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        imgRef: `images/events/${file.name}`,
+                        timestamp: new Date()
                     }).then(async()=>{
                         form.resetFields()
                         setLoading(false)

@@ -4,10 +4,9 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import logo from "../../assets/images/logo.png"
 import { db, storage } from '../../utils/networks/firebaseConfig';
-import { pushNotificationNoImage } from '../../utils/pushNotification';
-import firebase from "firebase"
+import { pushNotificationCustomImage, pushNotificationNoImage } from '../../utils/pushNotification';
 
-const collectionName = "motivation"
+const collectionName = "motivations"
 
 
 const layout = {
@@ -24,9 +23,10 @@ const AddMotivationDrawer = ({ visible, onClose }) => {
 
     const [form] = useForm()
     const onFinish = values => {
+        
         setLoading(true)
-        if (type === "image"){
-            const basePath = "images/motivation"
+        if (type === "picture"){
+            const basePath = "images/motivations"
             storage.ref(`${basePath}/${imagefile.name}`).put(imagefile)
                 .then(() => {
                     storage.ref(basePath)
@@ -36,10 +36,14 @@ const AddMotivationDrawer = ({ visible, onClose }) => {
                             console.log(image);
                             db.collection(collectionName).add({
                                 ...values,
-                                image
+                                image,
+                                imgRef: `${basePath}/${imagefile.name}`,
+                                timestamp: new Date()
                             }).then(() => {
                                 setLoading(false)
-                                pushNotificationNoImage("Motivstion!", values.title, "sam_tv_motivation")
+                                pushNotificationCustomImage("Motivation!", values.title, "sam_tv_motivation", image)
+                                form.resetFields()
+                                onClose()
                                 message.success("Motivation posted successfully")
                             })
 
@@ -53,10 +57,12 @@ const AddMotivationDrawer = ({ visible, onClose }) => {
         }else{
             db.collection(collectionName).add({
                 ...values,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                timestamp: new Date()
             }).then(() => {
                 setLoading(false)
                 pushNotificationNoImage("Motivstion!", values.title, "sam_tv_motivation")
+                form.resetFields()
+                onClose()
                 message.success("Motivation posted successfully")
             }).catch(err => {
                 message.error(`Posting motivation failed, reason: ${String(err)}`)
@@ -94,7 +100,7 @@ const AddMotivationDrawer = ({ visible, onClose }) => {
                         label="Title" >
                         <Input placeholder="Motivation title" style={{ height: "50px", borderRadius: "10px" }} />
                     </Form.Item>
-                    <Form.Item initialValue = "picture" name="type" label="Type" >
+                    <Form.Item initialValue = {type} name="type" label="Type" >
                         <Select onChange={setType} >
                             <Select.Option value = "picture" >
                                 Picture

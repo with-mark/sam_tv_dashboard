@@ -1,5 +1,5 @@
 import { message } from "antd"
-import { db } from "../../utils/networks/firebaseConfig"
+import { db, storage } from "../../utils/networks/firebaseConfig"
 // import { pushNotificationNoImage } from "../../utils/pushNotification"
 const FETCH_MOTIVATION_REQUEST = "FETCH_MOTIVATION_REQUEST"
 const FETCH_MOTIVATION_SUCCESS = "FETCH_MOTIVATION_SUCCESS"
@@ -14,7 +14,7 @@ const UPDATE_MOTIVATION_REQUEST = "UPDATE_MOTIVATION_REQUEST"
 const UPDATE_MOTIVATION_COMPLETED = "UPDATE_MOTIVATION_COMPLETED"
 
 
-const collectionName = "motivation"
+const collectionName = "motivations"
 
 const fetchMotivationRequest= ()=>{
     return{
@@ -80,8 +80,12 @@ export const updateMotivation =(motivation)=>dispatch=>{
 }
 
 
+
+
 export const deleteMotivation=(motivation)=>dispatch=>{
     dispatch(deleteMotivationRequest())
+    const basePath = "images/motivations"
+    // storage.ref(basePath).child()
     db.collection(collectionName).doc(motivation.id).delete()
     .then(()=>{
         dispatch(deleteMotivationCompleted())
@@ -94,32 +98,19 @@ export const deleteMotivation=(motivation)=>dispatch=>{
 
 
 
-// export const postMotivation=(motivation)=>dispatch=>{
-//     dispatch(postMotivationRequest())
-//     db.collection(collectionName).add(motivation).then(()=>{
-//         dispatch(postMotivationCompleted())
-//         pushNotificationNoImage("Motivstion!",motivation.title,"sam_tv_motivation")
-//         message.success("Motivation posted successfully")
-//     }).catch(err=>{
-//         dispatch(postMotivationCompleted())
-//         message.error(`Posting motivation failed, reason: ${String(err)}`)
-//     })
-// }
 
 
 export const fetchMotivations =()=>dispatch=>{
    dispatch(fetchMotivationRequest())
-    const ref = db.collection(collectionName)
-    let motivations = []
+    const ref = db.collection(collectionName).orderBy("timestamp","desc")
     ref.onSnapshot((querySnapshot)=>{
+        const motivations = []
         querySnapshot.forEach(doc=>{
-            const data = doc.data()
             const id = doc.id
-            
-            motivations.push({id,...data})
+            motivations.push({id,...doc.data()})
         })
+        console.log(motivations);
      dispatch(fetchMotivationSuccess(motivations))
-         console.log(motivations);
 
 
 
@@ -127,10 +118,6 @@ export const fetchMotivations =()=>dispatch=>{
 
     
 }
-
-
-
-
 
 
 
@@ -156,16 +143,6 @@ export const motivationReducer = (state = initialState, { type, payload }) => {
             data:payload
         }
 
-    // case POST_MOTIVATION_REQUEST:
-    //     return{
-    //         ...state,
-    //         postLoading:true
-    //     }
-    // case POST_MOTIVATION_COMPLETED:
-    //     return{
-    //         ...state,
-    //         postLoading:false
-    //     }
     case UPDATE_MOTIVATION_REQUEST:
         return{
             ...state,
