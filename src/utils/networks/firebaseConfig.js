@@ -16,24 +16,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 export const auth  = firebase.auth()
 const db = firebase.firestore()
-db.settings({timestampsInSnapShots:true})
 const storage = firebase.storage()
 
-// const messaging = firebase.messaging()
-// Notification.requestPermission().then(res=>{
-//   messaging.getToken()
-//   .then(token=>{console.log(token);}).catch(err=>console.log(err))
-// }).catch(err=>{
-//   console.log(err);
-// })
 
-// messaging.onMessage(payload=>{
-//   console.log(payload);
-//   notification.info({
-//     message: payload.data.title,
-//     description:payload.data.body,
-//   })
-// })
 
 
 export {db,storage}

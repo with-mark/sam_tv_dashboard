@@ -1,11 +1,11 @@
 import { message } from "antd"
 import { db } from "../../utils/networks/firebaseConfig"
-import { pushNotificationNoImage } from "../../utils/pushNotification"
+// import { pushNotificationNoImage } from "../../utils/pushNotification"
 const FETCH_MOTIVATION_REQUEST = "FETCH_MOTIVATION_REQUEST"
 const FETCH_MOTIVATION_SUCCESS = "FETCH_MOTIVATION_SUCCESS"
 // const FETCH_MOTIVATION_FAILURE = "FETCH_MOTIVATION_FAILURE"
-const POST_MOTIVATION_REQUEST = "POST_MOTIVATION_REQUEST"
-const POST_MOTIVATION_COMPLETED = "POST_MOTIVATION_COMPLETED"
+// const POST_MOTIVATION_REQUEST = "POST_MOTIVATION_REQUEST"
+// const POST_MOTIVATION_COMPLETED = "POST_MOTIVATION_COMPLETED"
 
 const DELETE_MOTIVATION_REQUEST = "DELETE_MOTIVATION_REQUEST"
 const DELETE_MOTIVATION_COMPLETED = "DELETE_MOTIVATION_COMPLETED"
@@ -29,17 +29,17 @@ const fetchMotivationSuccess= motivations=>{
 }
 
 
-const postMotivationRequest = ()=>{
-    return{
-        type: POST_MOTIVATION_REQUEST
-    }
-}
+// const postMotivationRequest = ()=>{
+//     return{
+//         type: POST_MOTIVATION_REQUEST
+//     }
+// }
 
-const postMotivationCompleted=()=>{
-    return{
-        type:POST_MOTIVATION_COMPLETED
-    }
-}
+// const postMotivationCompleted=()=>{
+//     return{
+//         type:POST_MOTIVATION_COMPLETED
+//     }
+// }
 
 
 const deleteMotivationRequest = ()=>{
@@ -94,17 +94,17 @@ export const deleteMotivation=(motivation)=>dispatch=>{
 
 
 
-export const postMotivation=(motivation)=>dispatch=>{
-    dispatch(postMotivationRequest())
-    db.collection(collectionName).add(motivation).then(()=>{
-        dispatch(postMotivationCompleted())
-        pushNotificationNoImage("Motivstion!",motivation.title,"sam_tv_motivation")
-        message.success("Motivation posted successfully")
-    }).catch(err=>{
-        dispatch(postMotivationCompleted())
-        message.error(`Posting motivation failed, reason: ${String(err)}`)
-    })
-}
+// export const postMotivation=(motivation)=>dispatch=>{
+//     dispatch(postMotivationRequest())
+//     db.collection(collectionName).add(motivation).then(()=>{
+//         dispatch(postMotivationCompleted())
+//         pushNotificationNoImage("Motivstion!",motivation.title,"sam_tv_motivation")
+//         message.success("Motivation posted successfully")
+//     }).catch(err=>{
+//         dispatch(postMotivationCompleted())
+//         message.error(`Posting motivation failed, reason: ${String(err)}`)
+//     })
+// }
 
 
 export const fetchMotivations =()=>dispatch=>{
@@ -115,12 +115,16 @@ export const fetchMotivations =()=>dispatch=>{
         querySnapshot.forEach(doc=>{
             const data = doc.data()
             const id = doc.id
+            
             motivations.push({id,...data})
         })
-        
-    dispatch(fetchMotivationSuccess(motivations))
+     dispatch(fetchMotivationSuccess(motivations))
+         console.log(motivations);
+
+
 
     })
+
     
 }
 
@@ -152,16 +156,16 @@ export const motivationReducer = (state = initialState, { type, payload }) => {
             data:payload
         }
 
-    case POST_MOTIVATION_REQUEST:
-        return{
-            ...state,
-            postLoading:true
-        }
-    case POST_MOTIVATION_COMPLETED:
-        return{
-            ...state,
-            postLoading:false
-        }
+    // case POST_MOTIVATION_REQUEST:
+    //     return{
+    //         ...state,
+    //         postLoading:true
+    //     }
+    // case POST_MOTIVATION_COMPLETED:
+    //     return{
+    //         ...state,
+    //         postLoading:false
+    //     }
     case UPDATE_MOTIVATION_REQUEST:
         return{
             ...state,

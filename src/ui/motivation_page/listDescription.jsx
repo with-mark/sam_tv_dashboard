@@ -9,7 +9,7 @@ const MotivationDescription = ({item}) => {
            
             <Row>
                 <Col xs = "6" sm = "6" lg = "3" > <small> <b>Author: </b> {!item.author?"Not specified":item.author}</small></Col>
-                <Col xs = "6" sm = "6" lg = "3" > <small> <b>Posted at: </b> {getDateInWords(item.timestamp.toDate())} </small> </Col>
+                <Col xs="6" sm="6" lg="3" > <small> <b>Posted at: </b> {item.timestamp} </small> </Col>
 
             </Row>
             <p> {item.description}  </p>
@@ -21,7 +21,7 @@ const MotivationDescription = ({item}) => {
            
             <Row>
                 <Col xs = "6" sm = "6" lg = "3" > <small> <b>Author: </b> {!item.author?"Not specified":item.author}</small></Col>
-                <Col xs = "6" sm = "6" lg = "3" > <small> <b>Posted at: </b> {getDateInWords(item.timestamp.toDate())} </small> </Col>
+                    <Col xs="6" sm="6" lg="3" > <small> <b>Posted at: </b> {item.timestamp} </small> </Col>
 
             </Row>
             <Image src = {item.image} />
