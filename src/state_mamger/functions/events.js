@@ -1,5 +1,5 @@
 import { message, notification } from "antd"
-import { db } from "../../utils/networks/firebaseConfig"
+import { db, storage } from "../../utils/networks/firebaseConfig"
 import { pushNotificationCustomImage } from "../../utils/pushNotification"
 
 const FETCH_EVENTS_REQUEST = "FETCH_EVENTS_REQUEST"

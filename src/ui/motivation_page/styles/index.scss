@@ -1,16 +1,28 @@
-.motivation-page{
+.motivation-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    #main-card{
+
+    #main-card {
         min-width: 100%;
         overflow-x: scroll;
+
         @media (min-width:500px) and (max-width:1200px) {
             min-width: 100%;
         }
+
         @media (min-width:1200px) {
             min-width: 80%;
         }
     }
+}
+
+#submit-buton {
+    height: 40px;
+    margin-left: 4em;
+    width: 160px;
+    background: linear-gradient(to right, #f17934, #852c2c);
+    border: none;
+    color: #ffffff;
 }
