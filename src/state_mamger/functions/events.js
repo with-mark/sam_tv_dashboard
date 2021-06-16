@@ -1,15 +1,9 @@
 import { message, notification } from "antd"
 import { db, storage } from "../../utils/networks/firebaseConfig"
-import { pushNotificationCustomImage } from "../../utils/pushNotification"
 
 const FETCH_EVENTS_REQUEST = "FETCH_EVENTS_REQUEST"
 const FETCH_EVENTS_SUCCESS = "FETCH_EVENTS_SUCCESS"
 
-const ADD_EVENTS_REQUEST = "ADD_EVENTS_REQUEST"
-const ADD_EVENTS_COMPLETED = "ADD_EVENTS_COMPLETED"
-
-const EDIT_EVENTS_REQUEST = "EDIT_EVENTS_REQUEST"
-const EDIT_EVENTS_COMPLETE = "EDIT_EVENTS_COMPLETE"
 
 const DELETE_EVENTS_REQUEST = "DELETE_EVENTS_REQUEST"
 const DELETE_EVENTS_COMPLETE = "DELETE_EVENTS_COMPLETE"
@@ -33,7 +27,7 @@ const fetchEventsSuccess=EVENTS=>{
 
 export const fetchEvents = ()=>dispatch=>{
     dispatch(fetchEventsRequest())
-    db.collection("events").onSnapshot(query=>{
+    db.collection("events").orderBy("timestamp","desc").onSnapshot(query=>{
         const items = []
         query.forEach(doc=>{
             items.push(
@@ -49,19 +43,6 @@ export const fetchEvents = ()=>dispatch=>{
 
 
 
-const addEventsRequest = ()=>{
-    return {
-        type:ADD_EVENTS_REQUEST
-    }
-}
-
-const addEventsCompleted =()=>{
-    return {
-        
-        type:ADD_EVENTS_COMPLETED
-        
-    }
-}
 
 
 
@@ -82,10 +63,12 @@ const deleteEventsCompleted =()=>{
 }
 
 
-export const deleteEvent = (sermon)=>dispatch=>{
+export const deleteEvent = (event)=>dispatch=>{
     dispatch(deleteEventsRequest())
-    db.collection("events").doc(sermon.id).delete()
-    .then(res=>{
+        storage.ref().child(event.imgRef)
+        .delete()
+    db.collection("events").doc(event.id).delete()
+    .then(()=>{
         dispatch(deleteEventsCompleted())
         message.success("Deletion completed successfully")
     })
@@ -98,72 +81,14 @@ export const deleteEvent = (sermon)=>dispatch=>{
     })
 }
 
-const editEventsRequest = ()=>{
-    return{
-        type:EDIT_EVENTS_REQUEST
-    }
-}
-const editEventsSucceess = ()=>{
-    return {
-        type: EDIT_EVENTS_COMPLETE
-    }
-}
 
 
-export const editEvents = (sermon,fields)=> dispatch=>{
-    dispatch(editEventsRequest())
-    db.collection("events").doc(sermon.id).update({...fields})
-    .then(res=>{
-        dispatch(editEventsSucceess())
-        message.success("Event updated successfully")
-    })
-    .catch(err=>{
-        dispatch(editEventsSucceess())
-        notification.error({
-            message:"An error occured",
-            description:String(err)
-        })
-    })
-}
 
-export const addEvents = event=>dispatch=>{
-    dispatch(addEventsRequest())
-    storage.ref(`images/events/${event.file.name}`).put(event.file)
-            .then(()=>{
-                storage.ref('images/events')
-                .child(event.file.name)
-                .getDownloadURL()
-                .then(cover_image=>{
-                    db.collection("events").add({
-                        ...event.values,
-                        cover_image
-                    }).then(res=>{
-                        dispatch(addEventsCompleted())
-                        pushNotificationCustomImage("New event posted",event.title,"sam_tv_event",cover_image)
-                        message.success("You hace successfully added an event")
-                    })
-                })
-                .catch(err=>{
-                    dispatch(addEventsCompleted())
-                    notification.error({
-                        message:"Error occured",
-                        description:String(err)
-                    })
-                })
-            })
-            .catch(err=>{
-                notification.error({
-                    message:"Error occured",
-                    description:String(err)
-                })
-            })
-}
+
 
 
 const initialState = {
     loading:false,
-    postLoading:false,
-    editLoading:false,
     data:[]
 }
 
@@ -183,27 +108,6 @@ const eventsReducer =  (state = initialState, { type, payload }) => {
             ...state,
             loading:false,
             data:payload
-        }
-    case ADD_EVENTS_REQUEST:
-        return {
-            ...state,
-            postLoading:true
-        }
-    case ADD_EVENTS_COMPLETED:
-        return {
-            ...state,
-            postLoading:false
-        }
-
-    case EDIT_EVENTS_REQUEST:
-        return{
-            ...state,
-            editLoading:true
-        }
-    case EDIT_EVENTS_COMPLETE:
-        return{
-            ...state,
-            editLoading:false
         }
     case DELETE_EVENTS_REQUEST:
         return{
