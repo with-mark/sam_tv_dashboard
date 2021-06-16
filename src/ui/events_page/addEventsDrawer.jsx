@@ -103,7 +103,7 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
                     name= "caption"
                     label = "Caption" >
 
-                    <Input.TextArea placeholder = "Enter brief description or caption" />
+                    <Input.TextArea rows = "8" placeholder = "Enter brief description or caption" />
                     </Form.Item>
                     <Form.Item rules = {[{required:true,message:"Cover image is required"}]} name = "cover_image" label = "Cover image">
                         <Input 
