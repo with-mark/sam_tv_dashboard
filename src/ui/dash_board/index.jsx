@@ -1,6 +1,6 @@
 import { Avatar, Divider, Image, Layout, Menu, Popover, Button, Popconfirm } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { Link, Route, Switch } from 'react-router-dom'
+import { Link, Route, Switch, useHistory } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
@@ -22,6 +22,7 @@ import { fetchEvents } from '../../state_mamger/functions/events'
 import MeetingRoom from '../samtv_page/meetingRoom'
 import { fetchUsers } from '../../state_mamger/functions/users'
 import { fetchUserInfo } from '../../state_mamger/functions/userInfo'
+import logut from '../../utils/logut'
 const LandingPage = ({
     getMotivation,
     getStreamingData,
@@ -51,6 +52,9 @@ const LandingPage = ({
         getUserInfo()
     }, [getMotivation, getUserInfo, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
 
+
+    const history = useHistory()
+
     const popOverContent = (
         <div className="p-2 popOverContent" >
             <p>{userInfo.email}</p>
@@ -61,6 +65,9 @@ const LandingPage = ({
                     okButtonProps={{ id: "confirmBtn" }}
                     cancelButtonProps={{ style: { color: "#fff", backgroundColor: "red" } }}
                     icon={<LogoutOutlined />}
+                    onConfirm ={()=>{
+                        logut(history)
+                    }}
                     title="Are you sure u want to logout?" >
                     <Button icon={<FontAwesomeIcon className="mx-2" icon={faSignOutAlt} />} id="logoutBtn" shape="round" >Logout</Button>
 
