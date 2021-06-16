@@ -7,11 +7,14 @@ import {  DeleteOutlined, EditOutlined, PlusCircleOutlined} from "@ant-design/ic
 import { connect } from 'react-redux'
 import AddMotivationDrawer from './addMotivationDrawer'
 import { deleteMotivation } from '../../state_mamger/functions/motivations'
+import EditMotivationDrawer from './editMotivationDrawer'
 
 
 
 const MotivationPage = ({ motivationsInfo, remove}) => {
     const [addMotivation,setAddMotivation] = useState(false)
+    const [editMotivation, seteditMotivation] = useState(false)
+    const [selectedItem,setSelectedItem] = useState({})
 
     const closeAddMotivationModal = ()=>{
         setAddMotivation(false)
@@ -19,10 +22,18 @@ const MotivationPage = ({ motivationsInfo, remove}) => {
     const openAddMotivationModal=()=>{
         setAddMotivation(true)
     }
+    const closeEditMotivationModal = () => {
+        seteditMotivation(false)
+    }
+    const openEditMotivationModal = () => {
+        seteditMotivation(true)
+    }
     
     return (
         <div className = "motivation-page container" >
             <AddMotivationDrawer visible={addMotivation} onClose={closeAddMotivationModal} />
+            <EditMotivationDrawer motivation={selectedItem} onClose={closeEditMotivationModal} visible={editMotivation} />
+
            <Card id = "main-card" className = "mt-5" >
            <Row>
                 <Col xs = "6" ><h6 className="">Motivations</h6> </Col>
@@ -39,7 +50,10 @@ const MotivationPage = ({ motivationsInfo, remove}) => {
                     actions = {[
                         <Tooltip title ={!item.is_read? "Set prayer request as viewed":"Set prayer request as not viewed"} >
                          
-                        <EditOutlined style = {{color:"royalblue"}} />
+                        <EditOutlined onClick = {()=>{
+                            setSelectedItem(item)
+                                openEditMotivationModal()
+                        }} style = {{color:"royalblue"}} />
                         </Tooltip>
                         ,
                         
