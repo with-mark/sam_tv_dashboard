@@ -1,11 +1,11 @@
-import { Avatar, Divider, Image, Layout, Menu } from 'antd'
+import { Avatar, Divider, Image, Layout, Menu, Popover,Button,Popconfirm } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 import "./styles/index.scss"
-import { UserOutlined } from "@ant-design/icons"
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons"
 import StatisticsPage from '../statistics_page'
 import UsersPage from '../users_page'
 import MotivationPage from '../motivation_page'
@@ -46,6 +46,26 @@ const LandingPage = ({
         getUsers()
         getEvents()
     }, [getMotivation, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
+
+    const popOverContent = (
+        <div className = "p-2" >
+            <p>sarpongthomas05@gmiail.com</p>
+            <div className="logout-btn">
+                <Popconfirm 
+                okText = "Yes"
+                cancelText = "No"
+                    okButtonProps={{ id:"confirmBtn"}}
+                    cancelButtonProps = {{style :{color:"#fff",backgroundColor:"red"}}}
+                    icon = {<LogoutOutlined/>}
+                title = "Are you sure u want to logout?" >
+                    <Button icon={<FontAwesomeIcon className = "mx-2" icon = {faSignOutAlt} />} id="logoutBtn" shape="round" >Logout</Button>
+
+                </Popconfirm>
+            </div>
+            
+        </div>
+    );
+
     return (
         <Layout style = {{minHeight:'100vh'}} >
             <Layout.Sider theme = "light" zeroWidthTriggerStyle = {{color:"blue"}} breakpoint = "md"  style = {{backgroundColor:"#ffffff"}} collapsible collapsed = {state.menuCollapse}  onCollapse = {collapseMenu}>
@@ -120,7 +140,10 @@ const LandingPage = ({
                        
                         <small>sarpotbemail@gmail.com</small>
                         <div className = "mx-3"/>
-                        <Avatar  icon = {<UserOutlined/>} size = "large" className = "mt-2" />
+                        <Popover trigger="click" content={popOverContent} placement = "bottomLeft" >
+                            <Avatar icon={<UserOutlined />} size="large" className="mt-2" />
+
+                        </Popover>
                     </div>
                 </Layout.Header>
                 <Layout.Content>

@@ -1,14 +1,42 @@
-#header{
-    .right-side{
-        flex: 3;
+#header {
+    .right-side {
         margin-right: auto;
     }
+
     display: flex;
-    .right-side{
+
+    .right-side {
         position: absolute;
         right: 2em;
-        margin-left: auto;
         display: flex;
-        flex: 12;
     }
+
 }
+
+.logout-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    #logoutBtn {
+        background: linear-gradient(to left, #852c2c, #df9470);
+        color: #fff;
+        width: 60%;
+    }
+    #logoutBtn:hover{
+        background: linear-gradient(to left, #852c2c, #df9470, #852c2c, #df9470, );
+        color: #fff;
+    }
+
+
+}
+
+ #confirmBtn {
+     background: linear-gradient(to left, #852c2c, #df9470);
+     color: #fff;
+ }
+
+ #confirmBtn:hover {
+     background: linear-gradient(to left, #852c2c, #df9470, #852c2c, #df9470, );
+     color: #fff;
+ }
