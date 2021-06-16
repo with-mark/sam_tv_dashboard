@@ -1,15 +1,19 @@
 import { Button, Image } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import "./styles/meeting_room.scss"
 import logo from "../../assets/images/logo.png"
 import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { samTvState } from '../../state_mamger/functions/samTv'
+import StartMeetingFormModal from './startMeetingFormModal'
 const MeetingRoom = ({ samTvInfo }) => {
+    const [startModal,setStartModal] = useState(false)
+
 
     return (
         <div className="meeting-room" >
+            <StartMeetingFormModal visible={startModal} onClose = {()=>{setStartModal(false)}} />
             <div className="logo">
                 <Image id="logo" preview={false} src={logo} />
             </div>
@@ -22,10 +26,10 @@ const MeetingRoom = ({ samTvInfo }) => {
             <Row className="mt-4" >
                 <Col xs="6" >
 
-                    {samTvInfo.status === samTvState.offline ? (<Link to="/sam-tv/live" >
-                        <Button shape="round" id="startStream" >Start Stream</Button>
+                    {samTvInfo.status === samTvState.offline ? (
+                        <Button onClick = {()=>{setStartModal(true)}} shape="round" id="startStream" >Start Stream</Button>
 
-                    </Link>) : (<Link to="/sam-tv/live" >
+                   ) : (<Link to="/sam-tv/live" >
                         <Button shape="round" id="startStream" >Rejoin Meeting </Button>
 
                     </Link>)}
