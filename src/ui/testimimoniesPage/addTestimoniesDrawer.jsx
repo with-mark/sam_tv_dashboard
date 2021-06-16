@@ -38,7 +38,8 @@ const AddTestimonyDrawer = ({ visible, onClose }) => {
                                 ...values,
                                 image,
                                 fileRef: `${basePath}/${testimonyFile.name}`,
-                                timestamp: new Date()
+                                timestamp: new Date(),
+                                type
                             }).then(() => {
                                 setLoading(false)
                                 pushNotificationCustomImage("Testimony!", values.title, "sam_tv_testimony", image)
@@ -55,9 +56,9 @@ const AddTestimonyDrawer = ({ visible, onClose }) => {
                 })
 
         } else {
+
             const basePath = "videos/testimonies"
-            storage.ref(basePath)
-                .put(testimonyFile.name)
+            storage.ref(`${basePath}/${testimonyFile.name}`).put(testimonyFile)
                 .then(() => {
                     storage.ref(basePath)
                         .child(testimonyFile.name)
@@ -74,7 +75,13 @@ const AddTestimonyDrawer = ({ visible, onClose }) => {
                                 form.resetFields()
                                 onClose()
                                 message.success("Testimony posted successfully")
+                            }).catch(err => {
+                                message.error(`Posting Testimony failed, reason: ${String(err)}`)
+                                setLoading(false)
                             })
+                        }).catch(err => {
+                            message.error(`Posting Testimony failed, reason: ${String(err)}`)
+                            setLoading(false)
                         })
                 })
                 .catch(err => {
@@ -88,8 +95,6 @@ const AddTestimonyDrawer = ({ visible, onClose }) => {
 
 
     }
-
-
     return (
         <Drawer visible={visible} onClose={onClose} placement="right" width="500px" >
             <Spin spinning={loading} >
@@ -113,12 +118,23 @@ const AddTestimonyDrawer = ({ visible, onClose }) => {
                         label="Title" >
                         <Input placeholder="Testimony title" style={{ height: "50px", borderRadius: "10px" }} />
                     </Form.Item>
+
+                    <Form.Item
+                        name="author"
+                        rules={[{
+                            required: true,
+                            message: "Testimony title is required"
+                        }]}
+                        label="Name " >
+                        <Input placeholder="Name of the person who testified" style={{ height: "50px", borderRadius: "10px" }} />
+                    </Form.Item>
+
                     <Form.Item initialValue={type} name="type" label="Type" >
                         <Select onChange={setType} >
                             <Select.Option value="picture" >
                                 Picture
                             </Select.Option>
-                            <Select.Option value="text" >
+                            <Select.Option value="video" >
                                 Video
                             </Select.Option>
                         </Select>
@@ -147,7 +163,7 @@ const AddTestimonyDrawer = ({ visible, onClose }) => {
                                 message: "Motivation image is required"
                             }
                         ]}
-                        label="Image/Video" >
+                        label={type === "picture" ? "Image" : "Video"} >
                         <input
                             style={{ height: "50px", borderRadius: "10px" }}
                             onChange={(e) => {
