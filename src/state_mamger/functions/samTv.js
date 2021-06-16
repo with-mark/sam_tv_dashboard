@@ -137,7 +137,8 @@ export const rejoineMeeting = (tracks,client)=> dispatch=> {
 
 const initialState = {
     status:samTvState.offline,
-    loading:false
+    loading:false,
+    curStream:null
 }
 
 

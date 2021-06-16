@@ -92,3 +92,15 @@ export const setSamTvStatus=status=>{
 export const getSamTvStatus=()=>{
     return getItem("samTvStatus")
 }
+
+export const setStreamUid=uid=>{
+    setItem("streamUid",uid)
+}
+
+export const getStreanUid =()=>{
+    return getItem("streamUid")
+}
+
+export const deleteStreamUid=()=>{
+    deleteItem("streamUid")
+}

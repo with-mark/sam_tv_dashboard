@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch, useHistory } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 import "./styles/index.scss"
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons"
 import StatisticsPage from '../statistics_page'
@@ -23,6 +23,8 @@ import MeetingRoom from '../samtv_page/meetingRoom'
 import { fetchUsers } from '../../state_mamger/functions/users'
 import { fetchUserInfo } from '../../state_mamger/functions/userInfo'
 import logut from '../../utils/logut'
+import TestimimoniesPage from '../testimimoniesPage'
+import { fetchTestimony } from '../../state_mamger/functions/testimonies'
 const LandingPage = ({
     getMotivation,
     getStreamingData,
@@ -31,7 +33,8 @@ const LandingPage = ({
     getEvents,
     getUsers,
     userInfo,
-    getUserInfo
+    getUserInfo,
+    getTestimonies
 }) => {
     const [state, setState] = useState({
         menuCollapse: false
@@ -50,7 +53,8 @@ const LandingPage = ({
         getUsers()
         getEvents()
         getUserInfo()
-    }, [getMotivation, getUserInfo, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
+        getTestimonies()
+    }, [getMotivation, getTestimonies, getUserInfo, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
 
 
     const history = useHistory()
@@ -110,6 +114,15 @@ const LandingPage = ({
                     </Link>
 
                     <Divider />
+                    <Link to="/testimonies" >
+                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faBell} />} key="2" >
+
+                            <span hidden={state.menuCollapse} >Testimonies</span>
+
+                        </Menu.Item>
+                    </Link>
+
+                    <Divider />
                     <Link to="/motivation" >
                         <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faRunning} />} key="3" >
                             <span hidden={state.menuCollapse} > Motovations</span>
@@ -162,7 +175,7 @@ const LandingPage = ({
                         <Route path="/users" component={UsersPage} />
                         <Route path="/motivation" component={MotivationPage} />
                         <Route path="/events" component={EventsPage} />
-
+                        <Route path="/testimonies" component={TestimimoniesPage} />
                         <Route component={SamTvPage} path={`/sam-tv/schedules`} />
                         <Route path="/sam-tv" component={MeetingRoom} />
                         <Route path="/prayer-requests" component={PrayerRequestsPage} />
@@ -186,7 +199,8 @@ const mapDispatchToProps = (dispatch) => {
         getSermons: () => dispatch(fetchSermons()),
         getEvents: () => dispatch(fetchEvents()),
         getUsers: () => dispatch(fetchUsers()),
-        getUserInfo: () => dispatch(fetchUserInfo())
+        getUserInfo: () => dispatch(fetchUserInfo()),
+        getTestimonies: () => dispatch(fetchTestimony())
     };
 }
 const mapStateToProps = (state) => {
