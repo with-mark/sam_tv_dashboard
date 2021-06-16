@@ -39,14 +39,16 @@
 
     }
 
-    #confirmBtn {
-        background: linear-gradient(to left, #852c2c, #df9470);
-        color: #fff;
-    }
 
-    #confirmBtn:hover {
-        background: linear-gradient(to left, #852c2c, #df9470, #852c2c, #df9470, );
-        color: #fff;
-    }
 
+}
+
+#confirmBtn {
+    background: linear-gradient(to left, #852c2c, #df9470);
+    color: #fff;
+}
+
+#confirmBtn:hover {
+    background: linear-gradient(to left, #852c2c, #df9470, #852c2c, #df9470, );
+    color: #fff;
 }
