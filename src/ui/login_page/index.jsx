@@ -2,7 +2,7 @@ import { Button, Card, Form, Image, Input, message, notification, Spin } from 'a
 import React, { useState } from 'react'
 import './styles/index.scss'
 import logo from '../../assets/images/logo.png'
-import { setAuthToken, setIsAuth } from '../../utils/local_storage';
+import { setAuthToken, setIsAuth, setUserInfo } from '../../utils/local_storage';
 import { useHistory } from 'react-router';
 import { auth} from '../../utils/networks/firebaseConfig';
 const layout = {
@@ -30,11 +30,14 @@ const LoginPage = () => {
         console.log(res);     
         res.user.getIdToken(true).then(token=>{
           setLoading(false)
-          console.log(token);
           setIsAuth(true)
+          setUserInfo({
+            email:res.user.email,
+            id: res.user.uid
+          })
           setAuthToken(token)
           message.success("You have succefully logged in");
-          history.push("/")
+          // history.push("/")
         })
      
       }).catch(err=>{
