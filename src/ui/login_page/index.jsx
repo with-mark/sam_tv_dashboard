@@ -37,7 +37,7 @@ const LoginPage = () => {
           })
           setAuthToken(token)
           message.success("You have succefully logged in");
-          // history.push("/")
+          history.push("/")
         })
      
       }).catch(err=>{

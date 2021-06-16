@@ -13,30 +13,40 @@
 
 }
 
-.logout-btn {
-    width: 100%;
+.popOverContent {
+    min-width: 300px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
-    #logoutBtn {
+    .logout-btn {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        #logoutBtn {
+            background: linear-gradient(to left, #852c2c, #df9470);
+            color: #fff;
+            width: 60%;
+        }
+
+        #logoutBtn:hover {
+            background: linear-gradient(to left, #852c2c, #df9470, #852c2c, #df9470, );
+            color: #fff;
+        }
+
+
+    }
+
+    #confirmBtn {
         background: linear-gradient(to left, #852c2c, #df9470);
         color: #fff;
-        width: 60%;
     }
-    #logoutBtn:hover{
+
+    #confirmBtn:hover {
         background: linear-gradient(to left, #852c2c, #df9470, #852c2c, #df9470, );
         color: #fff;
     }
 
-
 }
-
- #confirmBtn {
-     background: linear-gradient(to left, #852c2c, #df9470);
-     color: #fff;
- }
-
- #confirmBtn:hover {
-     background: linear-gradient(to left, #852c2c, #df9470, #852c2c, #df9470, );
-     color: #fff;
- }

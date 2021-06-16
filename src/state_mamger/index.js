@@ -7,6 +7,7 @@ import { prayerRequestReducer } from './functions/prayerRequest';
 import samTvReducer from './functions/samTv';
 import samTvChatsReducer from './functions/samTvChats';
 import sermonsReducer from './functions/sermons';
+import userInfoReducer from './functions/userInfo';
 import usersReducer from './functions/users';
 
 
@@ -20,6 +21,7 @@ events:eventsReducer,
 samtv:samTvReducer,
 samTvChats:samTvChatsReducer,
 users:usersReducer,
+userInfo:userInfoReducer,
 })
 
  

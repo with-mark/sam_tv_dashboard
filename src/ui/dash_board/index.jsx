@@ -1,4 +1,4 @@
-import { Avatar, Divider, Image, Layout, Menu, Popover,Button,Popconfirm } from 'antd'
+import { Avatar, Divider, Image, Layout, Menu, Popover, Button, Popconfirm } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
@@ -21,21 +21,24 @@ import EventsPage from '../events_page'
 import { fetchEvents } from '../../state_mamger/functions/events'
 import MeetingRoom from '../samtv_page/meetingRoom'
 import { fetchUsers } from '../../state_mamger/functions/users'
+import { fetchUserInfo } from '../../state_mamger/functions/userInfo'
 const LandingPage = ({
     getMotivation,
     getStreamingData,
     fetchPrayerRequests,
     getSermons,
     getEvents,
-    getUsers
+    getUsers,
+    userInfo,
+    getUserInfo
 }) => {
-    const [state,setState] = useState({
-        menuCollapse:false
+    const [state, setState] = useState({
+        menuCollapse: false
     })
-    const collapseMenu = status=>{
+    const collapseMenu = status => {
         setState({
             ...state,
-            menuCollapse:status
+            menuCollapse: status
         })
     }
     useEffect(() => {
@@ -45,102 +48,103 @@ const LandingPage = ({
         getSermons()
         getUsers()
         getEvents()
-    }, [getMotivation, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
+        getUserInfo()
+    }, [getMotivation, getUserInfo, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
 
     const popOverContent = (
-        <div className = "p-2" >
-            <p>sarpongthomas05@gmiail.com</p>
+        <div className="p-2 popOverContent" >
+            <p>{userInfo.email}</p>
             <div className="logout-btn">
-                <Popconfirm 
-                okText = "Yes"
-                cancelText = "No"
-                    okButtonProps={{ id:"confirmBtn"}}
-                    cancelButtonProps = {{style :{color:"#fff",backgroundColor:"red"}}}
-                    icon = {<LogoutOutlined/>}
-                title = "Are you sure u want to logout?" >
-                    <Button icon={<FontAwesomeIcon className = "mx-2" icon = {faSignOutAlt} />} id="logoutBtn" shape="round" >Logout</Button>
+                <Popconfirm
+                    okText="Yes"
+                    cancelText="No"
+                    okButtonProps={{ id: "confirmBtn" }}
+                    cancelButtonProps={{ style: { color: "#fff", backgroundColor: "red" } }}
+                    icon={<LogoutOutlined />}
+                    title="Are you sure u want to logout?" >
+                    <Button icon={<FontAwesomeIcon className="mx-2" icon={faSignOutAlt} />} id="logoutBtn" shape="round" >Logout</Button>
 
                 </Popconfirm>
             </div>
-            
+
         </div>
     );
 
     return (
-        <Layout style = {{minHeight:'100vh'}} >
-            <Layout.Sider theme = "light" zeroWidthTriggerStyle = {{color:"blue"}} breakpoint = "md"  style = {{backgroundColor:"#ffffff"}} collapsible collapsed = {state.menuCollapse}  onCollapse = {collapseMenu}>
+        <Layout style={{ minHeight: '100vh' }} >
+            <Layout.Sider theme="light" zeroWidthTriggerStyle={{ color: "blue" }} breakpoint="md" style={{ backgroundColor: "#ffffff" }} collapsible collapsed={state.menuCollapse} onCollapse={collapseMenu}>
                 <div className="logo">
-                    <Image  preview = {false} src={logo} alt="slider-logo" srcset="" />
+                    <Image preview={false} src={logo} alt="slider-logo" srcset="" />
                 </div>
-                <Divider/>
-                <Menu theme = "light" style = {{padding:"2em"}} mode = "inline" defaultOpenKeys = {["1"]} >
-                    
-                        <Link to = "/" >
-                        <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faChartLine} />} key = "1" >
-                            <span hidden = {state.menuCollapse} >Statistics</span>
+                <Divider />
+                <Menu theme="light" style={{ padding: "2em" }} mode="inline" defaultOpenKeys={["1"]} >
+
+                    <Link to="/" >
+                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faChartLine} />} key="1" >
+                            <span hidden={state.menuCollapse} >Statistics</span>
                         </Menu.Item>
-                        
-                        </Link>
-                        <Divider/>
-                        <Link to = "/sam-tv" >
-                        <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faDesktop} />} key = "2" >
-                           
-                            <span hidden = {state.menuCollapse} > Sam tv</span>
+
+                    </Link>
+                    <Divider />
+                    <Link to="/sam-tv" >
+                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faDesktop} />} key="2" >
+
+                            <span hidden={state.menuCollapse} > Sam tv</span>
 
                         </Menu.Item>
-                        </Link>
-                        <Divider/>
-                        <Link to = "/events" >
-                        <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faClock} />} key = "2" >
-                           
-                            <span hidden = {state.menuCollapse} >Events</span>
+                    </Link>
+                    <Divider />
+                    <Link to="/events" >
+                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faClock} />} key="2" >
+
+                            <span hidden={state.menuCollapse} >Events</span>
 
                         </Menu.Item>
-                        </Link>
-                       
-                        <Divider/>
-                        <Link to = "/motivation" >
-                        <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faRunning} />} key = "3" >
-                        <span hidden = {state.menuCollapse} > Motovations</span>
-                        </Menu.Item>
-                        </Link>
-                        <Divider/>
-                        <Link to = "/prayer-requests" >
-                        <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faPray} />} key = "3" >
-                        <span hidden = {state.menuCollapse} > Prayers req... </span>
+                    </Link>
 
-                            
+                    <Divider />
+                    <Link to="/motivation" >
+                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faRunning} />} key="3" >
+                            <span hidden={state.menuCollapse} > Motovations</span>
                         </Menu.Item>
-                        </Link>
+                    </Link>
+                    <Divider />
+                    <Link to="/prayer-requests" >
+                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faPray} />} key="3" >
+                            <span hidden={state.menuCollapse} > Prayers req... </span>
 
-                        <Divider/>
-                        <Link to = "/sermons" >
-                        <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faBookReader} />} key = "3" >
-                        <span hidden = {state.menuCollapse} > Sermons</span>
-
-                            
-                        </Menu.Item>
-                        </Link>
-                        <Divider/>
-                        <Link to = "/users" >
-                        <Menu.Item style = {{fontSize:"1.1rem"}}  icon = {<FontAwesomeIcon style = {{marginRight:"1em"}} icon = {faUser} />} key = "3" >
-                        <span hidden = {state.menuCollapse} > Users</span>
 
                         </Menu.Item>
-                        </Link>
-                        <Divider/>
-                        
+                    </Link>
+
+                    <Divider />
+                    <Link to="/sermons" >
+                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faBookReader} />} key="3" >
+                            <span hidden={state.menuCollapse} > Sermons</span>
+
+
+                        </Menu.Item>
+                    </Link>
+                    <Divider />
+                    <Link to="/users" >
+                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faUser} />} key="3" >
+                            <span hidden={state.menuCollapse} > Users</span>
+
+                        </Menu.Item>
+                    </Link>
+                    <Divider />
+
                 </Menu>
-                
+
             </Layout.Sider>
             <Layout>
-                <Layout.Header id = "header" style = {{backgroundColor:"#ffffff"}} >
-                    <div className="left-side"/>
+                <Layout.Header id="header" style={{ backgroundColor: "#ffffff" }} >
+                    <div className="left-side" />
                     <div className="right-side">
-                       
-                        <small>sarpotbemail@gmail.com</small>
-                        <div className = "mx-3"/>
-                        <Popover trigger="click" content={popOverContent} placement = "bottomLeft" >
+
+                        <small>{userInfo.email}</small>
+                        <div className="mx-3" />
+                        <Popover trigger="click" content={popOverContent} placement="bottomLeft" >
                             <Avatar icon={<UserOutlined />} size="large" className="mt-2" />
 
                         </Popover>
@@ -148,38 +152,39 @@ const LandingPage = ({
                 </Layout.Header>
                 <Layout.Content>
                     <Switch>
-                    <Route path = "/users" component = {UsersPage}  />
-                    <Route path = "/motivation" component = {MotivationPage}  />
-                    <Route path = "/events" component = {EventsPage}  />
+                        <Route path="/users" component={UsersPage} />
+                        <Route path="/motivation" component={MotivationPage} />
+                        <Route path="/events" component={EventsPage} />
 
-                    <Route component = {SamTvPage } path = {`/sam-tv/schedules`}  />
-                    <Route path = "/sam-tv" component = { MeetingRoom}  />
-                    <Route path = "/prayer-requests" component = {PrayerRequestsPage}  />
-                    <Route path = "/sermons" component = {SermonesPage}  />
+                        <Route component={SamTvPage} path={`/sam-tv/schedules`} />
+                        <Route path="/sam-tv" component={MeetingRoom} />
+                        <Route path="/prayer-requests" component={PrayerRequestsPage} />
+                        <Route path="/sermons" component={SermonesPage} />
 
-                        <Route path = "/" component = {StatisticsPage}  />
+                        <Route path="/" component={StatisticsPage} />
 
                     </Switch>
                 </Layout.Content>
             </Layout>
 
-            
+
         </Layout>
     )
 }
-const  mapDispatchToProps =(dispatch)=> {
-    return{
-        getMotivation:()=>dispatch(fetchMotivations()),
-        getStreamingData:()=>dispatch(fetchStreamData()),
-        fetchPrayerRequests:()=>dispatch(fetchPrayers()),
-        getSermons:()=>dispatch(fetchSermons()),
-        getEvents:()=>dispatch(fetchEvents()),
-        getUsers: () => dispatch(fetchUsers())
-    } ;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getMotivation: () => dispatch(fetchMotivations()),
+        getStreamingData: () => dispatch(fetchStreamData()),
+        fetchPrayerRequests: () => dispatch(fetchPrayers()),
+        getSermons: () => dispatch(fetchSermons()),
+        getEvents: () => dispatch(fetchEvents()),
+        getUsers: () => dispatch(fetchUsers()),
+        getUserInfo: () => dispatch(fetchUserInfo())
+    };
 }
-const mapStateToProps =(state) =>{
-    return{
-
-    } ;
+const mapStateToProps = (state) => {
+    return {
+        userInfo: state.userInfo
+    };
 }
-export default connect(mapStateToProps,mapDispatchToProps)(LandingPage)
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage)
