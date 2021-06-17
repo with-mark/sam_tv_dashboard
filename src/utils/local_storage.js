@@ -104,3 +104,29 @@ export const getStreanUid =()=>{
 export const deleteStreamUid=()=>{
     deleteItem("streamUid")
 }
+
+export const setRecordingSid = (sId)=>{
+    setItem("recordingSid",sId)
+}
+
+export const setRecordingResourceId = (resourseId)=>{
+    setItem("resourseId",resourseId)
+}
+
+export const getRecordingSid = ()=>{
+    return getItem("recordingSid")
+}
+
+export const getRecordingResourceId=()=>{
+    return getItem("resourseId")
+}
+
+export const deleteRecordingSid = ()=>{
+    return deleteItem("recordingSid")
+}
+
+export const deleteRecordingResourceId=()=>{
+    return deleteItem("resourseId")
+}
+
+
