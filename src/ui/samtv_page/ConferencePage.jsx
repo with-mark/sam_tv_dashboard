@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import "./styles/conferencePage.scss"
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
-import { WechatOutlined } from "@ant-design/icons"
+import { EyeOutlined, VideoCameraFilled, VideoCameraOutlined, WechatOutlined } from "@ant-design/icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
-import { endStreaming, rejoineMeeting, startMeeting } from '../../state_mamger/functions/samTv';
+import { endStreaming, rejoineMeeting, startMeeting, startRecording } from '../../state_mamger/functions/samTv';
 import Chats from './chat';
-import { notification, Popconfirm } from 'antd';
+import { notification, Popconfirm, Spin, Badge } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { deleteAllChats, fetchLikes } from '../../state_mamger/functions/samTvChats';
+import TopDisplaybar from './TopDisplaybar';
 const config = { mode: "live", codec: "h264" }
 
 
@@ -28,6 +29,7 @@ const ConferencePage = ({
   rejoinMeeting,
   getLikes,
   deleteChats,
+  beginRecording,
   stopStreaming }) => {
 
   const client = useClient();
@@ -37,7 +39,7 @@ const ConferencePage = ({
   //   download: 3
   // })
 
-  
+
 
   useEffect(() => {
     if (client.connectionState === "DISCONNECTED") {
@@ -74,7 +76,7 @@ const ConferencePage = ({
 
       <div className="content">
 
-        <div className="top-layer">
+        {/* <div className="top-layer">
           <div className="chatsWrapper">
 
 
@@ -92,9 +94,34 @@ const ConferencePage = ({
             )}
           </div>
 
-        </div>
+        </div> */}
+
         {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} />
         }
+    
+        <div className="overley  ">
+          <div className="top-bar">
+            <TopDisplaybar />
+
+
+          </div>
+          
+         
+          <Spin spinning={false} wrapperClassName="spin" size="large" tip="Loading stream" >
+            <div className="content d-flex">
+
+              <div className="chats  ">
+                <Chats />
+              </div>
+
+              <div className="control-wrapper">
+
+
+                <Controls beginRecording = {beginRecording} deleteChats={deleteChats} client={client} stopStreaming={stopStreaming} tracks={tracks} />
+              </div>
+            </div>
+          </Spin>
+        </div>
 
       </div>
 
@@ -110,6 +137,7 @@ const ConferencePage = ({
 export const Controls = ({
   tracks,
   stopStreaming,
+  beginRecording,
   client,
   deleteChats
 }) => {
@@ -137,12 +165,16 @@ export const Controls = ({
     <div className="controls">
 
       <div
-        div className={`${trackState.audio?"normal":"deactivated"} circle `}
-        onClick={() => mute("audio")}>
+        div className={`${trackState.audio ? "normal" : "deactivated"} circle `}
+        onClick={() => {
+          if (tracks) {
+            mute("audio")
+          }
+        }}>
         {trackState.audio ? <FontAwesomeIcon style={{ color: "white" }} icon={faMicrophoneSlash} /> : <FontAwesomeIcon style={{ color: "white" }} icon={faMicrophone} />}
       </div>
       <div div className={`${trackState.video ? "normal" : "deactivated"} circle `} style={{ color: "white" }}
-        onClick={() => mute("video")}>
+        onClick={() => tracks && mute("video")}>
         <FontAwesomeIcon icon={faVideo} />
       </div>
       <div className="red circle ">
@@ -156,12 +188,13 @@ export const Controls = ({
 
           }}
 
+
         >
           <FontAwesomeIcon icon={faPhoneSlash} />
         </Popconfirm>
       </div>
-      <div className="normal circle" >
-        <WechatOutlined style={{ fontSize: "1.5rem", color: "grey" }} />
+      <div className="rec circle" >
+        <VideoCameraFilled onClick = {beginRecording} style = {{ fontSize: "1.5rem", color: "red" }} />
       </div>
     </div>
   );
@@ -178,7 +211,8 @@ const mapDispatchToProps = dispatch => {
     rejoinMeeting: (tracks, history, client) => dispatch(rejoineMeeting(tracks, history, client)),
     stopStreaming: (tracks, history, client) => dispatch(endStreaming(tracks, history, client)),
     deleteChats: () => dispatch(deleteAllChats()),
-    getLikes: () => dispatch(fetchLikes())
+    getLikes: () => dispatch(fetchLikes()),
+    beginRecording: () => dispatch(startRecording())
 
 
   }

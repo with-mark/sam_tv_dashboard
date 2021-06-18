@@ -1,4 +1,4 @@
-html{
+html {
   padding: 0;
   margin: 0;
 }
@@ -14,6 +14,11 @@ html{
 
 }
 
+.spin {
+  width: 100%;
+  font-size: 1.5rem;
+}
+
 .control-wrapper {
   width: calc(100vw - 300px);
 
@@ -24,119 +29,113 @@ html{
 
 
 #main-video {
-  z-index: 0 ;
+  z-index: -1;
   width: 100vw;
   height: 100vh;
 }
-.top-layer{
-  background: none;
-  position: absolute;
-    width: 100vw;
-    height: 100vh;
-    z-index: 10;
+
+.overley {
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+
+  .recording {
+    color: red;
+    z-index: 400;
+    left: 15px;
+
+  }
+
+  .live {
+    color: #ffffff;
+    top: 10px;
+    background-color: rgba(19, 19, 19, .7);
+    height: 35px;
+    width: 100px;
+    border-radius: 5px;
+  }
+
+ 
+
+  .controls {
+
+    position: fixed;
+    background-color: rgba(41, 40, 40, .4);
+    color: #cccccc;
+    width: 50%;
+    bottom: 0px;
+    border-radius: 20px;
     display: flex;
-    justify-content: space-between;
-    flex-flow: row-reverse;
-    .chats {
+    justify-content: space-evenly;
+    align-items: center;
+    padding: .5em 0;
+    margin-bottom: 1em;
+
+    @media (max-width:600px) {
+      z-index: 100;
+      left: 10%;
+      min-width: 350px;
+    }
+
+    @media (min-width:1000px) {
+      width: 40%;
+
+    }
+
+    .circle {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50px;
+
+    }
+
+    .red {
+      background-color: red;
+    }
+
+    .normal {
+      background-color: rgba(38, 86, 232, 1);
+    }
+    .rec{
+      background-color: #ffffff;
+    }
+
+    .deactivated {
+      background-color: #ccc;
+
+    }
+
+
+
+  }
+}
+
+.chats {
   border-radius: 20px;
   width: 400px;
   height: 100%;
-  // background-color:rgba(41, 40, 40,.2);
+  background-color: red;
+  z-index: 10;
+  position: absolute;
+  bottom: -100vh;
   padding: 2em;
 
-    .single-chat {
-      margin-left: 2em;
-      background-color: rgba(65, 105, 225,.4);
-      width: 300px;
-      min-height: 40px;
-      border-radius: 10px;
-      text-align: center;
-    }
+  .single-chat {
+    margin-left: 2em;
+    background-color: rgba(65, 105, 225, .4);
+    width: 300px;
+    min-height: 40px;
+    border-radius: 10px;
+    text-align: center;
+  }
 }
 
-// .hearts {
-//   z-index: 9999999;
-
-//   bottom: 0%;
-//   height: 400px;
-//   left: 10%;
-
-
-//   #heart {
-//     position: relative;
-//     color: red;
-//     font-size: 1.3rem;
-//     opacity: 0.4;
-//     animation-name: floating-heart;
-//     animation-duration: 6s;
-//     animation-fill-mode: forwards;
-
-
-//   }
-
-//   @keyframes floating-heart {
-//     0% {
-//       bottom: 0%;
-//       opacity: 1;
-//       left: -2px;
-//     }
-
-//     100% {
-//       bottom: 40%;
-//       left: random(300) + px;
-//       opacity: 0;
-//     }
-
-//   }
-// }
-
-
-.controls {
-
-  position: fixed;
-  background-color: rgba(41, 40, 40, .4);
-  color: #cccccc;
-  width: 50%;
-  bottom: 0px;
-  border-radius: 20px;
-  z-index: 99999999;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  padding: .5em 0;
-  margin-bottom: 1em;
-  @media (min-width:1000px) {
-     width: 40%;
-    
-  }
-
-  .circle {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50px;
-
-  }
-
-  .red {
-    background-color: red;
-  }
-
-  .normal {
-    background-color: rgba(38, 86, 232, 0.6);
-  }
-  .deactivated{
-    background-color: #ccc;
-
-  }
-
-
-
-}
-}
-
-
-
-
+ .top-bar {
+   position: absolute;
+  top: 10px;
+  width: 100%;
+   z-index: 3000;
+ }

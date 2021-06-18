@@ -74,7 +74,7 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
             })
     }
     return (
-        <Drawer onClose = {closeModal} visible = {visible} width = {450} >
+        <Drawer onClose = {closeModal} visible = {visible} width = {400} >
             <Spin tip = {state.imageUploading?"Uploading image":"Posting event"} spinning = {state.loading} >            
             <div className="logo">
                 <Image id = "logo" preview ={false} src = {logo} />

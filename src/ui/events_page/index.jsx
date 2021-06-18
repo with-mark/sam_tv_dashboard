@@ -1,7 +1,7 @@
-import { Button, Card, Divider, Image, List, Tooltip, Popconfirm } from 'antd'
+import { Button, Card, Divider, Image, List, Tooltip, Popconfirm, Popover } from 'antd'
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { DeleteOutlined, EditOutlined, MoreOutlined, PlusCircleOutlined } from "@ant-design/icons"
 import CreateEventsDrawer from "./addEventsDrawer"
 import { connect } from 'react-redux'
 import EditEventsDrawer from './editEventsDrawer'
@@ -67,43 +67,98 @@ const EventsPage = ({ eventsInfo, removeEvent }) => {
                     loading={eventsInfo.loading}
                     pagination={10}
                     renderItem={(item) => <List.Item
-                        actions={[
-                            <Tooltip title = "Edit event" >
-                                <EditOutlined onClick={() => {
-                                    setSelectedEvents(item)
-                                    openEditDrawer()
-                                }} style={{ color: "royalblue", fontSize: "1.5rem" }} />
-                            </Tooltip>
-                            ,
-                            <Tooltip title="Delete event" >
-                                <Popconfirm
-                                    title="Are you sure you want to delete this event?"
-                                    okText="Yes"
-                                    cancelText="no"
-                                    onConfirm = {()=>{
-                                        removeEvent(item)
-                                    }}
-                                    okButtonProps={{ style: { backgroundColor: "#852c2c" } }}
-                                    cancelButtonProps={{ style: { backgroundColor: "red", color: "#ffffff" } }}
-                                    icon={<DeleteOutlined />}
-                                >
-                                    <DeleteOutlined style={{ color: "red",fontSize:"1.5rem" }}  />
-                                </Popconfirm>
+                    // actions={[
+                    //     <Tooltip title = "Edit event" >
+                    //         <EditOutlined onClick={() => {
+                    //             setSelectedEvents(item)
+                    //             openEditDrawer()
+                    //         }} style={{ color: "royalblue", fontSize: "1.5rem" }} />
+                    //     </Tooltip>
+                    //     ,
+                    //     <Tooltip title="Delete event" >
+                    //         <Popconfirm
+                    //             title="Are you sure you want to delete this event?"
+                    //             okText="Yes"
+                    //             cancelText="no"
+                    //             onConfirm = {()=>{
+                    //                 removeEvent(item)
+                    //             }}
+                    //             okButtonProps={{ style: { backgroundColor: "#852c2c" } }}
+                    //             cancelButtonProps={{ style: { backgroundColor: "red", color: "#ffffff" } }}
+                    //             icon={<DeleteOutlined />}
+                    //         >
+                    //             <DeleteOutlined style={{ color: "red",fontSize:"1.5rem" }}  />
+                    //         </Popconfirm>
 
-                            </Tooltip>
+                    //     </Tooltip>
 
-                        ]}
+                    // ]}
                     >
-                        <List.Item.Meta title={item.title}
+                        <List.Item.Meta title={(<div className="d-flex justify-content-between w-100" >
+                            <p>{item.title}</p>
+                            <Popover
+                                trigger="click"
+                                content={
+                                    <div
+                                        className="text-center"
+                                        style={{ minWidth: "250px" }}
+                                    >
+                                        <div className="d-flex justify-content-center my-auto" >
+                                            <p className="mx-2 " >Edit</p>
+                                            <Tooltip title="Edit event" >
+                                                <EditOutlined onClick={() => {
+                                                    setSelectedEvents(item)
+                                                    openEditDrawer()
+                                                }} style={{ color: "royalblue", fontSize: "1rem" }} />
+                                            </Tooltip>
+                                        </div  >
+                                            <Divider/>
+                                        <div className="d-flex justify-content-center">
+                                            <Tooltip title="Delete event" >
+                                                <Popconfirm
+
+                                                    title="Are you sure you want to delete this event?"
+                                                    okText="Yes"
+                                                    cancelText="no"
+                                                    onConfirm={() => {
+                                                        removeEvent(item)
+                                                    }}
+                                                    okButtonProps={{ style: { backgroundColor: "#852c2c" } }}
+                                                    cancelButtonProps={{ style: { backgroundColor: "red", color: "#ffffff" } }}
+                                                    icon={<DeleteOutlined />}
+                                                >
+                                                    <div className="d-flex justify-content-center">
+                                                    <p className="mx-2 ">Delete</p>
+
+                                                    <Tooltip title="More" >
+                                                        <DeleteOutlined style={{ color: "red", fontSize: "1.5rem" }} />
+
+                                                    </Tooltip>
+                                                    </div>
+                                                </Popconfirm>
+
+                                            </Tooltip>
+                                        </div>
+                                    </div>
+                                }
+
+                                placement="bottomLeft" >
+                                <MoreOutlined style={{ fontSize: "1.5rem", fontWeight: "bold" }} />
+                            </Popover>
+
+                        </div>)}
                             description={<div className="mt-3">
 
                                 <Row>
-                                    <Col>
+
+                                    <Col xs="12"  >
+                                        <a className="" target="blank" href={item.registration_link}>
+                                            Register here
+                                        </a>
+                                    </Col>
+                                    <Col xs="12" >
                                         <p> {item.caption} </p>
                                     </Col>
-                                    <Button
-
-                                        target="blank" style={{ color: "royalblue", borderColor: "royalblue" }} shape="round" size="small" href={item.registration_link} >Register here</Button>
                                 </Row>
                                 <Image width="100%" src={item.cover_image} />
 

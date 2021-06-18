@@ -1,10 +1,11 @@
 import { message, notification } from "antd"
 import {db}  from  "../../utils/networks/firebaseConfig"
-import { deleteSamTvToken, getLocalAgoraToken, getStreanUid, setRecordingResourceId, setRecordingSid, setStreamUid } from "../../utils/local_storage"
+import { deleteSamTvToken, deleteStreamUid, getLocalAgoraToken, getStreanUid, setRecordingResourceId, setRecordingSid, setStreamUid } from "../../utils/local_storage"
 import { getVideoToken } from "../../utils/agoraFunctions"
 import pushNotification from "../../utils/pushNotification"
 import axios from "axios"
 import { startStreamRecordingPath } from "../../utils/networks/endpoints"
+import { v4 } from "uuid"
 
 const SET_SAMTV_PROGRESS = "SET_SAMTV_PROGRESS"
 const INIT_MEETING_REQUEST ="INIT_MEETING_REQUEST"
@@ -15,6 +16,7 @@ const SEND_RECORDING_COMPLETED = "SEND_RECORDING_COMPLETED"
 
 const appId = "c40594061e1f4580aae3b2af1963d01e"
 const channelName = "casa"
+
 
 
 
@@ -32,11 +34,12 @@ const startRecordingCompleted=()=>{
 }
 
 
-export const startRecording =()=>dispatch=>{
+export const startRecording =()=>async dispatch=>{
     dispatch(startRecordingRequest())
+    const token  = await  getVideoToken() 
     const data = {
         cname:channelName,
-        token:getLocalAgoraToken(),
+        token,
         uid:getStreanUid()
     }
 
@@ -47,16 +50,20 @@ export const startRecording =()=>dispatch=>{
     }
     axios.post(startStreamRecordingPath,data,config)
     .then(res=>{
+        console.log(res);
+        console.log("Hi");
         const {sid,resourceId} = res.body
         setRecordingResourceId(resourceId)
         setRecordingSid(sid)
         dispatch(startRecordingCompleted())
+        message.success("Recording has began")
     }).catch(err=>{
+        console.log(err.response);
         dispatch(startRecordingCompleted())
         if(err.response){
                 notification.error({
                 message:"Recording reuest failed",
-                description:err.response.data.detail
+                description:err.response.data.detatil
             })
 
         }else if(err.request){
@@ -126,6 +133,7 @@ export const endStreaming = (tracks,history,client)=>dispatch=>{
             }).then(()=>{
                 dispatch(setSamTvProgress(samTvState.offline))
                 deleteSamTvToken()
+                deleteStreamUid()
                 pushNotification( "Sam Tv Livestream just ended","","sam_tv")   
                 message.success("You have successfully ended the live session")
                 history.push("/sam-tv")
@@ -155,7 +163,9 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
         })
 
     }else{
-            client.join(appId,channelName,token,null).then(uid=>{
+            const uid = getStreanUid() ||v4
+            client.join(appId,channelName,token,uid).then(uid=>{
+                console.log(uid);
                 setStreamUid(uid)
         if(ready && tracks){
             client.setClientRole("host").then(()=>{
