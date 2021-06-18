@@ -23,5 +23,5 @@ $ yarn start
 
 ### Contact
 - Incase of any issue contact Sarpong Thomas on;
-  * +233256921809
+  * +233246921809
   * email: sarpongthomas05@gmail.com   
