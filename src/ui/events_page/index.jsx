@@ -67,32 +67,6 @@ const EventsPage = ({ eventsInfo, removeEvent }) => {
                     loading={eventsInfo.loading}
                     pagination={10}
                     renderItem={(item) => <List.Item
-                    // actions={[
-                    //     <Tooltip title = "Edit event" >
-                    //         <EditOutlined onClick={() => {
-                    //             setSelectedEvents(item)
-                    //             openEditDrawer()
-                    //         }} style={{ color: "royalblue", fontSize: "1.5rem" }} />
-                    //     </Tooltip>
-                    //     ,
-                    //     <Tooltip title="Delete event" >
-                    //         <Popconfirm
-                    //             title="Are you sure you want to delete this event?"
-                    //             okText="Yes"
-                    //             cancelText="no"
-                    //             onConfirm = {()=>{
-                    //                 removeEvent(item)
-                    //             }}
-                    //             okButtonProps={{ style: { backgroundColor: "#852c2c" } }}
-                    //             cancelButtonProps={{ style: { backgroundColor: "red", color: "#ffffff" } }}
-                    //             icon={<DeleteOutlined />}
-                    //         >
-                    //             <DeleteOutlined style={{ color: "red",fontSize:"1.5rem" }}  />
-                    //         </Popconfirm>
-
-                    //     </Tooltip>
-
-                    // ]}
                     >
                         <List.Item.Meta title={(<div className="d-flex justify-content-between w-100" >
                             <p>{item.title}</p>

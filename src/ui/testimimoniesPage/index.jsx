@@ -1,8 +1,8 @@
-import { Card, Divider,  List, Tooltip ,Popconfirm} from 'antd'
+import { Card, Divider,  List, Tooltip ,Popconfirm, Popover} from 'antd'
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import "./styles/index.scss"
-import {  DeleteOutlined, EditOutlined, PlusCircleOutlined} from "@ant-design/icons"
+import {  DeleteOutlined, EditOutlined, MoreOutlined, PlusCircleOutlined} from "@ant-design/icons"
 import { connect } from 'react-redux'
 import AddTestimoniesDrawer from './addTestimoniesDrawer'
 import EditTestimonyDrawer from './editTestimonyDrawer'
@@ -47,33 +47,67 @@ const TestimoniesPage = ({ testimonyInfo, remove}) => {
                 <List 
                     loading={testimonyInfo.loading || testimonyInfo.deleteLoading}
                 renderItem = {item=>(<List.Item
-                    actions = {[
-                        <Tooltip title ="Edit testimony">
-                         
-                        <EditOutlined onClick = {()=>{
-                            setSelectedItem(item)
-                                openTestimonyModal()
-                        }} style = {{color:"royalblue"}} />
-                        </Tooltip>
-                        ,
-                        
-                            <Tooltip title = "Delete Testimony" >
-                                <Popconfirm 
-                                okText = "yes"
-                                cancelText = "No"
-                                onConfirm = {()=>{remove(item)}}
-                                title = "Are you sure you want to delete this testimony?" >
-                                
-                                    <DeleteOutlined style={{ color: "red" }} />
-
-                                </Popconfirm>
-
-                            </Tooltip>
-                      
-                    ]}
                     
                 >
-                    <List.Item.Meta title={item.title} description={<TestimonyDescription item = {item} />} />
+                    <List.Item.Meta 
+                    title={(<div className="d-flex justify-content-between w-100" >
+                         <p>{item.title}</p>
+                            <Popover
+                                trigger="click"
+                                content={
+                                    <div
+                                        className="text-center"
+                                        style={{ minWidth: "250px" }}
+                                    >
+                                        <div className="d-flex justify-content-center my-auto" >
+                                            <p className="mx-2 " >Edit</p>
+                                            <Tooltip title="Edit event" >
+                                                <EditOutlined onClick={() => {
+                                                    setSelectedItem(item)
+                                                    openTestimonyModal()
+                                                }} style={{ color: "royalblue", fontSize: "1rem" }} />
+                                            </Tooltip>
+                                        </div  >
+                                        <Divider />
+                                        <div className="d-flex justify-content-center">
+                                            <Tooltip title="Delete event" >
+                                                <Popconfirm
+
+                                                    title="Are you sure you want to delete this event?"
+                                                    okText="Yes"
+                                                    cancelText="no"
+                                                    onConfirm={() => {
+                                                      remove(item) 
+                                                    }}
+                                                    okButtonProps={{ style: { backgroundColor: "#852c2c" } }}
+                                                    cancelButtonProps={{ style: { backgroundColor: "red", color: "#ffffff" } }}
+                                                    icon={<DeleteOutlined />}
+                                                >
+                                                    <div className="d-flex justify-content-center">
+                                                        <p className="mx-2 ">Delete</p>
+
+                                                        <Tooltip title="More" >
+                                                            <DeleteOutlined style={{ color: "red", fontSize: "1.5rem" }} />
+
+                                                        </Tooltip>
+                                                    </div>
+                                                </Popconfirm>
+
+                                            </Tooltip>
+                                        </div>
+                                    </div>
+                                }
+
+                                placement="bottomLeft" >
+                                <MoreOutlined style={{ fontSize: "1.5rem", fontWeight: "bold" }} />
+                            </Popover>
+
+                    </div>)}
+                    // title={item.title} 
+                    
+                    
+                    
+                    description={<TestimonyDescription item = {item} />} />
                 </List.Item>)}
                 pagination = {10} dataSource = {testimonyInfo.data} />
            </Card>

@@ -6,11 +6,13 @@ import Error404Page from './ui/error/404Page';
 import ProtectedRoutes from './ui/protectedRoutes';
 import LandingPage from './ui/dash_board';
 import ConferencePage from './ui/samtv_page/ConferencePage';
+import { BackTop } from 'antd';
 
 
 function App() {
   return (
     <Router >
+       <BackTop />
       <Switch>
         <Route path = "/login" component = {LoginPage} />
            <Route path = "/sam-tv/live">
