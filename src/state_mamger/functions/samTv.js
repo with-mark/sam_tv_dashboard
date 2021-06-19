@@ -5,7 +5,6 @@ import { getVideoToken } from "../../utils/agoraFunctions"
 import pushNotification from "../../utils/pushNotification"
 import axios from "axios"
 import { startStreamRecordingPath } from "../../utils/networks/endpoints"
-import { v4 } from "uuid"
 
 const SET_SAMTV_PROGRESS = "SET_SAMTV_PROGRESS"
 const INIT_MEETING_REQUEST ="INIT_MEETING_REQUEST"
@@ -40,7 +39,7 @@ export const startRecording =()=>async dispatch=>{
     const data = {
         cname:channelName,
         token,
-        uid:getStreanUid()
+        uid:String(getStreanUid())
     }
 
     const config = {
@@ -50,17 +49,16 @@ export const startRecording =()=>async dispatch=>{
     }
     axios.post(startStreamRecordingPath,data,config)
     .then(res=>{
-        console.log(res);
-        console.log("Hi");
-        const {sid,resourceId} = res.body
+        console.log(res.data);
+        const {sid,resourceId} = res.data
         setRecordingResourceId(resourceId)
         setRecordingSid(sid)
         dispatch(startRecordingCompleted())
         message.success("Recording has began")
     }).catch(err=>{
-        console.log(err.response);
         dispatch(startRecordingCompleted())
         if(err.response){
+            console.log(err.response);
                 notification.error({
                 message:"Recording reuest failed",
                 description:err.response.data.detatil
@@ -163,7 +161,7 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
         })
 
     }else{
-            const uid = getStreanUid() ||v4
+            const uid = getStreanUid() ||null
             client.join(appId,channelName,token,uid).then(uid=>{
                 console.log(uid);
                 setStreamUid(uid)

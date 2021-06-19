@@ -1,4 +1,4 @@
-export const samTvHeroku ="https://sam-tv-staging.herokuapp.com/"
+export const samTvHeroku ="http://localhost:5000/"
 export const pushNotificationPath = `${samTvHeroku}pushNotification/push`
 export const pushNotificationWithCustomImagePath = `${samTvHeroku}pushNotification/push_image`
 export const pushNotificationNoImagePath = `${samTvHeroku}pushNotification/push_no_image`
