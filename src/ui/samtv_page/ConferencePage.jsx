@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import "./styles/conferencePage.scss"
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
-import { EyeOutlined, VideoCameraFilled, VideoCameraOutlined, WechatOutlined } from "@ant-design/icons"
+import { VideoCameraFilled} from "@ant-design/icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { endStreaming, rejoineMeeting, startMeeting, startRecording } from '../../state_mamger/functions/samTv';
 import Chats from './chat';
-import { notification, Popconfirm, Spin, Badge } from 'antd';
+import { notification, Popconfirm, Spin} from 'antd';
 import { useHistory } from 'react-router-dom';
 import { deleteAllChats, fetchLikes } from '../../state_mamger/functions/samTvChats';
 import TopDisplaybar from './TopDisplaybar';
