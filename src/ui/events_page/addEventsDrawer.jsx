@@ -1,4 +1,4 @@
-import { Button, Drawer, Form, Image, Input, message, notification, Spin } from 'antd'
+import { Button, Modal, Form, Image, Input, message, notification, Spin } from 'antd'
 import React, { useState } from 'react'
 import "./styles/createEventsDrawer.scss"
 import logo from  "../../assets/images/logo.png"
@@ -74,7 +74,7 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
             })
     }
     return (
-        <Drawer onClose = {closeModal} visible = {visible} width = {400} >
+        <Modal onCancel = {closeModal} visible = {visible} footer = {null}  >
             <Spin tip = {state.imageUploading?"Uploading image":"Posting event"} spinning = {state.loading} >            
             <div className="logo">
                 <Image id = "logo" preview ={false} src = {logo} />
@@ -129,7 +129,7 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
                 </Form>
             </div>
             </Spin>
-        </Drawer>
+        </Modal>
     )
 }
 

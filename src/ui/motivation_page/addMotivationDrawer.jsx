@@ -1,4 +1,4 @@
-import { Drawer, Image, Form, Input, Select, Button, Spin, message } from 'antd'
+import { Modal, Image, Form, Input, Select, Button, Spin, message } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
@@ -78,7 +78,7 @@ const AddMotivationDrawer = ({ visible, onClose }) => {
 
 
     return (
-        <Drawer visible={visible} onClose={onClose} placement="right" width="500px" >
+        <Modal visible={visible} onCancel={onClose}  footer = {null} >
             <Spin spinning={loading} >
 
 
@@ -156,7 +156,7 @@ const AddMotivationDrawer = ({ visible, onClose }) => {
                 </Form>
             </Spin>
 
-        </Drawer>
+        </Modal>
     )
 }
 

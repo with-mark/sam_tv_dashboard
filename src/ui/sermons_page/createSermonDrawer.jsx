@@ -1,4 +1,4 @@
-import { Button, Drawer, Form, Image, Input, message, Select, Spin } from 'antd'
+import { Button, Modal, Form, Image, Input, message, Select, Spin } from 'antd'
 import React, { useState } from 'react'
 import "./styles/createSermonDrawer.scss"
 import logo from "../../assets/images/logo.png"
@@ -99,11 +99,11 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
     }
     console.log(type);
     return (
-        <Drawer onClose={onClose} visible={visible} width={450} >
+        <Modal onCancel={onClose} visible={visible} footer = {null} >
             <Spin tip={"Uploading video"} spinning={loading} >
 
-                <div className="logo">
-                    <Image id="logo" preview={false} src={logo} />
+                <div className="logo width-100 d-flex justify-content-center ">
+                    <Image width = "70%" id="logo" preview={false} src={logo} />
                 </div>
                 <div className="header-part text-center">
                     <h5>Post a sermon</h5>
@@ -172,7 +172,7 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
                     </Form>
                 </div>
             </Spin>
-        </Drawer>
+        </Modal>
     )
 }
 

@@ -1,4 +1,4 @@
-import { Drawer, Image, Form, Input, Select, Button, Spin, message } from 'antd'
+import { Modal, Image, Form, Input, Select, Button, Spin, message } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
@@ -96,13 +96,13 @@ const AddTestimonyDrawer = ({ visible, onClose }) => {
 
     }
     return (
-        <Drawer visible={visible} onClose={onClose} placement="right" width="500px" >
+        <Modal visible={visible} onCancel={onClose} footer = {null} >
             <Spin spinning={loading} >
 
 
 
-                <div className="logo">
-                    <Image preview={false} src={logo} alt="logo" />
+                <div className="logo d-flex w-100 justify-content-center">
+                    <Image width = "70%" preview={false} src={logo} alt="logo" />
                 </div>
                 <div className="header mb-4  ">
                     <h4 className="text-center" >Post Testimony</h4>
@@ -180,7 +180,7 @@ const AddTestimonyDrawer = ({ visible, onClose }) => {
                 </Form>
             </Spin>
 
-        </Drawer>
+        </Modal>
     )
 }
 
