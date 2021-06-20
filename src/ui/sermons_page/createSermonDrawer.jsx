@@ -99,11 +99,11 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
     }
     console.log(type);
     return (
-        <Modal onCancel={onClose} visible={visible} footer = {null} >
+        <Modal onCancel={onClose} visible={visible} footer={null} >
             <Spin tip={"Uploading video"} spinning={loading} >
 
                 <div className="logo width-100 d-flex justify-content-center ">
-                    <Image width = "70%" id="logo" preview={false} src={logo} />
+                    <Image width="70%" id="logo" preview={false} src={logo} />
                 </div>
                 <div className="header-part text-center">
                     <h5>Post a sermon</h5>
@@ -165,7 +165,7 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
 
                         </Form.Item>
                         <div className="submit">
-                            <Button style = {{height:"45px"}} htmlType="submit" shape="round" id="submit-btn"> Create stream</Button>
+                            <Button style={{ height: "45px" }} htmlType="submit" shape="round" id="submit-btn"> Create stream</Button>
 
                         </div>
 
