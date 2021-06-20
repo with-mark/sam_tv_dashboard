@@ -16,7 +16,7 @@ $ yarn start
 
 ### Assessibility
 - App has been deployed to staging and testing server
-- [Link](https://elated-kilby-e4e078.netlify.app/)
+- [Link](https://elated-kilby-e4e078.netlify.app)
 - Login with email 
   - email: admin@gmail.com 
   - password: passwrod

@@ -1,11 +1,11 @@
-import { Avatar, Divider, Image, Layout, Menu, Popover, Button, Popconfirm } from 'antd'
+import { Avatar, Divider, Image, Layout, Menu, Popover, Button, Popconfirm ,Tooltip} from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch, useHistory } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 import "./styles/index.scss"
-import { LogoutOutlined, UserOutlined } from "@ant-design/icons"
+import { CloseOutlined, LogoutOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons"
 import StatisticsPage from '../statistics_page'
 import UsersPage from '../users_page'
 import MotivationPage from '../motivation_page'
@@ -37,8 +37,15 @@ const LandingPage = ({
     getTestimonies
 }) => {
     const [state, setState] = useState({
-        menuCollapse: false
+        menuCollapse: false,
+        hideMenu: false
     })
+    const toggleMenu = () => {
+        setState({
+            ...state,
+            hideMenu: !state.hideMenu
+        })
+    }
     const collapseMenu = status => {
         setState({
             ...state,
@@ -69,7 +76,7 @@ const LandingPage = ({
                     okButtonProps={{ id: "confirmBtn" }}
                     cancelButtonProps={{ style: { color: "#fff", backgroundColor: "red" } }}
                     icon={<LogoutOutlined />}
-                    onConfirm ={()=>{
+                    onConfirm={() => {
                         logut(history)
                     }}
                     title="Are you sure u want to logout?" >
@@ -83,7 +90,7 @@ const LandingPage = ({
 
     return (
         <Layout style={{ minHeight: '100vh' }} >
-            <Layout.Sider theme="light" zeroWidthTriggerStyle={{ color: "blue" }} breakpoint="md" style={{ backgroundColor: "#ffffff" }} collapsible collapsed={state.menuCollapse} onCollapse={collapseMenu}>
+            <Layout.Sider hidden = {state.hideMenu} theme="light" zeroWidthTriggerStyle={{ color: "blue" }} breakpoint="md" style={{ backgroundColor: "#ffffff" }} collapsible collapsed={state.menuCollapse} onCollapse={collapseMenu}>
                 <div className="logo">
                     <Image preview={false} src={logo} alt="slider-logo" srcset="" />
                 </div>
@@ -159,7 +166,15 @@ const LandingPage = ({
             </Layout.Sider>
             <Layout>
                 <Layout.Header id="header" style={{ backgroundColor: "#ffffff" }} >
-                    <div className="left-side" />
+                    <div className="left-side">
+                        {
+                            state.hideMenu ? <Tooltip title = "Open menu" ><MenuOutlined onClick={toggleMenu} className="text-start" style={{ fontSize: "1.3rem" }} /></Tooltip>
+                                : <Tooltip title = "Close menu" ><CloseOutlined onClick={toggleMenu} className="text-start" style={{ fontSize: "1.3rem" }} /></Tooltip>
+                        }
+
+
+
+                    </div>
                     <div className="right-side">
 
                         <small>{userInfo.email}</small>
