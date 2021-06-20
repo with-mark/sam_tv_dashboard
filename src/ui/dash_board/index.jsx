@@ -1,4 +1,4 @@
-import { Avatar, Divider, Image, Layout, Menu, Popover, Button, Popconfirm ,Tooltip} from 'antd'
+import { Avatar, Divider, Image, Layout, Menu, Popover, Button, Popconfirm, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch, useHistory } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
@@ -90,7 +90,7 @@ const LandingPage = ({
 
     return (
         <Layout style={{ minHeight: '100vh' }} >
-            <Layout.Sider hidden = {state.hideMenu} theme="light" zeroWidthTriggerStyle={{ color: "blue" }} breakpoint="md" style={{ backgroundColor: "#ffffff" }} collapsible collapsed={state.menuCollapse} onCollapse={collapseMenu}>
+            <Layout.Sider hidden={state.hideMenu} theme="light" zeroWidthTriggerStyle={{ color: "blue" }} breakpoint="md" style={{ backgroundColor: "#ffffff" }} collapsible collapsed={state.menuCollapse} onCollapse={collapseMenu}>
                 <div className="logo">
                     <Image preview={false} src={logo} alt="slider-logo" srcset="" />
                 </div>
@@ -168,8 +168,8 @@ const LandingPage = ({
                 <Layout.Header id="header" style={{ backgroundColor: "#ffffff" }} >
                     <div className="left-side">
                         {
-                            state.hideMenu ? <Tooltip title = "Open menu" ><MenuOutlined onClick={toggleMenu} className="text-start" style={{ fontSize: "1.3rem" }} /></Tooltip>
-                                : <Tooltip title = "Close menu" ><CloseOutlined onClick={toggleMenu} className="text-start" style={{ fontSize: "1.3rem" }} /></Tooltip>
+                            state.hideMenu ? <Tooltip title="Open menu" ><MenuOutlined onClick={toggleMenu} className="text-start" style={{ fontSize: "1.3rem" }} /></Tooltip>
+                                : <Tooltip title="Close menu" ><CloseOutlined onClick={toggleMenu} className="text-start" style={{ fontSize: "1.3rem" }} /></Tooltip>
                         }
 
 
