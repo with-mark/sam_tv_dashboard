@@ -29,7 +29,7 @@ const fetchPrayerSuccess = data=>{
 
 export const fetchPrayers = ()=>dispatch=>{
     dispatch(fetchPrayerRequest())
-    const ref= firebase.firestore().collection("prayerRequests")
+    const ref= firebase.firestore().collection("prayerRequests").orderBy("dateAdded",'desc')
     ref
     .onSnapshot(query=>{
         const items =[] 
@@ -38,6 +38,7 @@ export const fetchPrayers = ()=>dispatch=>{
             const id = doc.id
             items.push({...data,id})
         })
+        console.log(items);
         dispatch(fetchPrayerSuccess(items))
 
     })   
