@@ -76,8 +76,8 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
     return (
         <Modal onCancel = {closeModal} visible = {visible} footer = {null}  >
             <Spin tip = {state.imageUploading?"Uploading image":"Posting event"} spinning = {state.loading} >            
-            <div className="logo">
-                <Image id = "logo" preview ={false} src = {logo} />
+                <div className="logo d-flex w-100 justify-content-center">
+                <Image width = "70%" id = "logo" preview ={false} src = {logo} />
             </div>
             <div className="header-part text-center">
                 <h5>Post Event</h5>

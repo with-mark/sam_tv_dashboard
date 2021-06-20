@@ -113,8 +113,8 @@ const EditEventsDrawer = ({ visible, closeModal, event }) => {
 
         }} visible={visible} footer = {null} >
             <Spin tip={state.imageUploading ? "Uploading image" : "Posting event"} spinning={state.loading} >
-                <div className="logo">
-                    <Image id="logo" preview={false} src={logo} />
+                <div className="logo d-flex w-100 justify-content-center">
+                    <Image width = "70%" id="logo" preview={false} src={logo} />
                 </div>
                 <div className="header-part text-center">
                     <h5>Edit Event</h5>

@@ -150,8 +150,8 @@ console.log(motivation);
 
 
 
-                <div className="logo">
-                    <Image  preview={false} src={logo} alt="logo" />
+                <div className="logo d-flex w-100 justify-content-center">
+                    <Image width = "70%"  preview={false} src={logo} alt="logo" />
                 </div>
                 <div className="header mb-4  ">
                     <h4 className="text-center" >Edit Motivation</h4>
