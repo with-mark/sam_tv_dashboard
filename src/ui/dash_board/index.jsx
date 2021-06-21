@@ -87,6 +87,7 @@ const LandingPage = ({
 
         </div>
     );
+    const onNavigate = (e) => history.push(e.item.props.path)
 
     return (
         <Layout style={{ minHeight: '100vh' }} >
@@ -94,79 +95,72 @@ const LandingPage = ({
                 <div className="logo">
                     <Image preview={false} src={logo} alt="slider-logo" srcset="" />
                 </div>
-                <Divider />
-                <Menu theme="light" style={{ padding: "2em" }} mode="inline" defaultOpenKeys={["1"]} >
+                <hr />
+                <Menu  style={{ color: "royalblue" }} onClick={onNavigate} theme="light" mode="vertical" defaultOpenKeys={["1"]} >
+                    <Menu.Item path="/" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faChartLine} />} key="1" >
+                        <span hidden={state.menuCollapse} >Statistics</span>
+                    </Menu.Item>
 
-                    <Link to="/" >
-                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faChartLine} />} key="1" >
-                            <span hidden={state.menuCollapse} >Statistics</span>
-                        </Menu.Item>
+                    <hr />
 
-                    </Link>
-                    <Divider />
-                    <Link to="/sam-tv" >
-                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faDesktop} />} key="2" >
+                    <Menu.SubMenu key="sub1" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faDesktop} />} style={{ height: "56px", padding: "0" }} title={!state.menuCollapse && "SamTv"}>
 
-                            <span hidden={state.menuCollapse} > Sam tv</span>
+                        <Menu.Item path="/sam-tv" key="2" >
 
-                        </Menu.Item>
-                    </Link>
-                    <Divider />
-                    <Link to="/events" >
-                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faClock} />} key="2" >
-
-                            <span hidden={state.menuCollapse} >Events</span>
+                            <span > Sam tv</span>
 
                         </Menu.Item>
-                    </Link>
+                        <Menu.Item path="/sam-tv/schedules" key="3" >
 
-                    <Divider />
-                    <Link to="/testimonies" >
-                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faBell} />} key="2" >
-
-                            <span hidden={state.menuCollapse} >Testimonies</span>
+                            <span  > Schedules</span>
 
                         </Menu.Item>
-                    </Link>
+                    </Menu.SubMenu>
 
-                    <Divider />
-                    <Link to="/motivation" >
-                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faRunning} />} key="3" >
-                            <span hidden={state.menuCollapse} > Motovations</span>
-                        </Menu.Item>
-                    </Link>
-                    <Divider />
-                    <Link to="/prayer-requests" >
-                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faPray} />} key="3" >
-                            <span hidden={state.menuCollapse} > Prayers req... </span>
+                    <hr />
+                    <Menu.Item path="/events" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faClock} />} key="4" >
+
+                        <span hidden={state.menuCollapse} >Events</span>
+
+                    </Menu.Item>
+
+                    <hr />
+                    <Menu.Item path="/testimonies" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faBell} />} key="5" >
+
+                        <span hidden={state.menuCollapse} >Testimonies</span>
+
+                    </Menu.Item>
+
+                    <hr />
+                    <Menu.Item path="/motivations" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faRunning} />} key="6" >
+                        <span hidden={state.menuCollapse} > Motovations</span>
+                    </Menu.Item>
+                    <hr />
+                    <Menu.Item path="/prayer-requests" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faPray} />} key="7" >
+                        <span hidden={state.menuCollapse} > Prayers request </span>
 
 
-                        </Menu.Item>
-                    </Link>
+                    </Menu.Item>
 
-                    <Divider />
-                    <Link to="/sermons" >
-                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faBookReader} />} key="3" >
-                            <span hidden={state.menuCollapse} > Sermons</span>
+                    <hr />
+                    <Menu.Item path="/sermons" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faBookReader} />} key="8" >
+                        <span hidden={state.menuCollapse} > Sermons</span>
 
 
-                        </Menu.Item>
-                    </Link>
-                    <Divider />
-                    <Link to="/users" >
-                        <Menu.Item style={{ fontSize: "1.1rem" }} icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faUser} />} key="3" >
-                            <span hidden={state.menuCollapse} > Users</span>
+                    </Menu.Item>
+                    <hr />
+                    <Menu.Item path="/users" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faUser} />} key="9" >
+                        <span hidden={state.menuCollapse} > Users</span>
 
-                        </Menu.Item>
-                    </Link>
-                    <Divider />
+                    </Menu.Item>
+                    <hr />
 
                 </Menu>
 
             </Layout.Sider>
             <Layout>
                 <Layout.Header id="header" style={{ backgroundColor: "#ffffff" }} >
-                    <div style = {{zIndex:"100000"}} className="left-side">
+                    <div style={{ zIndex: "100000" }} className="left-side">
                         {
                             state.hideMenu ? <Tooltip title="Open menu" ><MenuOutlined onClick={toggleMenu} className="text-start" style={{ fontSize: "1.3rem" }} /></Tooltip>
                                 : <Tooltip title="Close menu" ><CloseOutlined onClick={toggleMenu} className="text-start" style={{ fontSize: "1.3rem" }} /></Tooltip>
