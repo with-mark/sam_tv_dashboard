@@ -166,7 +166,7 @@ const LandingPage = ({
             </Layout.Sider>
             <Layout>
                 <Layout.Header id="header" style={{ backgroundColor: "#ffffff" }} >
-                    <div className="left-side">
+                    <div style = {{zIndex:"100000"}} className="left-side">
                         {
                             state.hideMenu ? <Tooltip title="Open menu" ><MenuOutlined onClick={toggleMenu} className="text-start" style={{ fontSize: "1.3rem" }} /></Tooltip>
                                 : <Tooltip title="Close menu" ><CloseOutlined onClick={toggleMenu} className="text-start" style={{ fontSize: "1.3rem" }} /></Tooltip>
