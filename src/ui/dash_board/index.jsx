@@ -1,6 +1,6 @@
-import { Avatar, Divider, Image, Layout, Menu, Popover, Button, Popconfirm, Tooltip } from 'antd'
+import { Avatar,  Image, Layout, Menu, Popover, Button, Popconfirm, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { Link, Route, Switch, useHistory } from 'react-router-dom'
+import { Route, Switch, useHistory } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
