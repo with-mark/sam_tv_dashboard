@@ -2,6 +2,7 @@ import { Card, Statistic } from 'antd'
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { liveStreamStatus } from '../../state_mamger/functions/liveStreams'
 
 const StatisticsPage = ({
     motivationData,
@@ -69,7 +70,7 @@ const StatisticsPage = ({
 
                     <Col className="mt-2" xs="12" sm="12" md="6" >
                         <Card style={{ height: "150px" }} >
-                            <Statistic value={streamData.data.length} className="text-center" title="Number of Live streams schedled" loading={streamData.loading} />
+                            <Statistic value={streamData.data.filter(item => item.status === liveStreamStatus.Pending).length} className="text-center" title="Number of Live streams schedled" loading={streamData.loading} />
                         </Card>
                     </Col>
                 </Row>

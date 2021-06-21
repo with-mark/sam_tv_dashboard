@@ -7,30 +7,12 @@ import {DeleteOutlined,  EyeOutlined, PlusCircleOutlined} from "@ant-design/icon
 import CreateStreamDrawer from './createStreamDrawer';
 import DetailedStreamDrawer from './detailedDrawer';
 import StreamDeletePromptModal from './deletePromptModal'
-
-
-  const getStream = ()=>{
-      let streams = []
-      for(let i=0; i<20; i++){
-        streams.push({
-            id:i,
-            title:"Some title here",
-            description:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab aut cupiditate dicta cum voluptatum velit voluptatem sint quibusdam esse eligendi, repellat, incidunt iste odit necessitatibus eveniet a aliquid perferendis iure! ",
-            status:"Completed"
-        })
-      }
-      return streams
-  }
-  
+import { connect } from 'react-redux';
 
 
 
 
-const SamTvPage = () => {
-
-
-
-
+const SamTvPage = ({ schedules}) => {
     const [state,setState] = useState({
         addDrawer:false,
         detailedDrawer:false,
@@ -137,7 +119,7 @@ const SamTvPage = () => {
 
  
 
-                <Table className = "mt-4" columns ={columns} dataSource = {getStream()} pagination = {10} style  = {{overflowX:"scroll"}} />
+                <Table className="mt-4" columns={columns} dataSource={schedules.data} loading ={schedules.loading} pagination = {10} style  = {{overflowX:"scroll"}} />
 
         </Card>
             
@@ -146,4 +128,11 @@ const SamTvPage = () => {
     )
 }
 
-export default SamTvPage
+
+const mapStateToProps = state=>{
+    return {
+        schedules: state.liveStreams
+    }
+}
+
+export default connect(mapStateToProps)(SamTvPage)

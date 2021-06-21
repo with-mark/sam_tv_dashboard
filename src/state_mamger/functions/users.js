@@ -1,7 +1,7 @@
 import { message, notification } from "antd"
 import axios from "axios"
 import { deleteUserPath } from "../../utils/networks/endpoints"
-import {  db } from "../../utils/networks/firebaseConfig"
+import { db } from "../../utils/networks/firebaseConfig"
 
 const collectionName = "userinfo"
 const FETCH_USERS_REQUEST = "FETCH_USERS_REQUEST"

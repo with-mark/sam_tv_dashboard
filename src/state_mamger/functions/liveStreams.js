@@ -2,6 +2,11 @@ import firebase from "../../utils/networks/firebaseConfig"
 const FETCH_LIVE_STREAM_DATA_REQUEST = "FETCH_LIVE_STREAM_DATA_REQUEST"
 const FETCH_LIVE_STREAM_DATA_COMPLETE = "FETCH_LIVE_STREAM_DATA_COMPLETE"
 
+export const liveStreamStatus = {
+    Pending:"pending",
+    Completed:"Completed"
+}
+
 const fetchLiveStreamDataRequest  = ()=>{
     return{
         type:FETCH_LIVE_STREAM_DATA_REQUEST
@@ -20,9 +25,10 @@ const fetchLiveStreamComplete  = data=>{
 export const fetchStreamData = ()=>dispatch =>{
     const db = firebase.firestore()
     dispatch(fetchLiveStreamDataRequest())
-    const ref = db.collection("liveStreams")
-    const streams = []
-    ref.onSnapshot(queryString=>{
+    db.collection("liveStreams")
+    .orderBy("timestamp","desc")
+    .onSnapshot(queryString=>{
+        const streams = []
         queryString.forEach(doc=>{
             streams.push(doc.data())
         })
