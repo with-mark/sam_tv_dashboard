@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell, faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faSignOutAlt, faTv, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 import "./styles/index.scss"
 import { CloseOutlined, LogoutOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons"
 import StatisticsPage from '../statistics_page'
@@ -105,14 +105,14 @@ const LandingPage = ({
 
                     <Menu.SubMenu key="sub1" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faDesktop} />} style={{ height: "56px", padding: "0" }} title={!state.menuCollapse && "SamTv"}>
 
-                        <Menu.Item icon={<FontAwesomeIcon icon={faTv} />} path="/sam-tv" key="2" >
+                        <Menu.Item path="/sam-tv" key="2" >
 
-                            <span hidden={state.menuCollapse} > Sam tv</span>
+                            <span > Sam tv</span>
 
                         </Menu.Item>
-                        <Menu.Item icon = {<FontAwesomeIcon icon  = {faTv}/>} path="/sam-tv/schedules" key="3" >
-                            
-                            <span hidden={state.menuCollapse}  > Schedules</span>
+                        <Menu.Item  path="/sam-tv/schedules" key="3" >
+
+                            <span  > Schedules</span>
 
                         </Menu.Item>
                     </Menu.SubMenu>
