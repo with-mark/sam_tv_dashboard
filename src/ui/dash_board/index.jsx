@@ -1,4 +1,4 @@
-import { Avatar,  Image, Layout, Menu, Popover, Button, Popconfirm, Tooltip } from 'antd'
+import { Avatar, Image, Layout, Menu, Popover, Button, Popconfirm, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
@@ -96,8 +96,8 @@ const LandingPage = ({
                     <Image preview={false} src={logo} alt="slider-logo" srcset="" />
                 </div>
                 <hr />
-                <Menu   style={{ color: "royalblue" }} onClick={onNavigate} theme="light" mode="vertical" defaultOpenKeys={["1"]} >
-                    <Menu.Item title= "Statistics" path="/" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faChartLine} />} key="1" >
+                <Menu style={{ color: "royalblue" }} onClick={onNavigate} theme="light" mode="vertical" defaultOpenKeys={["1"]} >
+                    <Menu.Item title="Statistics" path="/" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faChartLine} />} key="1" >
                         <span hidden={state.menuCollapse} >Statistics</span>
                     </Menu.Item>
 
@@ -136,7 +136,7 @@ const LandingPage = ({
                         <span hidden={state.menuCollapse} > Motovations</span>
                     </Menu.Item>
                     <hr />
-                    <Menu.Item title="Prayers request"  path="/prayer-requests" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faPray} />} key="7" >
+                    <Menu.Item title="Prayers request" path="/prayer-requests" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faPray} />} key="7" >
                         <span hidden={state.menuCollapse} > Prayers request </span>
 
 
