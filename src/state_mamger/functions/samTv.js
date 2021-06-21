@@ -169,7 +169,7 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
             client.setClientRole("host").then(()=>{
                 client.publish(tracks).then(res=>{
                     console.log(res);
-                    pushNotification( "SamTv is live with Pastor Sam Amoateng","","sam_tv")   
+                    pushNotification( "SamTv is live with Prophet Samuel Amoateng","","sam_tv")   
                     dispatch(setSamTvProgress(samTvState.online))
                     message.success("Sam tv is online")                
                 })
