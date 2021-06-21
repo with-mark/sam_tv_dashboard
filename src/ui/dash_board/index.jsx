@@ -97,7 +97,7 @@ const LandingPage = ({
                 </div>
                 <hr />
                 <Menu   style={{ color: "royalblue" }} onClick={onNavigate} theme="light" mode="vertical" defaultOpenKeys={["1"]} >
-                    <Menu.Item path="/" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faChartLine} />} key="1" >
+                    <Menu.Item title= "Statistics" path="/" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faChartLine} />} key="1" >
                         <span hidden={state.menuCollapse} >Statistics</span>
                     </Menu.Item>
 
@@ -105,12 +105,12 @@ const LandingPage = ({
 
                     <Menu.SubMenu key="sub1" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faDesktop} />} style={{ height: "56px", padding: "0" }} title={!state.menuCollapse && "SamTv"}>
 
-                        <Menu.Item path="/sam-tv" key="2" >
+                        <Menu.Item title="Sam tv" path="/sam-tv" key="2" >
 
                             <span > Sam tv</span>
 
                         </Menu.Item>
-                        <Menu.Item  path="/sam-tv/schedules" key="3" >
+                        <Menu.Item title="Schedules" path="/sam-tv/schedules" key="3" >
 
                             <span  > Schedules</span>
 
@@ -118,38 +118,38 @@ const LandingPage = ({
                     </Menu.SubMenu>
 
                     <hr />
-                    <Menu.Item path="/events" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faClock} />} key="4" >
+                    <Menu.Item title="Events" path="/events" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faClock} />} key="4" >
 
                         <span hidden={state.menuCollapse} >Events</span>
 
                     </Menu.Item>
 
                     <hr />
-                    <Menu.Item path="/testimonies" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faBell} />} key="5" >
+                    <Menu.Item title="Testimonies" path="/testimonies" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faBell} />} key="5" >
 
                         <span hidden={state.menuCollapse} >Testimonies</span>
 
                     </Menu.Item>
 
                     <hr />
-                    <Menu.Item path="/motivations" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faRunning} />} key="6" >
+                    <Menu.Item title="Motovations" path="/motivations" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faRunning} />} key="6" >
                         <span hidden={state.menuCollapse} > Motovations</span>
                     </Menu.Item>
                     <hr />
-                    <Menu.Item path="/prayer-requests" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faPray} />} key="7" >
+                    <Menu.Item title="Prayers request"  path="/prayer-requests" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faPray} />} key="7" >
                         <span hidden={state.menuCollapse} > Prayers request </span>
 
 
                     </Menu.Item>
 
                     <hr />
-                    <Menu.Item path="/sermons" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faBookReader} />} key="8" >
+                    <Menu.Item title="Sermons" path="/sermons" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faBookReader} />} key="8" >
                         <span hidden={state.menuCollapse} > Sermons</span>
 
 
                     </Menu.Item>
                     <hr />
-                    <Menu.Item path="/users" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faUser} />} key="9" >
+                    <Menu.Item title="Users" path="/users" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faUser} />} key="9" >
                         <span hidden={state.menuCollapse} > Users</span>
 
                     </Menu.Item>
