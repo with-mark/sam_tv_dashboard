@@ -96,7 +96,7 @@ const LandingPage = ({
                     <Image preview={false} src={logo} alt="slider-logo" srcset="" />
                 </div>
                 <hr />
-                <Menu  style={{ color: "royalblue" }} onClick={onNavigate} theme="light" mode="vertical" defaultOpenKeys={["1"]} >
+                <Menu   style={{ color: "royalblue" }} onClick={onNavigate} theme="light" mode="vertical" defaultOpenKeys={["1"]} >
                     <Menu.Item path="/" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faChartLine} />} key="1" >
                         <span hidden={state.menuCollapse} >Statistics</span>
                     </Menu.Item>
@@ -179,10 +179,10 @@ const LandingPage = ({
                         </Popover>
                     </div>
                 </Layout.Header>
-                <Layout.Content>
+                <Layout.Content >
                     <Switch>
                         <Route path="/users" component={UsersPage} />
-                        <Route path="/motivation" component={MotivationPage} />
+                        <Route path="/motivations" component={MotivationPage} />
                         <Route path="/events" component={EventsPage} />
                         <Route path="/testimonies" component={TestimimoniesPage} />
                         <Route component={SamTvPage} path={`/sam-tv/schedules`} />
