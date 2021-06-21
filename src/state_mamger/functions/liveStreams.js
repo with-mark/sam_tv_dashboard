@@ -30,7 +30,7 @@ export const fetchStreamData = ()=>dispatch =>{
     .onSnapshot(queryString=>{
         const streams = []
         queryString.forEach(doc=>{
-            streams.push(doc.data())
+            streams.push( {id:doc.id, ...doc.data()})
         })
         dispatch(fetchLiveStreamComplete(streams))
     })

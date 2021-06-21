@@ -1,15 +1,47 @@
-import { Button, Drawer, Image, Tag } from 'antd'
-import React from 'react'
+import { Button, Drawer, Image, Tag,Spin, message } from 'antd'
+import React, { useState } from 'react'
 import "./styles/createStreamDrawer.scss"
 import "./styles/detailed.scss"
 import logo from  "../../assets/images/logo.png"
 import { Col, Row } from 'react-bootstrap'
 import { useHistory } from 'react-router'
+import { db } from '../../utils/networks/firebaseConfig'
+import { liveStreamStatus } from '../../state_mamger/functions/liveStreams'
+import pushNotification from '../../utils/pushNotification'
   
 const DetailedStreamDrawer = ({visible,onClose,stream}) => {
-    const history = useHistory()
+    const history = useHistory() 
+    const [loading,setLoading] = useState(false)
+
+    const onCLick = ()=>{
+        if(stream.status === liveStreamStatus.Completed){
+            message.error("You stream has already ended")
+            return;
+        }
+        setLoading(true)
+        db.collection("liveStreams")
+        .doc(stream.id).update({
+            status:liveStreamStatus.Completed
+        }).then(()=>{
+            setLoading(false)
+            pushNotification(`Sam Tv is live. \n Title: ${stream.title}`,stream.description,'sam_tv')
+            onClose()
+            history.push("/sam-tv/live")
+        }).catch(err=>{
+            setLoading(false)
+            message.error(`Error occured, try again later`)
+            throw(err)
+
+        })
+        
+
+    }
+    console.log(stream);
     return (
         <Drawer onClose = {onClose} visible = {visible} width = {400} >
+            <Spin spinning={loading} size = "large" >
+
+            
             <div className="logo">
                 <Image id = "logo" preview ={false} src = {logo} />
             </div>
@@ -29,17 +61,14 @@ const DetailedStreamDrawer = ({visible,onClose,stream}) => {
                 </Col>
                 <div className="submit mt-5">
                 <Button 
-                onClick = {()=>{
-                    
-                    history.push("/sam-tv/conference")
-                    onClose()
-                }}
+                disabled = {stream.status === liveStreamStatus.Completed}
+                        onClick={onCLick}
                 shape = "round" id = "submit-btn" >Start</Button>
 
                 </div>
             </Row>
             
-            
+            </Spin>
         </Drawer>
     )
 }

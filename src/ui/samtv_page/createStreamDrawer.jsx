@@ -51,7 +51,7 @@ const CreateStreamDrawer = ({visible,onClose}) => {
     }
 
     return (
-        <Modal onClose = {onClose} visible = {visible} footer = {null}>
+        <Modal onCancel = {onClose} visible = {visible} footer = {null}>
             <Spin size = "large" spinning = {loading} >
 
           
