@@ -33,13 +33,6 @@ const MeetingRoom = ({ samTvInfo }) => {
 
                     </Link>)}
                 </div>
-                <div  className = "my-1" >
-                    <Link to="/sam-tv/schedules" >
-                        <Button shape="round" id="scheduleStream" >Schedule Live Stream</Button>
-
-                    </Link>
-
-                </div>
             </div>
         </div>
     )
