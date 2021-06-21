@@ -7,7 +7,6 @@ import { Col, Row } from 'react-bootstrap'
 import { useHistory } from 'react-router'
 import { db } from '../../utils/networks/firebaseConfig'
 import { liveStreamStatus } from '../../state_mamger/functions/liveStreams'
-import pushNotification from '../../utils/pushNotification'
   
 const DetailedStreamDrawer = ({visible,onClose,stream}) => {
     const history = useHistory() 
@@ -24,7 +23,6 @@ const DetailedStreamDrawer = ({visible,onClose,stream}) => {
             status:liveStreamStatus.Completed
         }).then(()=>{
             setLoading(false)
-            pushNotification(`Sam Tv is live. \n Title: ${stream.title}`,stream.description,'sam_tv')
             onClose()
             history.push("/sam-tv/live")
         }).catch(err=>{
