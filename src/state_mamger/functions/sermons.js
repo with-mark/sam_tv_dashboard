@@ -30,7 +30,9 @@ const fetchSermonesSuccess=sermons=>{
 
 export const fetchSermons = ()=>dispatch=>{
     dispatch(fetchSermonsRequest())
-    db.collection("sermons").onSnapshot(query=>{
+    db.collection("sermons")
+    .orderBy('timestamp',"desc")
+    .onSnapshot(query=>{
         const items = []
         query.forEach(doc=>{
             items.push(

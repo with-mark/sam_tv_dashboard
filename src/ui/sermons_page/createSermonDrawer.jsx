@@ -26,17 +26,16 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
 
     const [state, setState] = useState({
         editorState: "",
-        videoFile: null
     })
     const [loading, setLoading] = useState(false)
     const [type, setType] = useState("file")
     const [form] = Form.useForm()
 
-    const setVideoFile = e => {
-        setState({
-            ...state,
-            videoFile: e.target.files[0]
-        })
+    const [videoFile,setVideoFile] = useState(null)
+
+    const changeVideoFile = e => {
+        console.log(e.target.files[0]);
+        setVideoFile(e.target.files[0])
     }
 
     const setEditorState = (state) => {
@@ -46,26 +45,32 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
         })
     }
     const onSubmit = (value) => {
+        // console.log(videoFile);
         setLoading(true)
-        if (type === "file" && state.videoFile) {
+        if (type === "file" && videoFile !== null) {
+            console.log("Hello");
             const basePath = "videos/sermons"
-            const fileName = `${v4()}-${state.videoFile.name}}`
-            storage.ref(`${basePath}/${fileName}`).put(state.videoFile)
+            const fileName = `${v4()}-${videoFile.name}}`
+            storage.ref(`${basePath}/${fileName}`).put(videoFile)
                 .then(() => {
                     storage.ref(basePath)
                         .child(fileName)
                         .getDownloadURL()
                         .then(videoLink => {
+                            console.log(videoLink);
                             db.collection(collectionName)
                                 .add({
-                                    ...value,
+                                    title:value.title,
                                     videoLink,
+                                    message: state.editorState,
                                     type,
                                     fileRef: `${basePath}/${fileName}`,
                                     timestamp: new Date()
 
                                 }).then(() => {
                                     form.resetFields()
+                                    setLoading(false)
+                                    // changeVideoFile(null)
                                     onClose()
                                     message.success("You have successfully posted a sermon")
 
@@ -79,15 +84,18 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
                     message.error("Posting sermon failed, Reason " + String(err))
                 })
         } else {
-            console.log(value);
             db.collection(collectionName)
                 .add({
-                    ...value,
+                    title: value.title,
+                    videoLink: value.videoUrl,
                     type,
+                    message: state.editorState,
                     timestamp: new Date()
 
                 }).then(() => {
                     form.resetFields()
+                    setLoading(false)
+                    // changeVideoFile(null)
                     onClose()
                     message.success("You have successfully posted a sermon")
                 }).catch(err => {
@@ -97,7 +105,6 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
         }
 
     }
-    console.log(type);
     return (
         <Modal onCancel={onClose} visible={visible} footer={null} >
             <Spin tip={"Uploading video"} spinning={loading} >
@@ -126,16 +133,12 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
                             </Select>
                         </Form.Item>
 
-
-
-
-
                         {type === "file" ? (
                             <Form.Item name="videoLink" rules={[{ required: true }]} label="Video" >
-                                <input onChange={setVideoFile} type="file" accept="video/*" />
+                                <input onChange={changeVideoFile} type="file" accept="video/*" />
                             </Form.Item>
                         ) : (
-                            <Form.Item rules={[{ required: true, message: "Sermon's video is required" }]} label="Video" name="videoLink" >
+                            <Form.Item rules={[{ required: true, message: "Sermon's video is required" }]} label="Video" name="videoUrl" >
                                 <Input.TextArea placeholder="Enter video link" />
                             </Form.Item>
                         )}
@@ -175,6 +178,7 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
         </Modal>
     )
 }
+
 
 function mapStateToProps(state) {
     return {
