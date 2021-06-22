@@ -1,43 +1,24 @@
-html {
-  padding: 0;
-  margin: 0;
-}
-
 .confrence-room {
   background-color: rgb(11, 11, 43);
-  height: 100vh;
-  width: 100vw;
+
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  z-index: -1;
 
-}
-
-.spin {
-  width: 100%;
-  font-size: 1.5rem;
-}
-
-.control-wrapper {
-  width: calc(100vw - 300px);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 
 #main-video {
-  z-index: -1;
+  position: absolute;
+  z-index: 2;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 }
 
 .overley {
-  z-index: 10;
+  position: absolute;
   width: 100vw;
   height: 100vh;
+  z-index: 2;
 
   .recording {
     color: red;
@@ -45,6 +26,7 @@ html {
     left: 15px;
 
   }
+
 
   .live {
     color: #ffffff;
@@ -55,11 +37,28 @@ html {
     border-radius: 5px;
   }
 
- 
+
+  .spin {
+    width: 100%;
+    font-size: 1.5rem;
+  }
+
+  .control-wrapper {
+    width: calc(100vw - 300px);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+
+    bottom: 0;
+    width: 100%;
+    margin: auto;
+  }
 
   .controls {
 
-    position: fixed;
+    // position: fixed;
     background-color: rgba(41, 40, 40, .4);
     color: #cccccc;
     width: 50%;
@@ -73,7 +72,7 @@ html {
 
     @media (max-width:600px) {
       z-index: 100;
-      left: 10%;
+      // left: 10%;
       min-width: 350px;
     }
 
@@ -99,7 +98,8 @@ html {
     .normal {
       background-color: rgba(38, 86, 232, 1);
     }
-    .rec{
+
+    .rec {
       background-color: #ffffff;
     }
 
@@ -114,28 +114,17 @@ html {
 }
 
 .chats {
-  border-radius: 20px;
-  width: 400px;
-  height: 100%;
-  background-color: red;
-  z-index: 10;
   position: absolute;
-  bottom: -100vh;
-  padding: 2em;
-
-  .single-chat {
-    margin-left: 2em;
-    background-color: rgba(65, 105, 225, .4);
-    width: 300px;
-    min-height: 40px;
-    border-radius: 10px;
-    text-align: center;
-  }
+  height: 80vh;
+  z-index: -1;
+  width: 400px;
+  z-index: 100;
+  right: 0;
+  bottom: 0px;
 }
 
- .top-bar {
-   position: absolute;
-  top: 10px;
+.top-bar {
+  z-index: 100;
   width: 100%;
-   z-index: 3000;
- }
+  padding: 2em;
+}

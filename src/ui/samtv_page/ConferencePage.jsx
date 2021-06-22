@@ -80,56 +80,37 @@ const ConferencePage = ({
 
 
 
-      <div className="content">
 
-        {/* <div className="top-layer">
-          <div className="chatsWrapper">
+        {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} >
+          <div className="overley  ">
+            <div className="top-bar">
+              <TopDisplaybar />
 
 
-            <div className="chats">
-              <Chats />
             </div>
 
+
+            <Spin spinning={false} wrapperClassName="spin" size="large" tip="Loading stream" >
+              <div className="content d-flex">
+
+              
+
+                <div className="control-wrapper">
+                <div className="chats">
+                  <Chats />
+                </div>
+
+                  <Controls beginRecording={beginRecording} deleteChats={deleteChats} client={client} stopStreaming={stopStreaming} tracks={tracks} />
+                </div>
+             
+              </div>
+            </Spin>
           </div>
-
-          <div className="control-wrapper">
-
-
-            {ready && (
-              <Controls deleteChats={deleteChats} client={client} stopStreaming={stopStreaming} tracks={tracks} />
-            )}
-          </div>
-
-        </div> */}
-
-        {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} />
+        </AgoraVideoPlayer>
         }
     
-        <div className="overley  ">
-          <div className="top-bar">
-            <TopDisplaybar />
 
 
-          </div>
-          
-         
-          <Spin spinning={false} wrapperClassName="spin" size="large" tip="Loading stream" >
-            <div className="content d-flex">
-
-              <div className="chats  ">
-                <Chats />
-              </div>
-
-              <div className="control-wrapper">
-
-
-                <Controls beginRecording = {beginRecording} deleteChats={deleteChats} client={client} stopStreaming={stopStreaming} tracks={tracks} />
-              </div>
-            </div>
-          </Spin>
-        </div>
-
-      </div>
 
 
 
