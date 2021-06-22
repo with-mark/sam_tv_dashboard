@@ -9,11 +9,13 @@
          position: absolute;
          bottom: 50px;
          width: 100%;
+         padding:0 1.2em;
          max-height: 100%;
             .chat-item {
                 background-color: rgba(255, 255, 255,.05);
                 margin: 1em;
-                padding: 1.2em;
+                padding: .5em;
+                font-size: 1rem;
                 width: 90%;
                 border-radius: 8px;
 

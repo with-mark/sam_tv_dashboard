@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import "./styles/conferencePage.scss"
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
-import { VideoCameraFilled} from "@ant-design/icons"
+import { HeartFilled, LikeOutlined, VideoCameraFilled } from "@ant-design/icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { endStreaming, rejoineMeeting, startMeeting, startRecording } from '../../state_mamger/functions/samTv';
 import Chats from './chat';
-import { notification, Popconfirm, Spin} from 'antd';
+import { notification, Popconfirm, Spin } from 'antd';
 import { useHistory } from 'react-router-dom';
-import { deleteAllChats, fetchAudience, fetchLikes } from '../../state_mamger/functions/samTvChats';
+import { fetchAudience, fetchLikes } from '../../state_mamger/functions/samTvChats';
 import TopDisplaybar from './TopDisplaybar';
 import { seo } from '../../utils/customPageHeader';
 const config = { mode: "live", codec: "h264" }
@@ -30,8 +30,8 @@ const ConferencePage = ({
   rejoinMeeting,
   getLikes,
   getAudience,
-  deleteChats,
   beginRecording,
+  chatsInfo,
   stopStreaming }) => {
 
   const client = useClient();
@@ -49,33 +49,22 @@ const ConferencePage = ({
     }
 
     client.on("user-published", () => {
-      // message.success("Media resources are live")
     })
     client.on("user-unpublished", () => {
       notification.warning("Your media devices are offline")
     })
-    // client.on("network-quality", (status) => {
-    //   setNetworkQuality({
-    //     ...networkQuality,
-    //     upload: status.uplinkNetworkQuality,
-    //     download: status.downlinkNetworkQuality
-    //   })
-
-    // })
-    getLikes()
-
-  }, [rejoinMeeting, startStreaming, client, ready, tracks, getLikes])
+  }, [rejoinMeeting, startStreaming, client, ready, tracks])
 
 
   useEffect(() => {
     getAudience()
+    getLikes()
     seo({
       title: "SamTv | Live stream",
       metaDescription: "Joined live with Prophet Samson Amoateng"
     })
-  }, [])
+  }, [getAudience, getLikes])
 
-  // console.log(samTvInfo);
   return (
     <div className="confrence-room" >
 
@@ -83,34 +72,39 @@ const ConferencePage = ({
 
 
 
-        {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} >
-          <div className="overley  ">
-            <div className="top-bar">
-              <TopDisplaybar />
+      {ready && <AgoraVideoPlayer id="main-video" videoTrack={tracks[1]} >
+        <div className="overley  ">
+          <div className="top-bar">
+            <TopDisplaybar />
 
 
-            </div>
+          </div>
 
 
-            <Spin spinning={false} wrapperClassName="spin" size="large" tip="Loading stream" >
-              <div className="content d-flex">
+          <Spin spinning={false} wrapperClassName="spin" size="large" tip="Loading stream" >
+            <div className="content d-flex">
 
-              
 
-                <div className="control-wrapper">
+
+              <div className="control-wrapper">
+
                 <div className="chats">
                   <Chats />
                 </div>
+                <div className="likes">
 
-                  <Controls beginRecording={beginRecording} deleteChats={deleteChats} client={client} stopStreaming={stopStreaming} tracks={tracks} />
+                  {chatsInfo.likes.length > 0 && chatsInfo.likes.map(() => <HeartFilled className="like" style={{ color: "red", fontSize: "1rem" }} />)}
                 </div>
-             
+
+                <Controls beginRecording={beginRecording}  client={client} stopStreaming={stopStreaming} tracks={tracks} />
               </div>
-            </Spin>
-          </div>
-        </AgoraVideoPlayer>
-        }
-    
+
+            </div>
+          </Spin>
+        </div>
+      </AgoraVideoPlayer>
+      }
+
 
 
 
@@ -128,7 +122,6 @@ export const Controls = ({
   stopStreaming,
   beginRecording,
   client,
-  deleteChats
 }) => {
 
   const history = useHistory()
@@ -172,7 +165,6 @@ export const Controls = ({
           okText="End live stream"
           onConfirm={() => {
             stopStreaming(tracks, history, client)
-            deleteChats()
 
 
           }}
@@ -183,7 +175,7 @@ export const Controls = ({
         </Popconfirm>
       </div>
       <div className="rec circle" >
-        <VideoCameraFilled onClick = {beginRecording} style = {{ fontSize: "1.5rem", color: "red" }} />
+        <VideoCameraFilled onClick={beginRecording} style={{ fontSize: "1.5rem", color: "red" }} />
       </div>
     </div>
   );
@@ -191,7 +183,7 @@ export const Controls = ({
 const mapStateToProps = state => {
   return {
     samTvInfo: state.samtv,
-    chatsInfo: state.samTvChats
+    chatsInfo: state.samTvChats,
   }
 }
 const mapDispatchToProps = dispatch => {
@@ -199,7 +191,6 @@ const mapDispatchToProps = dispatch => {
     startStreaming: (tracks, ready, client) => dispatch(startMeeting(tracks, ready, client)),
     rejoinMeeting: (tracks, history, client) => dispatch(rejoineMeeting(tracks, history, client)),
     stopStreaming: (tracks, history, client) => dispatch(endStreaming(tracks, history, client)),
-    deleteChats: () => dispatch(deleteAllChats()),
     getLikes: () => dispatch(fetchLikes()),
     beginRecording: () => dispatch(startRecording()),
     getAudience: () => dispatch(fetchAudience())
