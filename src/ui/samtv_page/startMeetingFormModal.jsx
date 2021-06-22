@@ -24,10 +24,13 @@ const StartMeetingFormModal = ({ visible, onClose }) => {
         setLoading(true)
         const uid = v4()
         const token = getLocalAgoraToken()
-        db.collection("liveStream").add({
+        db.collection("samTv")
+        .doc('agoraToken')
+        .set({
             ...values,
             timestamp: new Date(),
-            token,
+            token:null,
+            live:false,
             status:"pending",
             uid
         })

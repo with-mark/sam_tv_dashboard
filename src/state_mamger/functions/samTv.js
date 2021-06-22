@@ -163,12 +163,10 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
     }else{
             const uid = getStreanUid() ||null
             client.join(appId,channelName,token,uid).then(uid=>{
-                console.log(uid);
                 setStreamUid(uid)
         if(ready && tracks){
             client.setClientRole("host").then(()=>{
                 client.publish(tracks).then(res=>{
-                    console.log(res);
                     pushNotification( "SamTv is live with Prophet Samuel Amoateng","","sam_tv")   
                     dispatch(setSamTvProgress(samTvState.online))
                     message.success("Sam tv is online")                
