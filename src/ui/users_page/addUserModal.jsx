@@ -2,6 +2,7 @@ import { Button, Form, Input, message, Select, Modal, notification, Spin } from 
 import React, { useEffect, useState } from 'react'
 import { seo } from '../../utils/customPageHeader'
 import { auth, db } from "../../utils/networks/firebaseConfig"
+import { adminOnly } from '../../utils/permissions'
 import "./styles/modal.scss"
 
 const AddUserModal = ({ visible, onClose }) => {
@@ -62,7 +63,16 @@ const AddUserModal = ({ visible, onClose }) => {
 
 
                 <h6 className="text-center">Add User</h6>
-                <Form form={form} onFinish={registerUser} {...layout} >
+                <Form form={form} onFinish={(values) => {
+                    adminOnly()
+                        .then(() => {
+                            registerUser(values)
+                        })
+                        .catch(() => {
+                            message.error("Sorry you do not have admin permission")
+                        })
+
+                }} {...layout} >
                     <Form.Item style={formItemStyle} name="name" label="Full name"
                         rules={[{ required: true, message: "This Field is required" }]}>
                         <Input placeholder="Enter Users full name" />
