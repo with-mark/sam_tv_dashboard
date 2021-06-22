@@ -1,4 +1,4 @@
-import { Button, Form, Input, message, Modal, notification, Spin } from 'antd'
+import { Button, Form, Input, message, Select, Modal, notification, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { seo } from '../../utils/customPageHeader'
 import { auth, db } from "../../utils/networks/firebaseConfig"
@@ -25,7 +25,7 @@ const AddUserModal = ({ visible, onClose }) => {
 
     const [form] = Form.useForm()
 
-    const signUpUser = (values) => {
+    const registerUser = (values) => {
         setLoading(true)
         auth.createUserWithEmailAndPassword(values.email, values.password)
             .then(cred => {
@@ -62,7 +62,7 @@ const AddUserModal = ({ visible, onClose }) => {
 
 
                 <h6 className="text-center">Add User</h6>
-                <Form form={form} onFinish={signUpUser} {...layout} >
+                <Form form={form} onFinish={registerUser} {...layout} >
                     <Form.Item style={formItemStyle} name="name" label="Full name"
                         rules={[{ required: true, message: "This Field is required" }]}>
                         <Input placeholder="Enter Users full name" />
@@ -81,7 +81,13 @@ const AddUserModal = ({ visible, onClose }) => {
                         <Input type="email" placeholder="Enter a email" />
 
                     </Form.Item>
-
+                    <Form.Item initialValue="read" style={formItemStyle} label="Role" name="role" >
+                        <Select>
+                            <Select.Option value="admin" > Admin </Select.Option>
+                            <Select.Option value="read" > Read </Select.Option>
+                            <Select.Option value="read_write" > Read/Write </Select.Option>
+                        </Select>
+                    </Form.Item>
                     <Form.Item hasFeedback label="Password" style={formItemStyle} name="password"
                         rules={[{
                             required: true,
