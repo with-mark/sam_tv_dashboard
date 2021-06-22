@@ -4,10 +4,13 @@
     align-items: center;
     width: 100%;
     text-align: center;
+
     #btn{
-        border-color: royalblue;
-        color: royalblue;
+        color: #ffffff;
         width: 50%;
+        height: 45px;
+        background: linear-gradient(to right, #f17934, #852c2c);
+ 
         
         
         @media (min-width:400px) {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./styles/conferencePage.scss"
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
-import { HeartFilled, LikeOutlined, VideoCameraFilled } from "@ant-design/icons"
+import { HeartFilled,  VideoCameraFilled } from "@ant-design/icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';

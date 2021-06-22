@@ -81,6 +81,7 @@ const AddUserModal = ({ visible, onClose }) => {
                         <Input type="email" placeholder="Enter a email" />
 
                     </Form.Item>
+
                     <Form.Item hasFeedback label="Password" style={formItemStyle} name="password"
                         rules={[{
                             required: true,
