@@ -96,6 +96,7 @@ const AddUserModal = ({ visible, onClose }) => {
                             <Select.Option value="admin" > Admin </Select.Option>
                             <Select.Option value="read" > Read </Select.Option>
                             <Select.Option value="read_write" > Read/Write </Select.Option>
+                            <Select.Option value="samtv" > SamTv </Select.Option>
                         </Select>
                     </Form.Item>
                     <Form.Item hasFeedback label="Password" style={formItemStyle} name="password"
