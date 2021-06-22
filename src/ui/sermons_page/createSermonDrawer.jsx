@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { addSermon } from '../../state_mamger/functions/sermons';
 import { db, storage } from '../../utils/networks/firebaseConfig'
 import { v4 } from 'uuid'
+import { readWriteOnly } from '../../utils/permissions'
 const collectionName = "sermons"
 
 const formLayout = {
@@ -31,7 +32,7 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
     const [type, setType] = useState("file")
     const [form] = Form.useForm()
 
-    const [videoFile,setVideoFile] = useState(null)
+    const [videoFile, setVideoFile] = useState(null)
 
     const changeVideoFile = e => {
         console.log(e.target.files[0]);
@@ -60,7 +61,7 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
                             console.log(videoLink);
                             db.collection(collectionName)
                                 .add({
-                                    title:value.title,
+                                    title: value.title,
                                     videoLink,
                                     message: state.editorState,
                                     type,
@@ -120,7 +121,14 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
                     <Form
                         form={form}
                         {...layout}
-                        onFinish={onSubmit}
+                        onFinish={values => {
+                            readWriteOnly()
+                                .then(() => {
+                                    onSubmit(values)
+                                }).catch(() => {
+                                    message.error("Sorry! You do not have read write permission")
+                                })
+                        }}
                         {...formLayout} className="mt-4 form " >
                         <Form.Item name="title" rules={[{ required: true, message: "Title of live stream is required" }]} label="Title" >
                             <Input placeholder="Ener title of live stream" />
