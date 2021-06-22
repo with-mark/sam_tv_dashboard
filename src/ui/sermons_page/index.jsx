@@ -8,12 +8,13 @@ import SermonVideoModal from './videoModal'
 import CreateSermonDrawer from './createSermonDrawer'
 import { connect } from 'react-redux'
 import EditSermonDrawer from './editSermonDrawer'
+import { deleteSermon } from '../../state_mamger/functions/sermons'
 
 
 
 
 
-const SermonesPage = ({ sermons }) => {
+const SermonesPage = ({ sermons, removeSermon }) => {
     const [selectedSermon, setSelectedSermon] = useState({})
     const [state, setState] = useState({
         videoModal: false,
@@ -90,7 +91,7 @@ const SermonesPage = ({ sermons }) => {
                                                     okText="Yes"
                                                     cancelText="no"
                                                     onConfirm={() => {
-                                                        // removeEvent(item)
+                                                        removeSermon(item)
                                                     }}
                                                     okButtonProps={{ style: { backgroundColor: "#852c2c" } }}
                                                     cancelButtonProps={{ style: { backgroundColor: "red", color: "#ffffff" } }}
@@ -129,5 +130,10 @@ function mapStateToProps(state) {
         sermons: state.sermons
     };
 }
+const mapDispatchToProps = dispatch => {
+    return {
+        removeSermon: (sermon) => dispatch(deleteSermon(sermon))
+    }
+}
 
-export default connect(mapStateToProps)(SermonesPage)
+export default connect(mapStateToProps, mapDispatchToProps)(SermonesPage)

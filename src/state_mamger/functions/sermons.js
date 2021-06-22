@@ -1,5 +1,5 @@
 import { message, notification } from "antd"
-import { db } from "../../utils/networks/firebaseConfig"
+import { db, storage } from "../../utils/networks/firebaseConfig"
 import { pushNotificationNoImage } from "../../utils/pushNotification"
 
 const FETCH_SERMONS_REQUEST = "FETCH_SERMONS_REQUEST"
@@ -83,8 +83,13 @@ const deleteSermonsCompleted =()=>{
 
 export const deleteSermon = (sermon)=>dispatch=>{
     dispatch(deleteSermonRequest())
+    if(sermon.type === "file"){
+        storage.ref()
+        .child(sermon.fileRef)
+        .delete()
+    }
     db.collection("sermons").doc(sermon.id).delete()
-    .then(res=>{
+    .then(()=>{
         dispatch(deleteSermonsCompleted())
         message.success("Deletion completed successfully")
     })
