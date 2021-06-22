@@ -1,11 +1,12 @@
 import { Card, Divider, Image, List, Tooltip, Popconfirm, Popover } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { DeleteOutlined, EditOutlined, MoreOutlined, PlusCircleOutlined } from "@ant-design/icons"
 import CreateEventsDrawer from "./addEventsDrawer"
 import { connect } from 'react-redux'
 import EditEventsDrawer from './editEventsDrawer'
 import { deleteEvent } from '../../state_mamger/functions/events'
+import { seo } from '../../utils/customPageHeader'
 
 const EventsPage = ({ eventsInfo, removeEvent }) => {
     const [state, setState] = useState({
@@ -46,6 +47,12 @@ const EventsPage = ({ eventsInfo, removeEvent }) => {
         })
 
     }
+    useEffect(() => {
+        seo({
+            title: "SamTv | Events",
+            metaDescription: "All schedled events for Prophet Samson Amoateng's ministry"
+        })
+    }, [])
     return (
         <div className="sermons-page container" >
             <EditEventsDrawer setEvent={setSelectedEvents} event={selelctedEvents} visible={state.editDrawer} closeModal={closeEditDrawer} />

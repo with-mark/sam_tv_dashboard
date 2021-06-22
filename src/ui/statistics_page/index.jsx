@@ -1,8 +1,9 @@
 import { Card, Statistic } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { liveStreamStatus } from '../../state_mamger/functions/liveStreams'
+import { seo } from '../../utils/customPageHeader'
 
 const StatisticsPage = ({
     motivationData,
@@ -12,6 +13,9 @@ const StatisticsPage = ({
     events,
     testimonies
 }) => {
+    useEffect(() => {
+        seo()
+    }, [])
     return (
         <div className="stattistics-page" >
             <Container className="mt-5" >
