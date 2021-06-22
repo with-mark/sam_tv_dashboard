@@ -70,9 +70,14 @@
   #submit-button {
     width: 50%;
     margin-bottom: 4em;
+    background: linear-gradient(to right, #f17934, #852c2c);
+    color: #ffffff;
     @media (min-width: 600px) {
       width: 30%;
       margin-left: 10em;
     }
+  }
+  #submit-button:hover{
+    background: linear-gradient(to right, #f17934, #852c2c, #f17934, #852c2c);
   }
 }

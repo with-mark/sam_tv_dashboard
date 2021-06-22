@@ -122,7 +122,7 @@ const LoginPage = () => {
 
   
 
-              <Button style={{ height: "45px" }} id = "submit-button" shape = "round" type="primary" htmlType="submit">
+              <Button style={{ height: "45px" }} id = "submit-button" shape = "round"  htmlType="submit">
           LOGIN
         </Button>
     </Form>
