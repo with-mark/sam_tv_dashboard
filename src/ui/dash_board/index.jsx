@@ -96,7 +96,7 @@ const LandingPage = ({
                     <Image preview={false} src={logo} alt="slider-logo" srcset="" />
                 </div>
                 <hr />
-                <Menu style={{ color: "royalblue" }} onClick={onNavigate} theme="light" mode="vertical" defaultOpenKeys={["1"]} >
+                <Menu defaultSelectedKeys = "1" style={{ color: "royalblue" }} onClick={onNavigate} theme="light" mode="vertical" defaultOpenKeys={["1"]} >
                     <Menu.Item title="Statistics" path="/" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faChartLine} />} key="1" >
                         <span hidden={state.menuCollapse} >Statistics</span>
                     </Menu.Item>

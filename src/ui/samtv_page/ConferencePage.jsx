@@ -9,7 +9,7 @@ import { endStreaming, rejoineMeeting, startMeeting, startRecording } from '../.
 import Chats from './chat';
 import { notification, Popconfirm, Spin} from 'antd';
 import { useHistory } from 'react-router-dom';
-import { deleteAllChats, fetchLikes } from '../../state_mamger/functions/samTvChats';
+import { deleteAllChats, fetchAudience, fetchLikes } from '../../state_mamger/functions/samTvChats';
 import TopDisplaybar from './TopDisplaybar';
 import { seo } from '../../utils/customPageHeader';
 const config = { mode: "live", codec: "h264" }
@@ -29,6 +29,7 @@ const ConferencePage = ({
   startStreaming,
   rejoinMeeting,
   getLikes,
+  getAudience,
   deleteChats,
   beginRecording,
   stopStreaming }) => {
@@ -67,6 +68,7 @@ const ConferencePage = ({
 
 
   useEffect(() => {
+    getAudience()
     seo({
       title: "SamTv | Live stream",
       metaDescription: "Joined live with Prophet Samson Amoateng"
@@ -199,7 +201,8 @@ const mapDispatchToProps = dispatch => {
     stopStreaming: (tracks, history, client) => dispatch(endStreaming(tracks, history, client)),
     deleteChats: () => dispatch(deleteAllChats()),
     getLikes: () => dispatch(fetchLikes()),
-    beginRecording: () => dispatch(startRecording())
+    beginRecording: () => dispatch(startRecording()),
+    getAudience: () => dispatch(fetchAudience())
 
 
   }

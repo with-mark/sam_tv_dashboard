@@ -5,6 +5,7 @@ import { getVideoToken } from "../../utils/agoraFunctions"
 import pushNotification from "../../utils/pushNotification"
 import axios from "axios"
 import { startStreamRecordingPath } from "../../utils/networks/endpoints"
+import { deleteAllAudience, deleteAllChats, deleteAllLikes } from "./samTvChats"
 
 const SET_SAMTV_PROGRESS = "SET_SAMTV_PROGRESS"
 const INIT_MEETING_REQUEST ="INIT_MEETING_REQUEST"
@@ -131,6 +132,9 @@ export const endStreaming = (tracks,history,client)=>dispatch=>{
             }).then(()=>{
                 dispatch(setSamTvProgress(samTvState.offline))
                 deleteSamTvToken()
+                deleteAllAudience()
+                deleteAllLikes()
+                deleteAllChats()
                 deleteStreamUid()
                 pushNotification( "Sam Tv Livestream just ended","","sam_tv")   
                 message.success("You have successfully ended the live session")

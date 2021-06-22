@@ -4,6 +4,9 @@ import { db } from "../../utils/networks/firebaseConfig"
 const FETCH_CHATS_REQUEST = "FETCH_CHATS_REQUEST"
 const FETCH_CHATS_SUCCESS = "FETCH_CHATS_SUCCESS"
 const FETCH_ALL_LIKES = "FETCH_ALL_LIKES"
+const FETCH_CHATS_AUDIENCE_COMPLETED = "FETCH_CHATS_AUDIENCE_COMPLETED"
+
+
 
 const collectionName= "liveComments"
 
@@ -12,6 +15,30 @@ const fetchChatsRequest = ()=>{
     return {
         type:FETCH_CHATS_REQUEST
     }
+}
+
+
+
+
+const fetchAudienceCompleted = audience=>{
+    return {
+        type:FETCH_CHATS_AUDIENCE_COMPLETED,
+        payload:audience
+    }
+}
+
+export const fetchAudience =()=>dispatch=>{
+    db.collection('Views')
+    .onSnapshot(query=>{
+        const items = []
+        query.forEach(doc=>{
+            items.push({
+                id: doc.id,
+                ...doc.data()
+            })
+        })
+        dispatch(fetchAudienceCompleted(items))
+    })
 }
 
 
@@ -85,12 +112,24 @@ export const deleteAllLikes=()=>{
     
 }
 
+export const deleteAllAudience=()=>{
+   const ref = db.collection("Views")
+   ref.onSnapshot(query=>{
+        query.forEach(doc=>{
+            ref.doc(doc.id).delete()
+            
+        })
+    })
+    
+}
+
 
 
 const initialState = {
     loading:false,
     data:[],
-    likes:[]
+    likes:[],
+    audience:[]
 
 }
 
@@ -111,6 +150,12 @@ const samTvChatsReducer= (state = initialState, { type, payload }) => {
             ...state,
             likes:payload
         }
+    case FETCH_CHATS_AUDIENCE_COMPLETED:
+        return{
+            ...state,
+            audience:payload
+        }
+
     default:
         return state
     }
