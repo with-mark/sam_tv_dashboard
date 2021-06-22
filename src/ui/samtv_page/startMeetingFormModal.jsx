@@ -2,7 +2,7 @@ import { faVideo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal, Form, Input ,Button,Spin, notification} from 'antd'
 import React, { useState } from 'react'
-import { getLocalAgoraToken, setStreamUid } from '../../utils/local_storage';
+import { setStreamUid } from '../../utils/local_storage';
 import { db } from '../../utils/networks/firebaseConfig';
 import "./styles/livestreamModal.scss"
 import {v4} from "uuid"
@@ -23,7 +23,6 @@ const StartMeetingFormModal = ({ visible, onClose }) => {
         console.log(values);
         setLoading(true)
         const uid = v4()
-        const token = getLocalAgoraToken()
         db.collection("samTv")
         .doc('agoraToken')
         .set({
