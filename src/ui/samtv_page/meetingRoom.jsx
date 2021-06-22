@@ -1,13 +1,20 @@
 import { Button, Image } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./styles/meeting_room.scss"
 import logo from "../../assets/images/logo.png"
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { samTvState } from '../../state_mamger/functions/samTv'
 import StartMeetingFormModal from './startMeetingFormModal'
+import { seo } from '../../utils/customPageHeader'
 const MeetingRoom = ({ samTvInfo }) => {
     const [startModal,setStartModal] = useState(false)
+    useEffect(() => {
+        seo({
+            title: "SamTv | Meeting room",
+            metaDescription: "Start instant live stream"
+        })
+    }, [])
 
 
     return (

@@ -1,5 +1,5 @@
 import { Card, Divider,  List, Tooltip ,Popconfirm, Popover} from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import "./styles/index.scss"
 import {  DeleteOutlined, EditOutlined, MoreOutlined, PlusCircleOutlined} from "@ant-design/icons"
@@ -8,6 +8,7 @@ import AddTestimoniesDrawer from './addTestimoniesDrawer'
 import EditTestimonyDrawer from './editTestimonyDrawer'
 import TestimonyDescription from './listDescription'
 import { deleteTestimony } from '../../state_mamger/functions/testimonies'
+import { seo } from '../../utils/customPageHeader'
 
 
 
@@ -28,6 +29,13 @@ const TestimoniesPage = ({ testimonyInfo, remove}) => {
     const openTestimonyModal = () => {
         seteditTestimony(true)
     }
+
+    useEffect(() => {
+        seo({
+            title: "SamTv | Testimonies",
+            metaDescription: "Sam Tv testimonies from mobile app users"
+        })
+    }, [])
     
     return (
         <div className = "testimony-page container" >

@@ -1,5 +1,5 @@
 import { Badge, Card, Divider, List, Tag, Tooltip, } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import "./styles/index.scss"
 import ListDescription from './listDescription'
@@ -7,6 +7,7 @@ import { CheckOutlined, DeleteOutlined, EyeInvisibleOutlined, EyeOutlined ,Close
 import { connect } from 'react-redux'
 import {  markAsDone, markAsRead } from '../../state_mamger/functions/prayerRequest'
 import DeletePromptModal from './deletePromptModal'
+import { seo } from '../../utils/customPageHeader'
 
 
 
@@ -35,6 +36,12 @@ const PrayerRequestsPage = ({requestsInfo,markRead,markDone}) => {
     const setCurPrayer =(prayer)=>{
         setCurrentPrayer(prayer)
     }
+    useEffect(() => {
+        seo({
+            title: "SamTv | Prayer requests",
+            metaDescription: "Sam Tv prayer requests posted by users of the mobile app"
+        })
+    }, [])
     return (
         <div className = "prayer-requests container" > 
         <DeletePromptModal prayer = {currentPrayer} onClose ={closeDeleteModal} visible = {state.deleteModalVisible} />

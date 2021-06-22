@@ -1,5 +1,5 @@
 import { Card,  Image,  Space, Table, Tag, Tooltip } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./styles/index.scss"
 import logo from  "../../assets/images/logo.png"
 import { Col, Row } from 'react-bootstrap';
@@ -8,6 +8,7 @@ import CreateStreamDrawer from './createStreamDrawer';
 import DetailedStreamDrawer from './detailedDrawer';
 import StreamDeletePromptModal from './deletePromptModal'
 import { connect } from 'react-redux';
+import { seo } from '../../utils/customPageHeader';
 
 
 
@@ -19,6 +20,12 @@ const SamTvPage = ({ schedules}) => {
         deleteModal:false,
         selectedStream:{}
     })
+    useEffect(() => {
+        seo({
+            title: "SamTv | Live stream schedules",
+            metaDescription: "All prayer schedled live streams"
+        })
+    }, [])
 
     const [selectedStream,setSelectedStream]=useState({})
 

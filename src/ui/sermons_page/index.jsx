@@ -1,5 +1,5 @@
 import { Card, Divider, List, Popconfirm, Popover, Tooltip } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { DeleteOutlined, EditOutlined, MoreOutlined, PlusCircleOutlined } from "@ant-design/icons"
 import "./styles/index.scss"
@@ -9,6 +9,7 @@ import CreateSermonDrawer from './createSermonDrawer'
 import { connect } from 'react-redux'
 import EditSermonDrawer from './editSermonDrawer'
 import { deleteSermon } from '../../state_mamger/functions/sermons'
+import { seo } from '../../utils/customPageHeader'
 
 
 
@@ -42,6 +43,12 @@ const SermonesPage = ({ sermons, removeSermon }) => {
     const onPlay = (status) => {
         setVideoModal(status)
     }
+    useEffect(() => {
+        seo({
+            title: "SamTv |Sermons",
+            metaDescription: "Video and audio sermons with sam tv"
+        })
+    }, [])
     return (
         <div className="sermons-page container" >
             <CreateSermonDrawer onClose={() => setSermonDrawer(false)} visible={state.sermonDrawer} />

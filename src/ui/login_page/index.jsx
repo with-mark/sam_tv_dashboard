@@ -1,10 +1,11 @@
 import { Button, Card, Form, Image, Input, message, notification, Spin } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './styles/index.scss'
 import logo from '../../assets/images/logo.png'
 import { setAuthToken, setIsAuth, setUserInfo } from '../../utils/local_storage';
 import { useHistory } from 'react-router';
 import { auth} from '../../utils/networks/firebaseConfig';
+import { seo } from '../../utils/customPageHeader';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -22,6 +23,10 @@ const LoginPage = () => {
         loading:status
       })
     }
+
+     useEffect(() => {
+       seo({title: "SamTv | Login"})
+    }, [])
 
     const onSumit = values=>{
       setLoading(true)

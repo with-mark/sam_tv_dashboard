@@ -11,6 +11,7 @@ import { notification, Popconfirm, Spin} from 'antd';
 import { useHistory } from 'react-router-dom';
 import { deleteAllChats, fetchLikes } from '../../state_mamger/functions/samTvChats';
 import TopDisplaybar from './TopDisplaybar';
+import { seo } from '../../utils/customPageHeader';
 const config = { mode: "live", codec: "h264" }
 
 
@@ -65,7 +66,12 @@ const ConferencePage = ({
   }, [rejoinMeeting, startStreaming, client, ready, tracks, getLikes])
 
 
-
+  useEffect(() => {
+    seo({
+      title: "SamTv | Live stream",
+      metaDescription: "Joined live with Prophet Samson Amoateng"
+    })
+  }, [])
 
   // console.log(samTvInfo);
   return (

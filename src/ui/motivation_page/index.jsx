@@ -1,5 +1,5 @@
 import { Card, Divider, List, Tooltip, Popconfirm, Popover } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import MotivationDescription from './listDescription'
 import "./styles/index.scss"
@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import AddMotivationDrawer from './addMotivationDrawer'
 import { deleteMotivation } from '../../state_mamger/functions/motivations'
 import EditMotivationDrawer from './editMotivationDrawer'
+import { seo } from '../../utils/customPageHeader'
 
 
 
@@ -28,6 +29,10 @@ const MotivationPage = ({ motivationsInfo, remove }) => {
     const openEditMotivationModal = () => {
         seteditMotivation(true)
     }
+    useEffect(() => {
+        seo({ title: "SamTv | Motivation page",
+        metaDescription:"Sam Tv motivation quotes posted by pastors to help stregnthen the weak" })
+    }, [])
 
     return (
         <div className="motivation-page container" >
