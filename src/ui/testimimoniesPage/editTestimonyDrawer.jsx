@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import logo from "../../assets/images/logo.png"
 import { db, storage } from '../../utils/networks/firebaseConfig';
+import { readWriteOnly } from '../../utils/permissions';
 
 const collectionName = "testimonies"
 
@@ -23,10 +24,10 @@ const EditTestmonyDrawer = ({ visible, onClose, testimony }) => {
     })
 
 
-    const handleChange =e=>{
+    const handleChange = e => {
         setValues({
             ...values,
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
@@ -147,29 +148,36 @@ const EditTestmonyDrawer = ({ visible, onClose, testimony }) => {
 
 
     }
-    
+
     console.log(testimony);
 
     return (
-        <Modal visible={visible} onCancel={onClose} footer = {null} >
+        <Modal visible={visible} onCancel={onClose} footer={null} >
             <Spin spinning={loading} >
 
 
 
                 <div className="logo d-flex w-100 justify-content-center">
-                    <Image width = "70%" preview={false} src={logo} alt="logo" />
+                    <Image width="70%" preview={false} src={logo} alt="logo" />
                 </div>
                 <div className="header mb-4  ">
                     <h4 className="text-center" >Edit Testimony</h4>
                 </div>
 
-                <Form onFinish={onFinish} {...layout} form={form} >
+                <Form onFinish={values => {
+                    readWriteOnly()
+                        .then(() => {
+                            onFinish(values)
+                        }).catch(() => {
+                            message.error("Sorry you do not have read write permissions")
+                        })
+                }} {...layout} form={form} >
                     <Form.Item
                         label="Title" >
-                        <Input name = "title" value={values.title || testimony.title} onChange={handleChange} placeholder="Testimony title" style={{ height: "50px", borderRadius: "10px" }} />
+                        <Input name="title" value={values.title || testimony.title} onChange={handleChange} placeholder="Testimony title" style={{ height: "50px", borderRadius: "10px" }} />
                     </Form.Item>
                     <Form.Item label="Type" >
-                        <Select  value={type || testimony.type} onChange={setType} >
+                        <Select value={type || testimony.type} onChange={setType} >
                             <Select.Option value="picture" >
                                 Picture
                             </Select.Option>
@@ -201,7 +209,7 @@ const EditTestmonyDrawer = ({ visible, onClose, testimony }) => {
 
                     <Form.Item label="Caption" >
                         <Input.TextArea
-                            name = "caption"
+                            name="caption"
                             onChange={handleChange}
                             value={values.description || testimony.description}
                             placeholder="Testimony caption"
