@@ -1,66 +1,73 @@
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Form, Input, message, Modal } from 'antd'
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { deletePrayer } from '../../state_mamger/functions/prayerRequest'
+import { adminOnly } from '../../utils/permissions'
 
-const DeletePromptModal = ({visible,onClose,prayer,deletePrayer}) => {
+const DeletePromptModal = ({ visible, onClose, prayer, deletePrayer }) => {
     console.log(prayer);
     return (
-        <Modal onCancel = {onClose} visible = {visible} footer = {null} >
+        <Modal onCancel={onClose} visible={visible} footer={null} >
             <h6 className="text-center">Deletion prompt</h6>
-            <p><span style = {{color:"red"}} > Note: </span> This action will permanently delete {prayer.author}'s the this prayer request from the data base. This action cannot be undone. <br /> Fill the form field below with <b><i>delete</i> </b> to confirm deletion. </p>
+            <p><span style={{ color: "red" }} > Note: </span> This action will permanently delete {prayer.author}'s the this prayer request from the data base. This action cannot be undone. <br /> Fill the form field below with <b><i>delete</i> </b> to confirm deletion. </p>
             <Form
-            onFinish = {()=>{
-                onClose()
-                deletePrayer(prayer)
-            }}
+                onFinish={() => {
+                    adminOnly()
+                        .then(() => {
+                            onClose()
+                            deletePrayer(prayer)
+                        }).catch(() => {
+                            message.error("Sorry you don't have admin permissions")
+                        })
+
+                }}
             >
                 <Row>
-                    <Col xs = "8" >
-                    <Form.Item name = "delete" 
-                    rules = {[
-                        {
-                            required:true,
-                            message:"The field cannot be empty"
-                        },
-                        {
-                            validator: (rule,value,callback)=>{
-                                if(value === "delete"){
-                                    callback()
+                    <Col xs="8" >
+                        <Form.Item name="delete"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "The field cannot be empty"
+                                },
+                                {
+                                    validator: (rule, value, callback) => {
+                                        if (value === "delete") {
+                                            callback()
 
-                                }else{
-                                    callback(('Input is not corrent'))
+                                        } else {
+                                            callback(('Input is not corrent'))
 
-                                }
-                            }
-                        },
-                       
-                        
-                    ]}
-                    >
-                    <Input style = {{borderRadius: "10px" }} placeholder = "delete" />
-                </Form.Item>
+                                        }
+                                    }
+                                },
+
+
+                            ]}
+                        >
+                            <Input style={{ borderRadius: "10px" }} placeholder="delete" />
+                        </Form.Item>
                     </Col>
                     <Col>
-                        <Button htmlType = "submit" style = {{borderColor:"red",color:"red"}} shape = "round" >Confirm delete</Button>
+                        <Button htmlType="submit" style={{ borderColor: "red", color: "red" }} shape="round" >Confirm delete</Button>
                     </Col>
                 </Row>
-              
+
             </Form>
         </Modal>
     )
 }
 
-const mapStateToProps =(state) =>{
-    return{
-    } ;
+const mapStateToProps = (state) => {
+    return {
+    };
 }
 
-const mapDispatchToProps = dispatch=>{
+const mapDispatchToProps = dispatch => {
     return {
-        deletePrayer:prayer=>dispatch(deletePrayer(prayer))
+        deletePrayer: prayer => dispatch(deletePrayer(prayer))
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(DeletePromptModal)
+export default connect(mapStateToProps, mapDispatchToProps)(DeletePromptModal)
