@@ -19,7 +19,7 @@ const DetailedDescription = ({sermon}) => {
                     <div className="overlay">
                       <Spin spinning = {state.bufferring} tip = {<p style = {{color:"#ffffff",textShadow:"none"}} >Video loading ...</p>} >
                           
-                        <ReactPlayer width = "100%" height = "300px" style = {{borderRadius:"10px"}} onReady = {()=>setState({...state,bufferring:false})} url = {sermon.videoLink}  />
+                        <ReactPlayer controls width = "100%" height = "300px" style = {{borderRadius:"10px"}} onReady = {()=>setState({...state,bufferring:false})} url = {sermon.videoLink}  />
                         
                         </Spin>
                     </div>
