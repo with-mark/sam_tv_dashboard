@@ -2,7 +2,7 @@ import { Button, Card, Form, Image, Input, message, notification, Spin } from 'a
 import React, { useEffect, useState } from 'react'
 import './styles/index.scss'
 import logo from '../../assets/images/logo.png'
-import { setAuthToken, setIsAuth, setUserInfo } from '../../utils/local_storage';
+import { setIsAuth, setUserInfo } from '../../utils/local_storage';
 import { useHistory } from 'react-router';
 import { auth, db } from '../../utils/networks/firebaseConfig';
 import { seo } from '../../utils/customPageHeader';
@@ -32,31 +32,26 @@ const LoginPage = () => {
     setLoading(true)
     auth.signInWithEmailAndPassword(values.email, values.password)
       .then(res => {
-        res.user.getIdToken(true).then(token => {
-          db.collection('userInfo').where('email', "==", values.email).get()
-            .then(query => {
-              const users = []
-              query.forEach(doc => {
-                users.push({
-                  id: doc.id,
-                  ...doc.data()
-                })
+        db.collection("userinfo").doc(res.user.uid)
+          .get()
+          .then((user) => {
+            if (!user.data()) {
+              setLoading(false)
+              message.error("Sorry you do not have permission log into this application")
+              return;
+            } else {
+              setLoading(false)
+              setIsAuth(true)
+              setUserInfo(user.data())
+              message.success("You have succefully logged in");
+              history.push("/")
+            }
 
-                if (users.length === 0) {
-                  message.error("You don't have permission to login into this app")
-                  return;
-                }
-                else {
-                  setLoading(false)
-                  setUserInfo(users[0])
-                  setAuthToken(token)
-                  message.success("You have succefully logged in");
-                  history.push("/")
-                  setIsAuth(true)
-                }
-              })
-            })
-        })
+          }).catch(() => {
+            setLoading(false)
+            message.error("Sorry you do not have permission log into this application")
+          })
+
 
       }).catch(err => {
         setLoading(false)
