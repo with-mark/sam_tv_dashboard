@@ -1,4 +1,5 @@
 import { getUserInfo } from "../../utils/local_storage"
+import { db } from "../../utils/networks/firebaseConfig"
 
 const GET_USER_INFO = "GET_USER_INFO"
 
@@ -12,7 +13,14 @@ export const getUserInfoAction=payload=>{
 
 export const fetchUserInfo = ()=>dispatch=>{
     const info = getUserInfo()
-    dispatch(getUserInfoAction(info))
+    db.collection('userinfo')
+    .doc(info.id)
+    .get()
+    .then(doc=>{
+        dispatch(getUserInfoAction({id:doc.id,...doc.data()}))
+    })
+    
+    
 }
 
 const initialState = {
