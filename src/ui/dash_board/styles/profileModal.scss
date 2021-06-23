@@ -1,0 +1,12 @@
+#profileBtn,
+#submitbtn {
+    height: 40px;
+    background: linear-gradient(to left, #852c2c, #df9470);
+    color: #fff;
+}
+
+#profileBtn:hover,
+#submitbtn :hover{
+    background: linear-gradient(to left, #852c2c, #df9470, #852c2c, #df9470, );
+    color: #fff;
+}

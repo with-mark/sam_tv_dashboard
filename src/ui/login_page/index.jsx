@@ -42,7 +42,7 @@ const LoginPage = () => {
             } else {
               setLoading(false)
               setIsAuth(true)
-              setUserInfo(user.data())
+              setUserInfo({ id: user.id, ...user.data() })
               message.success("You have succefully logged in");
               history.push("/")
             }

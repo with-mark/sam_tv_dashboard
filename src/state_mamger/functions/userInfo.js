@@ -3,7 +3,7 @@ import { getUserInfo } from "../../utils/local_storage"
 const GET_USER_INFO = "GET_USER_INFO"
 
 
-const getUserInfoAction=payload=>{
+export const getUserInfoAction=payload=>{
     return{
         type:GET_USER_INFO,
         payload

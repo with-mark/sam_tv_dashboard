@@ -1,9 +1,9 @@
-import { Avatar, Image, Layout, Menu, Popover, Button, Popconfirm, Tooltip } from 'antd'
+import { Avatar, Image, Layout, Menu,Divider, Popover, Button, Popconfirm, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell, faBookReader, faChartLine, faClock, faDesktop, faPray, faRunning, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faBookReader, faChartLine, faClock, faDesktop, faEdit, faPray, faRunning, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 import "./styles/index.scss"
 import { CloseOutlined, LogoutOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons"
 import StatisticsPage from '../statistics_page'
@@ -25,6 +25,7 @@ import { fetchUserInfo } from '../../state_mamger/functions/userInfo'
 import logut from '../../utils/logut'
 import TestimimoniesPage from '../testimimoniesPage'
 import { fetchTestimony } from '../../state_mamger/functions/testimonies'
+import ProfileModal from './profileModal'
 const LandingPage = ({
     getMotivation,
     getStreamingData,
@@ -63,12 +64,24 @@ const LandingPage = ({
         getTestimonies()
     }, [getMotivation, getTestimonies, getUserInfo, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
 
+    const [modalVisible,setModalVisible] = useState(false)
+    const openModal=()=>{
+        setModalVisible(true)
+    }
+
+    const closeModal=()=>{
+        setModalVisible(false)
+    }
 
     const history = useHistory()
 
     const popOverContent = (
         <div className="p-2 popOverContent" >
+            <h6> {userInfo.name} </h6>
+            <Button onClick = {openModal} icon={<FontAwesomeIcon className="mx-2" icon={faEdit} />} id="editBtn" shape="round" >Edit profile</Button>
+            <Divider />
             <p>{userInfo.email}</p>
+
             <div className="logout-btn">
                 <Popconfirm
                     okText="Yes"
@@ -91,12 +104,13 @@ const LandingPage = ({
 
     return (
         <Layout style={{ minHeight: '100vh' }} >
+            <ProfileModal vidible = {modalVisible} onCancel = {closeModal} />
             <Layout.Sider hidden={state.hideMenu} theme="light" zeroWidthTriggerStyle={{ color: "blue" }} breakpoint="md" style={{ backgroundColor: "#ffffff" }} collapsible collapsed={state.menuCollapse} onCollapse={collapseMenu}>
                 <div className="logo">
                     <Image preview={false} src={logo} alt="slider-logo" srcset="" />
                 </div>
                 <hr />
-                <Menu defaultSelectedKeys = "1" style={{ color: "royalblue" }} onClick={onNavigate} theme="light" mode="vertical" defaultOpenKeys={["1"]} >
+                <Menu defaultSelectedKeys="1" style={{ color: "royalblue" }} onClick={onNavigate} theme="light" mode="vertical" defaultOpenKeys={["1"]} >
                     <Menu.Item title="Statistics" path="/" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faChartLine} />} key="1" >
                         <span hidden={state.menuCollapse} >Statistics</span>
                     </Menu.Item>
@@ -174,7 +188,7 @@ const LandingPage = ({
                         <small>{userInfo.email}</small>
                         <div className="mx-3" />
                         <Popover trigger="click" content={popOverContent} placement="bottomLeft" >
-                            <Avatar icon={<UserOutlined />} size="large" className="mt-2" />
+                            <Avatar src={userInfo.photoUrl} icon={<UserOutlined />} size="large" className="mt-2" />
 
                         </Popover>
                     </div>
