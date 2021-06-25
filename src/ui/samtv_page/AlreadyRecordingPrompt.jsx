@@ -1,7 +1,5 @@
-import { Result, Button, Typography, Modal } from 'antd';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import { Result,  Modal } from 'antd';
 import React from 'react'
-const { Paragraph, Text } = Typography;
 
 const AlreadyRecordingPrompt = ({ visible, onCLose }) => {
     return (
