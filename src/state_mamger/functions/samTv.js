@@ -1,10 +1,10 @@
 import { message, notification } from "antd"
 import {db}  from  "../../utils/networks/firebaseConfig"
-import { deleteSamTvToken, deleteStreamUid, getLocalAgoraToken, getStreanUid, setRecordingResourceId, setRecordingSid, setStreamUid } from "../../utils/local_storage"
+import { deleteRecordingResourceId, deleteRecordingSid, deleteSamTvToken, deleteStreamUid, getLocalAgoraToken, getRecordingResourceId, getRecordingSid, getStreanUid, setRecordingResourceId, setRecordingSid, setStreamUid } from "../../utils/local_storage"
 import { getVideoToken } from "../../utils/agoraFunctions"
 import pushNotification from "../../utils/pushNotification"
 import axios from "axios"
-import { startStreamRecordingPath } from "../../utils/networks/endpoints"
+import { startStreamRecordingPath, stopStreamRecordingPath } from "../../utils/networks/endpoints"
 import { deleteAllAudience, deleteAllChats, deleteAllLikes } from "./samTvChats"
 
 const SET_SAMTV_PROGRESS = "SET_SAMTV_PROGRESS"
@@ -14,10 +14,18 @@ const INIT_MEETING_COMPLETE = "INIT_MEETING_COMPLETE"
 const SEND_RECORDING_REQUEST = "SEND_RECORDING_REQUEST"
 const SEND_RECORDING_COMPLETED = "SEND_RECORDING_COMPLETED"
 
+const END_RECORDING_REQUEST = "END_RECORDING_REQUEST"
+const END_RECORDING_SUCCESS = "END_RECORDING_SUCCESS"
+const END_RECORDING_FALILED = "END_RECORDING_FALILED"
+
 const appId = "c40594061e1f4580aae3b2af1963d01e"
 const channelName = "casa"
 
-
+export const recorodingState = {
+    loading:"loading",
+    recording:"recording",
+    notRecording:"not_recording"
+}
 
 
 
@@ -30,6 +38,26 @@ const startRecordingRequest = ()=>{
 const startRecordingCompleted=()=>{
     return {
         type:SEND_RECORDING_COMPLETED
+    }
+}
+
+
+
+const endRecordingRequest=()=>{
+    return{
+        type: END_RECORDING_REQUEST
+    }
+}
+
+const endRecordingSuccess=()=>{
+    return{
+        type:END_RECORDING_SUCCESS
+    }
+}
+
+const endRecordingFailed=()=>{
+    return{
+        type: END_RECORDING_FALILED
     }
 }
 
@@ -51,7 +79,7 @@ export const startRecording =()=>async dispatch=>{
     axios.post(startStreamRecordingPath,data,config)
     .then(res=>{
         console.log(res.data);
-        const {sid,resourceId} = res.data
+        const {sid,resourceId} = res.data.data
         setRecordingResourceId(resourceId)
         setRecordingSid(sid)
         dispatch(startRecordingCompleted())
@@ -73,6 +101,48 @@ export const startRecording =()=>async dispatch=>{
         }
  
     })
+}
+
+
+
+
+export const endRecording=()=>dispatch=>{
+        const config = {
+        headers:{
+            "Content-Type":"application/json"
+        }
+    }
+    dispatch(endRecordingRequest())
+    const data = {
+        cname:"casa",
+        uid:String(getStreanUid()),
+        sid:getRecordingSid(),
+        resourceId:getRecordingResourceId()
+
+    }
+    console.log("Casa");
+    axios.post(stopStreamRecordingPath,data,config)
+    .then(res=>{
+        console.log(res);
+        deleteRecordingResourceId()
+        deleteRecordingSid()
+        dispatch(endRecordingSuccess())
+        message.success("Recorded Ended succesfully")
+    }).catch((err)=>{
+        dispatch(endRecordingFailed())
+        if(err.response){
+            console.log(err.response);
+            message.error(`Ending live recording failed! \n  Reason: ${String(err.response.data.detail)}`)
+        }
+        else if(err.request){
+            notification.error({
+                message:"Network error",
+                description:"Check internet connection and try again"
+            })
+
+        }
+    })
+
 }
 
 
@@ -165,7 +235,8 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
         })
 
     }else{
-            const uid = getStreanUid() ||null
+            const uid = 393939
+            setStreamUid(uid)
             client.join(appId,channelName,token,uid).then(uid=>{
                 setStreamUid(uid)
         if(ready && tracks){
@@ -207,7 +278,7 @@ const initialState = {
     status:samTvState.offline,
     loading:false,
     curStream:null,
-    loadingRecording:false,
+    recordingStatus:recorodingState.notRecording,
 }
 
 
@@ -223,12 +294,27 @@ const samTvReducer = (state = initialState, { type, payload }) => {
     case SEND_RECORDING_REQUEST:
         return{
             ...state,
-            loadingRecording:true
+            recordingStatus:recorodingState.loading
         }
     case SEND_RECORDING_COMPLETED:
         return{
             ...state,
-            loadingRecording:false
+            recordingStatus:recorodingState.recording
+        }
+    case END_RECORDING_REQUEST:
+        return{
+            ...state,
+            recordingStatus:recorodingState.loading
+        }
+    case END_RECORDING_SUCCESS:
+        return{
+            ...state,
+            recordingStatus:recorodingState.notRecording
+        }
+    case END_RECORDING_FALILED:
+        return{
+            ...state,
+            recordingStatus:recorodingState.recording
         }
 
     default:

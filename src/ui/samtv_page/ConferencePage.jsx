@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import "./styles/conferencePage.scss"
 import { AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
-import { HeartFilled,  VideoCameraFilled } from "@ant-design/icons"
+import { HeartFilled, LoadingOutlined, StopOutlined, VideoCameraFilled } from "@ant-design/icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
-import { endStreaming, rejoineMeeting, startMeeting, startRecording } from '../../state_mamger/functions/samTv';
+import { endRecording, endStreaming, recorodingState, rejoineMeeting, startMeeting, startRecording } from '../../state_mamger/functions/samTv';
 import Chats from './chat';
-import { notification, Popconfirm, Spin } from 'antd';
+import { notification, Popconfirm, Spin, Tooltip } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { fetchAudience, fetchLikes } from '../../state_mamger/functions/samTvChats';
 import TopDisplaybar from './TopDisplaybar';
 import { seo } from '../../utils/customPageHeader';
+import AlreadyRecordingPrompt from './AlreadyRecordingPrompt';
 const config = { mode: "live", codec: "h264" }
 
 
@@ -32,14 +33,13 @@ const ConferencePage = ({
   getAudience,
   beginRecording,
   chatsInfo,
+  stopRecording,
+  samTvInfo,
   stopStreaming }) => {
 
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
-  // const [networkQuality, setNetworkQuality] = useState({
-  //   upload: 3,
-  //   download: 3
-  // })
+  const [recordingPrompt, setRecordingPrompt] = useState(false)
 
 
 
@@ -67,6 +67,7 @@ const ConferencePage = ({
 
   return (
     <div className="confrence-room" >
+      <AlreadyRecordingPrompt visible={recordingPrompt} onCLose={() => { setRecordingPrompt(false) }} />
 
 
 
@@ -95,8 +96,15 @@ const ConferencePage = ({
 
                   {chatsInfo.likes.length > 0 && chatsInfo.likes.map(() => <HeartFilled className="like" style={{ color: "red", fontSize: "1rem" }} />)}
                 </div>
-
-                <Controls beginRecording={beginRecording}  client={client} stopStreaming={stopStreaming} tracks={tracks} />
+                <Controls
+                  openRecordingPrompt={() => setRecordingPrompt(true)}
+                  stopRecording={stopRecording}
+                  samTvInfo={samTvInfo}
+                  beginRecording={beginRecording}
+                  client={client}
+                  stopStreaming={stopStreaming}
+                  tracks={tracks}
+                />
               </div>
 
             </div>
@@ -104,14 +112,6 @@ const ConferencePage = ({
         </div>
       </AgoraVideoPlayer>
       }
-
-
-
-
-
-
-
-
     </div>
   )
 }
@@ -122,6 +122,9 @@ export const Controls = ({
   stopStreaming,
   beginRecording,
   client,
+  samTvInfo,
+  openRecordingPrompt,
+  stopRecording,
 }) => {
 
   const history = useHistory()
@@ -164,7 +167,12 @@ export const Controls = ({
           title="Are you sure you want to end this live session?"
           okText="End live stream"
           onConfirm={() => {
-            stopStreaming(tracks, history, client)
+            if (samTvInfo.recordingStatus === recorodingState.recording) {
+              openRecordingPrompt()
+            } else {
+              stopStreaming(tracks, history, client)
+            }
+
 
 
           }}
@@ -174,9 +182,31 @@ export const Controls = ({
           <FontAwesomeIcon icon={faPhoneSlash} />
         </Popconfirm>
       </div>
-      <div className="rec circle" >
-        <VideoCameraFilled onClick={beginRecording} style={{ fontSize: "1.5rem", color: "red" }} />
-      </div>
+      {samTvInfo.recordingStatus === recorodingState.notRecording ? (
+        <>
+          <Tooltip title="Start recording" >
+            <div className="rec circle" >
+              <VideoCameraFilled onClick={beginRecording} style={{ fontSize: "1.5rem", color: "red" }} />
+            </div>
+          </Tooltip>
+        </>
+
+      ) : samTvInfo.recordingStatus === recorodingState.loading ? (
+
+        <div className="rec circle" >
+          <LoadingOutlined disabled style={{ fontSize: "1.5rem", color: "red" }} />
+        </div>
+
+      ) : (
+        <>
+          <Tooltip title="Stop recording" >
+            <div className="rec circle" >
+              <StopOutlined onClick={stopRecording} style={{ fontSize: "1.5rem", color: "red" }} />
+            </div>
+          </Tooltip>
+        </>
+      )}
+
     </div>
   );
 };
@@ -193,7 +223,8 @@ const mapDispatchToProps = dispatch => {
     stopStreaming: (tracks, history, client) => dispatch(endStreaming(tracks, history, client)),
     getLikes: () => dispatch(fetchLikes()),
     beginRecording: () => dispatch(startRecording()),
-    getAudience: () => dispatch(fetchAudience())
+    getAudience: () => dispatch(fetchAudience()),
+    stopRecording: () => dispatch(endRecording())
 
 
   }
