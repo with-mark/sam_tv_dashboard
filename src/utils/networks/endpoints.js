@@ -1,7 +1,10 @@
+
+export const localHost = "http://127.0.0.1:5000/"
 export const samTvHeroku ="https://sam-tv-staging.herokuapp.com/"
-export const pushNotificationPath = `${samTvHeroku}pushNotification/push`
-export const pushNotificationWithCustomImagePath = `${samTvHeroku}pushNotification/push_image`
-export const pushNotificationNoImagePath = `${samTvHeroku}pushNotification/push_no_image`
-export const deleteUserPath = id=>`${samTvHeroku}manageUsers/deleteUser/${id}`
-export const startStreamRecordingPath = `${samTvHeroku}live-stream-recoroding/record`
-export const stopStreamRecordingPath = `${samTvHeroku}live-stream-recoroding/stop`
+const baseUrl = localHost
+export const pushNotificationPath = `${baseUrl}pushNotification/push`
+export const pushNotificationWithCustomImagePath = `${baseUrl}pushNotification/push_image`
+export const pushNotificationNoImagePath = `${baseUrl}pushNotification/push_no_image`
+export const deleteUserPath = id=>`${baseUrl}manageUsers/deleteUser/${id}`
+export const startStreamRecordingPath = `${baseUrl}live-stream-recoroding/record`
+export const stopStreamRecordingPath = `${baseUrl}live-stream-recoroding/stop`

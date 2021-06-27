@@ -18,7 +18,7 @@ const pushNotification = (title,body,topic)=>{
         },
         topic
             }
-        axios.post(pushNotificationPath,data,config)
+        axios.post(pushNotificationPath,data,config).catch(err=>{throw err.response})
 
 }
 

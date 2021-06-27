@@ -120,7 +120,6 @@ export const endRecording=()=>dispatch=>{
         resourceId:getRecordingResourceId()
 
     }
-    console.log("Casa");
     axios.post(stopStreamRecordingPath,data,config)
     .then(res=>{
         console.log(res);
@@ -206,7 +205,7 @@ export const endStreaming = (tracks,history,client)=>dispatch=>{
                 deleteAllLikes()
                 deleteAllChats()
                 deleteStreamUid()
-                pushNotification( "Sam Tv Livestream just ended","","sam_tv")   
+                pushNotification( "Sam Tv Livestream just ended","s","sam_tv")   
                 message.success("You have successfully ended the live session")
                 history.push("/sam-tv")
             })
@@ -242,7 +241,7 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
         if(ready && tracks){
             client.setClientRole("host").then(()=>{
                 client.publish(tracks).then(res=>{
-                    pushNotification( "SamTv is live with Prophet Samuel Amoateng","","sam_tv")   
+                    pushNotification( "SamTv is live with Prophet Samuel Amoateng","Join us","sam_tv")   
                     dispatch(setSamTvProgress(samTvState.online))
                     message.success("Sam tv is online")                
                 })

@@ -29,6 +29,7 @@ const fetchAudienceCompleted = audience=>{
 
 export const fetchAudience =()=>dispatch=>{
     db.collection('Views')
+
     .onSnapshot(query=>{
         const items = []
         query.forEach(doc=>{
@@ -76,7 +77,9 @@ export  const fetchLikes=()=>dispatch=>{
 
 export const fetchChats=()=>dispatch=>{
     dispatch(fetchChatsRequest())
-    db.collection(collectionName).onSnapshot(query=>{
+    db.collection(collectionName)
+    .orderBy('dateAdded','desc')
+    .onSnapshot(query=>{
         let chats = []
         query.forEach(doc=>{
             chats.push({

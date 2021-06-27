@@ -7,6 +7,7 @@ export const getVideoToken =()=>{
     return new Promise((resolve,reject)=>{
             if(!token){
         token =  getAgoraTOken()
+         setAgoraToken(token)
            db.collection("samTv").doc("agoraToken").update({
                         token,
                         live:true
