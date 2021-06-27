@@ -7,12 +7,13 @@ import { faMicrophone, faMicrophoneSlash, faPhoneSlash, faVideo } from '@fortawe
 import { connect } from 'react-redux';
 import { endRecording, endStreaming, recorodingState, rejoineMeeting, startMeeting, startRecording } from '../../state_mamger/functions/samTv';
 import Chats from './chat';
-import { notification, Popconfirm, Spin, Tooltip } from 'antd';
+import { notification, Popconfirm, Tooltip } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { fetchAudience, fetchLikes } from '../../state_mamger/functions/samTvChats';
 import TopDisplaybar from './TopDisplaybar';
 import { seo } from '../../utils/customPageHeader';
 import AlreadyRecordingPrompt from './AlreadyRecordingPrompt';
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner';
 const config = { mode: "live", codec: "h264" }
 
 
@@ -82,7 +83,7 @@ const ConferencePage = ({
           </div>
 
 
-          <Spin spinning={false} wrapperClassName="spin" size="large" tip="Loading stream" >
+          <CustomSpinner spinning={false} wrapperClassName="spin" size="large" tip="Loading stream" >
             <div className="content d-flex">
 
 
@@ -108,7 +109,7 @@ const ConferencePage = ({
               </div>
 
             </div>
-          </Spin>
+          </CustomSpinner>
         </div>
       </AgoraVideoPlayer>
       }

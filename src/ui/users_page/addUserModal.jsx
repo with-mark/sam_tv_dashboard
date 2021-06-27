@@ -1,8 +1,9 @@
-import { Button, Form, Input, message, Select, Modal, notification, Spin } from 'antd'
+import { Button, Form, Input, message, Select, Modal, notification} from 'antd'
 import React, { useEffect, useState } from 'react'
 import { seo } from '../../utils/customPageHeader'
 import { auth, db } from "../../utils/networks/firebaseConfig"
 import { adminOnly } from '../../utils/permissions'
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner'
 import "./styles/modal.scss"
 
 const AddUserModal = ({ visible, onClose }) => {
@@ -59,7 +60,7 @@ const AddUserModal = ({ visible, onClose }) => {
     }, [])
     return (
         <Modal visible={visible} onCancel={onClose} footer={null} >
-            <Spin spinning={state.loading} >
+            <CustomSpinner spinning={state.loading} >
 
 
                 <h6 className="text-center">Add User</h6>
@@ -137,7 +138,7 @@ const AddUserModal = ({ visible, onClose }) => {
                     </div>
 
                 </Form>
-            </Spin>
+            </CustomSpinner>
         </Modal>
     )
 }

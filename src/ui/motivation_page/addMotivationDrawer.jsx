@@ -1,4 +1,4 @@
-import { Modal, Image, Form, Input, Select, Button, Spin, message } from 'antd'
+import { Modal, Image, Form, Input, Select, Button, message } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
@@ -6,6 +6,7 @@ import logo from "../../assets/images/logo.png"
 import { db, storage } from '../../utils/networks/firebaseConfig';
 import { readWriteOnly } from '../../utils/permissions';
 import { pushNotificationCustomImage, pushNotificationNoImage } from '../../utils/pushNotification';
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner';
 
 const collectionName = "motivations"
 
@@ -86,7 +87,7 @@ const AddMotivationDrawer = ({ visible, onClose }) => {
 
     return (
         <Modal visible={visible} onCancel={onClose} footer={null} >
-            <Spin spinning={loading} >
+            <CustomSpinner spinning={loading} >
 
 
 
@@ -161,7 +162,7 @@ const AddMotivationDrawer = ({ visible, onClose }) => {
                     </div>
 
                 </Form>
-            </Spin>
+            </CustomSpinner>
 
         </Modal>
     )

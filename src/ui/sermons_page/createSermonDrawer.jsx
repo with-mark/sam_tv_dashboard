@@ -1,4 +1,4 @@
-import { Button, Modal, Form, Image, Input, message, Select, Spin } from 'antd'
+import { Button, Modal, Form, Image, Input, message, Select } from 'antd'
 import React, { useState } from 'react'
 import "./styles/createSermonDrawer.scss"
 import logo from "../../assets/images/logo.png"
@@ -9,6 +9,7 @@ import { addSermon } from '../../state_mamger/functions/sermons';
 import { db, storage } from '../../utils/networks/firebaseConfig'
 import { v4 } from 'uuid'
 import { readWriteOnly } from '../../utils/permissions'
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner'
 const collectionName = "sermons"
 
 const formLayout = {
@@ -108,7 +109,7 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
     }
     return (
         <Modal onCancel={onClose} visible={visible} footer={null} >
-            <Spin tip={"Uploading video"} spinning={loading} >
+            <CustomSpinner tip={"Uploading video"} spinning={loading} >
 
                 <div className="logo width-100 d-flex justify-content-center ">
                     <Image width="70%" id="logo" preview={false} src={logo} />
@@ -182,7 +183,7 @@ const CreateSermonDrawer = ({ visible, onClose, sermon, createSermon }) => {
 
                     </Form>
                 </div>
-            </Spin>
+            </CustomSpinner>
         </Modal>
     )
 }

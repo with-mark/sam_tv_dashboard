@@ -1,10 +1,11 @@
-import { Button, Modal, Form, Image, Input, message, notification, Spin } from 'antd'
+import { Button, Modal, Form, Image, Input, message, notification } from 'antd'
 import React, { useState } from 'react'
 import "./styles/createEventsDrawer.scss"
 import logo from "../../assets/images/logo.png"
 import 'react-quill/dist/quill.snow.css';
 import { connect } from 'react-redux';
 import { db, storage } from '../../utils/networks/firebaseConfig'
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner';
 
 
 const formLayout = {
@@ -112,7 +113,7 @@ const EditEventsDrawer = ({ visible, closeModal, event }) => {
             closeModal()
 
         }} visible={visible} footer = {null} >
-            <Spin tip={state.imageUploading ? "Uploading image" : "Posting event"} spinning={state.loading} >
+            <CustomSpinner tip={state.imageUploading ? "Uploading image" : "Posting event"} spinning={state.loading} >
                 <div className="logo d-flex w-100 justify-content-center">
                     <Image width = "70%" id="logo" preview={false} src={logo} />
                 </div>
@@ -168,7 +169,7 @@ const EditEventsDrawer = ({ visible, closeModal, event }) => {
 
                     </Form>
                 </div>
-            </Spin>
+            </CustomSpinner>
         </Modal>
     )
 }

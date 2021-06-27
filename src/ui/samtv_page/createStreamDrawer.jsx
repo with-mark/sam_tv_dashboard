@@ -1,4 +1,4 @@
-import { Button, Modal, Form, Image, Input, DatePicker, Spin, message } from 'antd'
+import { Button, Modal, Form, Image, Input, DatePicker, message } from 'antd'
 import React, { useState } from 'react'
 import "./styles/createStreamDrawer.scss"
 import logo from "../../assets/images/logo.png"
@@ -6,6 +6,7 @@ import { db } from '../../utils/networks/firebaseConfig';
 import { liveStreamStatus } from '../../state_mamger/functions/liveStreams';
 import { pushNotificationNoImage } from '../../utils/pushNotification';
 import { samTvOnly } from '../../utils/permissions';
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner';
 
 
 
@@ -53,7 +54,7 @@ const CreateStreamDrawer = ({ visible, onClose }) => {
 
     return (
         <Modal onCancel={onClose} visible={visible} footer={null}>
-            <Spin size="large" spinning={loading} >
+            <CustomSpinner size="large" spinning={loading} >
 
 
                 <div className="d-flex justify-content-center">
@@ -89,7 +90,7 @@ const CreateStreamDrawer = ({ visible, onClose }) => {
 
                     </Form>
                 </div>
-            </Spin>
+            </CustomSpinner>
         </Modal>
     )
 }

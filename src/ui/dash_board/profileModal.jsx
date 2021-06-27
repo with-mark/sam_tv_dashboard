@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal, Form, Avatar, Button, Divider, Input, Spin, Select, message } from "antd"
+import { Modal, Form, Avatar, Button, Divider, Input,  Select, message } from "antd"
 import "./styles/profileModal.scss"
 import { UserOutlined } from '@ant-design/icons'
 import { v4 } from "uuid"
@@ -10,6 +10,7 @@ import { readWriteOnly } from '../../utils/permissions'
 import { db, storage } from '../../utils/networks/firebaseConfig'
 import { getUserInfoAction } from '../../state_mamger/functions/userInfo'
 import { setUserInfo } from '../../utils/local_storage'
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner'
 
 const ProfileModal = ({ vidible, onCancel, userInfo, getUserInfo }) => {
     const [values, setValues] = useState({
@@ -136,7 +137,7 @@ const ProfileModal = ({ vidible, onCancel, userInfo, getUserInfo }) => {
     }
     return (
         <Modal visible={vidible} onCancel={onCancel} footer={null} >
-            <Spin spinning={loading} >
+            <CustomSpinner spinning={loading} >
                 <div className="inner">
                     <div className="avatar d-flex justify-content-center">
                         <Avatar src={userInfo.photoUrl} size={144} icon={<UserOutlined />} />
@@ -174,7 +175,7 @@ const ProfileModal = ({ vidible, onCancel, userInfo, getUserInfo }) => {
                         </div>
                     </Form>
                 </div>
-            </Spin>
+            </CustomSpinner>
         </Modal>
     )
 }

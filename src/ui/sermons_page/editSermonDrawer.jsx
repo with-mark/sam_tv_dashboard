@@ -1,4 +1,4 @@
-import { Button, Modal, Form, Image, Input, Spin, message } from 'antd'
+import { Button, Modal, Form, Image, Input, message } from 'antd'
 import React, { useState } from 'react'
 import "./styles/createSermonDrawer.scss"
 import logo from "../../assets/images/logo.png"
@@ -7,6 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import { connect } from 'react-redux';
 import { addSermon } from '../../state_mamger/functions/sermons';
 import { readWriteOnly } from '../../utils/permissions'
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner'
 
 
 const formLayout = {
@@ -42,7 +43,7 @@ const EditSermonDrawer = ({ visible, onClose, sermon, createSermon, item }) => {
 
         <Modal onCancel={onClose} visible={visible} footer={null} >
             {console.log(state)}
-            <Spin tip={"Uploading video"} spinning={sermon.postLoading} >
+            <CustomSpinner tip={"Uploading video"} spinning={sermon.postLoading} >
 
 
                 <div className="logo d-flex w-100 justify-content-center">
@@ -102,7 +103,7 @@ const EditSermonDrawer = ({ visible, onClose, sermon, createSermon, item }) => {
 
                     </Form>
                 </div>
-            </Spin>
+            </CustomSpinner>
         </Modal>
     )
 }

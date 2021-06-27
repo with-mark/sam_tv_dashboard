@@ -1,6 +1,6 @@
 import { faVideo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Modal, Form, Input, Button, Spin, notification, message } from 'antd'
+import { Modal, Form, Input, Button, notification, message } from 'antd'
 import React, { useState } from 'react'
 import { setStreamUid } from '../../utils/local_storage';
 import { db } from '../../utils/networks/firebaseConfig';
@@ -8,6 +8,7 @@ import "./styles/livestreamModal.scss"
 import { v4 } from "uuid"
 import { useHistory } from 'react-router-dom';
 import { samTvOnly } from '../../utils/permissions';
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner';
 
 
 const layout = {
@@ -53,7 +54,7 @@ const StartMeetingFormModal = ({ visible, onClose }) => {
 
     return (
         <Modal visible={visible} onCancel={onClose} footer={null} >
-            <Spin tip="Preparing live stream" spinning={loading} >
+            <CustomSpinner tip="Preparing live stream" spinning={loading} >
                 <div className="text-center my-4">
                     <h5>Live stream information</h5>
                 </div>
@@ -79,7 +80,7 @@ const StartMeetingFormModal = ({ visible, onClose }) => {
                     </div>
 
                 </Form>
-            </Spin>
+            </CustomSpinner>
         </Modal>
     )
 }

@@ -1,4 +1,4 @@
-import { Button, Card, Form, Image, Input, message, notification, Spin } from 'antd'
+import { Button, Card, Form, Image, Input, message, notification } from 'antd'
 import React, { useEffect, useState } from 'react'
 import './styles/index.scss'
 import logo from '../../assets/images/logo.png'
@@ -6,6 +6,7 @@ import { setIsAuth, setUserInfo } from '../../utils/local_storage';
 import { useHistory } from 'react-router';
 import { auth, db } from '../../utils/networks/firebaseConfig';
 import { seo } from '../../utils/customPageHeader';
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner';
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -89,7 +90,7 @@ const LoginPage = () => {
   return (
     <div className="login-page" >
       <Card id="login-card">
-        <Spin spinning={state.loading} >
+        <CustomSpinner spinning={state.loading} >
 
 
           <div className="logo">
@@ -134,7 +135,7 @@ const LoginPage = () => {
               LOGIN
             </Button>
           </Form>
-        </Spin>
+        </CustomSpinner>
       </Card>
     </div>
   )

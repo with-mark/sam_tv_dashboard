@@ -1,10 +1,11 @@
-import { Modal, Image, Form, Input, Select, Button, Spin, message } from 'antd'
+import { Modal, Image, Form, Input, Select, Button, message } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import logo from "../../assets/images/logo.png"
 import { db, storage } from '../../utils/networks/firebaseConfig';
 import { readWriteOnly } from '../../utils/permissions';
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner';
 
 const collectionName = "testimonies"
 
@@ -153,7 +154,7 @@ const EditTestmonyDrawer = ({ visible, onClose, testimony }) => {
 
     return (
         <Modal visible={visible} onCancel={onClose} footer={null} >
-            <Spin spinning={loading} >
+            <CustomSpinner spinning={loading} >
 
 
 
@@ -226,7 +227,7 @@ const EditTestmonyDrawer = ({ visible, onClose, testimony }) => {
                     </div>
 
                 </Form>
-            </Spin>
+            </CustomSpinner>
 
         </Modal>
     )

@@ -1,4 +1,4 @@
-import { Button, Drawer, Image, Tag, Spin, message } from 'antd'
+import { Button, Drawer, Image, Tag, message } from 'antd'
 import React, { useState } from 'react'
 import "./styles/createStreamDrawer.scss"
 import "./styles/detailed.scss"
@@ -7,6 +7,7 @@ import { Col, Row } from 'react-bootstrap'
 import { useHistory } from 'react-router'
 import { db } from '../../utils/networks/firebaseConfig'
 import { liveStreamStatus } from '../../state_mamger/functions/liveStreams'
+import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner'
 
 const DetailedStreamDrawer = ({ visible, onClose, stream }) => {
     const history = useHistory()
@@ -49,7 +50,7 @@ const DetailedStreamDrawer = ({ visible, onClose, stream }) => {
     }
     return (
         <Drawer onClose={onClose} visible={visible} width={400} >
-            <Spin spinning={loading} size="large" >
+            <CustomSpinner spinning={loading} size="large" >
 
 
                 <div className="logo">
@@ -78,7 +79,7 @@ const DetailedStreamDrawer = ({ visible, onClose, stream }) => {
                     </div>
                 </Row>
 
-            </Spin>
+            </CustomSpinner>
         </Drawer>
     )
 }
