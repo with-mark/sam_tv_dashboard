@@ -1,7 +1,7 @@
 
 export const localHost = "http://127.0.0.1:5000/"
 export const samTvHeroku ="https://sam-tv-staging.herokuapp.com/"
-const baseUrl = samTvHeroku
+const baseUrl = localHost
 export const pushNotificationPath = `${baseUrl}pushNotification/push`
 export const pushNotificationWithCustomImagePath = `${baseUrl}pushNotification/push_image`
 export const pushNotificationNoImagePath = `${baseUrl}pushNotification/push_no_image`

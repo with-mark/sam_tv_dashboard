@@ -6,6 +6,7 @@ import pushNotification from "../../utils/pushNotification"
 import axios from "axios"
 import { startStreamRecordingPath, stopStreamRecordingPath } from "../../utils/networks/endpoints"
 import { deleteAllAudience, deleteAllChats, deleteAllLikes } from "./samTvChats"
+import { generateStreamUserId } from "../../utils/generators"
 
 const SET_SAMTV_PROGRESS = "SET_SAMTV_PROGRESS"
 const INIT_MEETING_REQUEST ="INIT_MEETING_REQUEST"
@@ -234,8 +235,8 @@ export const startMeeting = (tracks,ready,client)=>dispatch=>{
         })
 
     }else{
-            const uid = 393939
-            setStreamUid(uid)
+
+            const uid =   getStreanUid() || generateStreamUserId()
             client.join(appId,channelName,token,uid).then(uid=>{
                 setStreamUid(uid)
         if(ready && tracks){

@@ -2,10 +2,8 @@ import { faVideo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal, Form, Input, Button, notification, message } from 'antd'
 import React, { useState } from 'react'
-import { setStreamUid } from '../../utils/local_storage';
 import { db } from '../../utils/networks/firebaseConfig';
 import "./styles/livestreamModal.scss"
-import { v4 } from "uuid"
 import { useHistory } from 'react-router-dom';
 import { samTvOnly } from '../../utils/permissions';
 import CustomSpinner from '../../utils/ui/customSpinner/CustomSpinner';
@@ -24,7 +22,6 @@ const StartMeetingFormModal = ({ visible, onClose }) => {
     const onFinish = values => {
         console.log(values);
         setLoading(true)
-        const uid = v4()
         db.collection("samTv")
             .doc('agoraToken')
             .set({
@@ -33,11 +30,9 @@ const StartMeetingFormModal = ({ visible, onClose }) => {
                 token: null,
                 live: false,
                 status: "pending",
-                uid
             })
             .then(() => {
                 setLoading(false)
-                setStreamUid(uid)
                 onClose()
                 history.push("/sam-tv/live")
             }).catch(err => {
