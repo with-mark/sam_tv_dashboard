@@ -68,7 +68,7 @@ console.log(recordings);
                     <h5>SamTv Live Recordings</h5>
                 </div>
 
-                <List dataSource = {recordings.data} loading = {recordings.loading}
+                <List pagination = {{pageSize:5}} dataSource = {recordings.data} loading = {recordings.loading}
                     renderItem={item => (<List.Item>
                         <List.Item.Meta
                             title={<div className="d-flex justify-content-between w-100" >
