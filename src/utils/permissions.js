@@ -34,7 +34,7 @@ export const samTvOnly=()=>{
         if(user === null){
             return reject(false)
         }
-        if(user.role !== 'admin' || user.role !=="samtv"){
+        if(user.role === 'admin' || user.role ==="samtv"){
             
             return resolve(true)
         }
