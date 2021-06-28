@@ -2,24 +2,21 @@ import { Card, Image, List, Popconfirm, Popover, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import "./styles/index.scss"
 import logo from "../../assets/images/logo.png"
-import { DeleteOutlined, EditOutlined,  MoreOutlined } from "@ant-design/icons"
-import CreateStreamDrawer from './createStreamDrawer';
-import DetailedStreamDrawer from './detailedDrawer';
+import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons"
 import StreamDeletePromptModal from './deletePromptModal'
 import { connect } from 'react-redux';
 import { seo } from '../../utils/customPageHeader';
 import LiveRecordingsDescription from './LiveRecordingsDescription';
 import { deleteRecordings } from '../../state_mamger/functions/liveRecordings'
+import EditRecordingModal from './EditRecordingModal'
 
 
 
 
 const LiveRecordings = ({ recordings, remove }) => {
     const [state, setState] = useState({
-        addDrawer: false,
-        detailedDrawer: false,
         deleteModal: false,
-        selectedStream: {}
+        editRecordingModal: false
     })
     useEffect(() => {
         seo({
@@ -28,16 +25,10 @@ const LiveRecordings = ({ recordings, remove }) => {
         })
     }, [])
 
-    const [selectedStream, setSelectedStream] = useState({})
+    const [selectedRecording, setSelectedRecording] = useState({})
 
 
-    const setAddDrawer = status => {
-        setState({
-            ...state,
-            addDrawer: status
-        })
 
-    }
 
     const setDeleteModal = status => {
         setState({
@@ -46,20 +37,28 @@ const LiveRecordings = ({ recordings, remove }) => {
         })
     }
 
-    const setDetailedDrawer = status => {
+    const openEditRecordingDrawer = () => {
         setState({
             ...state,
-            detailedDrawer: status
+            editRecordingModal: true
+        })
+    }
+
+    const closeEditRecordingDrawer = () => {
+        setState({
+            ...state,
+            editRecordingModal: false
         })
     }
 
 
-console.log(recordings);
+    console.log(recordings);
     return (
         <div className="sm-tv-page container ">
+            <EditRecordingModal 
+            onClose = {closeEditRecordingDrawer}
+            recording={selectedRecording} visible={state.editRecordingModal} />
             <StreamDeletePromptModal onClose={() => setDeleteModal(false)} visible={state.deleteModal} />
-            <DetailedStreamDrawer stream={selectedStream} onClose={() => setDetailedDrawer(false)} visible={state.detailedDrawer} />
-            <CreateStreamDrawer visible={state.addDrawer} onClose={() => setAddDrawer(false)} />
             <Card id="main-card" className="mt-5" >
                 <div className="logo">
                     <Image id="logo-image" preview={false} src={logo} />
@@ -68,7 +67,7 @@ console.log(recordings);
                     <h5>SamTv Live Recordings</h5>
                 </div>
 
-                <List pagination = {{pageSize:5}} dataSource = {recordings.data} loading = {recordings.loading}
+                <List pagination={{ pageSize: 5 }} dataSource={recordings.data} loading={recordings.loading}
                     renderItem={item => (<List.Item>
                         <List.Item.Meta
                             title={<div className="d-flex justify-content-between w-100" >
@@ -84,8 +83,8 @@ console.log(recordings);
                                                 <p className="mx-2 " >Edit</p>
                                                 <Tooltip title="Edit event" >
                                                     <EditOutlined onClick={() => {
-                                                        // setSelectedItem(item)
-                                                        // openEditMotivationModal()
+                                                        setSelectedRecording(item)
+                                                        openEditRecordingDrawer()
                                                     }} style={{ color: "royalblue", fontSize: "1rem" }} />
                                                 </Tooltip>
                                             </div  >
@@ -123,8 +122,8 @@ console.log(recordings);
                                     <MoreOutlined style={{ fontSize: "1.5rem", fontWeight: "bold" }} />
                                 </Popover>
 
-                            </div>}                        
-                            description = {<LiveRecordingsDescription recordings = {item} />}
+                            </div>}
+                            description={<LiveRecordingsDescription recordings={item} />}
                         />
                     </List.Item>)}
                 />
@@ -146,9 +145,9 @@ const mapStateToProps = state => {
         recordings: state.liveRecordings
     }
 }
-const mapDispatchToProps = disptach=>{
-    return{
-        remove:(recording)=>disptach(deleteRecordings(recording))
+const mapDispatchToProps = disptach => {
+    return {
+        remove: (recording) => disptach(deleteRecordings(recording))
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(LiveRecordings)
+export default connect(mapStateToProps, mapDispatchToProps)(LiveRecordings)
