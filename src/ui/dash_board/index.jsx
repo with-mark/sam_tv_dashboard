@@ -66,7 +66,7 @@ const LandingPage = ({
         getUserInfo()
         getTestimonies()
         fetchRecordings()
-    }, [getMotivation, getTestimonies, getUserInfo, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
+    }, [getMotivation, fetchRecordings, getTestimonies, getUserInfo, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
 
     const [modalVisible, setModalVisible] = useState(false)
     const openModal = () => {

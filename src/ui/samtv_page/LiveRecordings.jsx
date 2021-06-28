@@ -1,20 +1,20 @@
-import { Card, Image, List, Popconfirm, Popover, Space, Table, Tag, Tooltip } from 'antd'
+import { Card, Image, List, Popconfirm, Popover, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import "./styles/index.scss"
 import logo from "../../assets/images/logo.png"
-import { Col, Row } from 'react-bootstrap';
-import { DeleteOutlined, EditOutlined, EyeOutlined, MoreOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { DeleteOutlined, EditOutlined,  MoreOutlined } from "@ant-design/icons"
 import CreateStreamDrawer from './createStreamDrawer';
 import DetailedStreamDrawer from './detailedDrawer';
 import StreamDeletePromptModal from './deletePromptModal'
 import { connect } from 'react-redux';
 import { seo } from '../../utils/customPageHeader';
 import LiveRecordingsDescription from './LiveRecordingsDescription';
+import { deleteRecordings } from '../../state_mamger/functions/liveRecordings'
 
 
 
 
-const LiveRecordings = ({ recordings }) => {
+const LiveRecordings = ({ recordings, remove }) => {
     const [state, setState] = useState({
         addDrawer: false,
         detailedDrawer: false,
@@ -98,7 +98,7 @@ console.log(recordings);
                                                         okText="Yes"
                                                         cancelText="no"
                                                         onConfirm={() => {
-                                                            // remove(item)
+                                                            remove(item)
                                                         }}
                                                         okButtonProps={{ style: { backgroundColor: "#852c2c" } }}
                                                         cancelButtonProps={{ style: { backgroundColor: "red", color: "#ffffff" } }}
@@ -146,5 +146,9 @@ const mapStateToProps = state => {
         recordings: state.liveRecordings
     }
 }
-
-export default connect(mapStateToProps)(LiveRecordings)
+const mapDispatchToProps = disptach=>{
+    return{
+        remove:(recording)=>disptach(deleteRecordings(recording))
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(LiveRecordings)
