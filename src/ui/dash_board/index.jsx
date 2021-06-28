@@ -1,4 +1,4 @@
-import { Avatar, Image, Layout, Menu,Divider, Popover, Button, Popconfirm, Tooltip } from 'antd'
+import { Avatar, Image, Layout, Menu, Divider, Popover, Button, Popconfirm, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
@@ -26,6 +26,8 @@ import logut from '../../utils/logut'
 import TestimimoniesPage from '../testimimoniesPage'
 import { fetchTestimony } from '../../state_mamger/functions/testimonies'
 import ProfileModal from './profileModal'
+import LiveRecordings from '../samtv_page/LiveRecordings'
+import { fetchLiveRecordings } from '../../state_mamger/functions/liveRecordings'
 const LandingPage = ({
     getMotivation,
     getStreamingData,
@@ -35,7 +37,8 @@ const LandingPage = ({
     getUsers,
     userInfo,
     getUserInfo,
-    getTestimonies
+    getTestimonies,
+    fetchRecordings
 }) => {
     const [state, setState] = useState({
         menuCollapse: false,
@@ -62,14 +65,15 @@ const LandingPage = ({
         getEvents()
         getUserInfo()
         getTestimonies()
+        fetchRecordings()
     }, [getMotivation, getTestimonies, getUserInfo, getStreamingData, fetchPrayerRequests, getSermons, getEvents, getUsers])
 
-    const [modalVisible,setModalVisible] = useState(false)
-    const openModal=()=>{
+    const [modalVisible, setModalVisible] = useState(false)
+    const openModal = () => {
         setModalVisible(true)
     }
 
-    const closeModal=()=>{
+    const closeModal = () => {
         setModalVisible(false)
     }
 
@@ -78,7 +82,7 @@ const LandingPage = ({
     const popOverContent = (
         <div className="p-2 popOverContent" >
             <h6> {userInfo.name} </h6>
-            <Button onClick = {openModal} icon={<FontAwesomeIcon className="mx-2" icon={faEdit} />} id="editBtn" shape="round" >Edit profile</Button>
+            <Button onClick={openModal} icon={<FontAwesomeIcon className="mx-2" icon={faEdit} />} id="editBtn" shape="round" >Edit profile</Button>
             <Divider />
             <p>{userInfo.email}</p>
 
@@ -104,7 +108,7 @@ const LandingPage = ({
 
     return (
         <Layout style={{ minHeight: '100vh' }} >
-            <ProfileModal vidible = {modalVisible} onCancel = {closeModal} />
+            <ProfileModal vidible={modalVisible} onCancel={closeModal} />
             <Layout.Sider hidden={state.hideMenu} theme="light" zeroWidthTriggerStyle={{ color: "blue" }} breakpoint="md" style={{ backgroundColor: "#ffffff" }} collapsible collapsed={state.menuCollapse} onCollapse={collapseMenu}>
                 <div className="logo">
                     <Image preview={false} src={logo} alt="slider-logo" srcset="" />
@@ -127,6 +131,11 @@ const LandingPage = ({
                         <Menu.Item title="Schedules" path="/sam-tv/schedules" key="3" >
 
                             <span  > Schedules</span>
+
+                        </Menu.Item>
+                        <Menu.Item title="Schedules" path="/sam-tv/recordings" key="3.1" >
+
+                            <span  > Live recordings</span>
 
                         </Menu.Item>
                     </Menu.SubMenu>
@@ -200,6 +209,7 @@ const LandingPage = ({
                         <Route path="/events" component={EventsPage} />
                         <Route path="/testimonies" component={TestimimoniesPage} />
                         <Route component={SamTvPage} path={`/sam-tv/schedules`} />
+                        <Route component={LiveRecordings} path={`/sam-tv/recordings`} />
                         <Route path="/sam-tv" component={MeetingRoom} />
                         <Route path="/prayer-requests" component={PrayerRequestsPage} />
                         <Route path="/sermons" component={SermonesPage} />
@@ -223,7 +233,8 @@ const mapDispatchToProps = (dispatch) => {
         getEvents: () => dispatch(fetchEvents()),
         getUsers: () => dispatch(fetchUsers()),
         getUserInfo: () => dispatch(fetchUserInfo()),
-        getTestimonies: () => dispatch(fetchTestimony())
+        getTestimonies: () => dispatch(fetchTestimony()),
+        fetchRecordings: () => dispatch(fetchLiveRecordings())
     };
 }
 const mapStateToProps = (state) => {

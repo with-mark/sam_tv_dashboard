@@ -1,6 +1,7 @@
 import {createStore,applyMiddleware,combineReducers} from 'redux'
 import thunk from 'redux-thunk'
 import eventsReducer from './functions/events';
+import liveRecordingsReducer from './functions/liveRecordings';
 import { streamReducer } from './functions/liveStreams';
 import { motivationReducer } from './functions/motivations';
 import { prayerRequestReducer } from './functions/prayerRequest';
@@ -24,6 +25,7 @@ samTvChats:samTvChatsReducer,
 users:usersReducer,
 userInfo:userInfoReducer,
 testimony:testimonyReducer,
+liveRecordings:liveRecordingsReducer,
 })
 
  
