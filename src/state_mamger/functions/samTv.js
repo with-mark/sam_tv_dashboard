@@ -14,6 +14,7 @@ const INIT_MEETING_COMPLETE = "INIT_MEETING_COMPLETE"
 
 const SEND_RECORDING_REQUEST = "SEND_RECORDING_REQUEST"
 const SEND_RECORDING_COMPLETED = "SEND_RECORDING_COMPLETED"
+const SEND_RECORDING_FAILED = "SEND_RECORDING_FAILED"
 
 const END_RECORDING_REQUEST = "END_RECORDING_REQUEST"
 const END_RECORDING_SUCCESS = "END_RECORDING_SUCCESS"
@@ -39,6 +40,12 @@ const startRecordingRequest = ()=>{
 const startRecordingCompleted=()=>{
     return {
         type:SEND_RECORDING_COMPLETED
+    }
+}
+
+const startRecordingFailed=()=>{
+    return {
+        type:SEND_RECORDING_FAILED
     }
 }
 
@@ -86,7 +93,7 @@ export const startRecording =()=>async dispatch=>{
         dispatch(startRecordingCompleted())
         message.success("Recording has began")
     }).catch(err=>{
-        dispatch(startRecordingCompleted())
+        dispatch(startRecordingFailed())
         if(err.response){
             console.log(err.response);
                 notification.error({
@@ -300,7 +307,14 @@ const samTvReducer = (state = initialState, { type, payload }) => {
         return{
             ...state,
             recordingStatus:recorodingState.recording
+
         }
+    case SEND_RECORDING_FAILED:
+        return{
+            ...state,
+            recorodingState:recorodingState.notRecording
+        }
+
     case END_RECORDING_REQUEST:
         return{
             ...state,

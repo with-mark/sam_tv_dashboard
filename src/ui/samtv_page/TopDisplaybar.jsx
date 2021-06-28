@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Badge } from 'antd'
 import React from 'react'
 import { connect } from 'react-redux'
+import { recorodingState } from '../../state_mamger/functions/samTv'
 
-const TopDisplaybar = ({ chatsInfo}) => {
-    console.log(chatsInfo);
+const TopDisplaybar = ({ chatsInfo, samTv}) => {
     return (
         <div className= "d-flex " >
             <div className="recording d-flex">
-                <p>Recording ...</p>
+                <p>{samTv.recordingStatus === recorodingState.recording && "Recording"}</p>
                 <VideoCameraOutlined/>
             </div>
 
@@ -31,7 +31,9 @@ const TopDisplaybar = ({ chatsInfo}) => {
 
 const mapStateToProps=state=>{
     return{
-        chatsInfo: state.samTvChats
+        chatsInfo: state.samTvChats,
+        samTv: state.samtv
+
     }
 }
 
