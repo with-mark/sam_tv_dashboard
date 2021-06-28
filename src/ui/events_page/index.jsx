@@ -70,6 +70,7 @@ const EventsPage = ({ eventsInfo, removeEvent }) => {
                 <Divider />
 
                 <List
+                    
                     dataSource={eventsInfo.data}
                     loading={eventsInfo.loading}
                     pagination={10}

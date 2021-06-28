@@ -5,8 +5,12 @@ import "./style/index.scss"
 
 const CustomSpinner = ({spinning,children,...rest}) => {
     return (
-        <Spin {...rest} indicator = {<LoadingOutlined id = "loader" />} className = "spinner" spinning={spinning}>
-
+        <Spin 
+        {...rest} 
+        indicator = {<LoadingOutlined id = "loader" />} 
+        className = "spinner" 
+        spinning={spinning}
+        >
             {children}
         </Spin>
     )
