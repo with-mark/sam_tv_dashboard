@@ -1,9 +1,9 @@
-import { Card, Image, List, Space, Table, Tag, Tooltip } from 'antd'
+import { Card, Image, List, Popconfirm, Popover, Space, Table, Tag, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import "./styles/index.scss"
 import logo from "../../assets/images/logo.png"
 import { Col, Row } from 'react-bootstrap';
-import { DeleteOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { DeleteOutlined, EditOutlined, EyeOutlined, MoreOutlined, PlusCircleOutlined } from "@ant-design/icons"
 import CreateStreamDrawer from './createStreamDrawer';
 import DetailedStreamDrawer from './detailedDrawer';
 import StreamDeletePromptModal from './deletePromptModal'
@@ -71,8 +71,60 @@ console.log(recordings);
                 <List dataSource = {recordings.data} loading = {recordings.loading}
                     renderItem={item => (<List.Item>
                         <List.Item.Meta
-                        title = {item.title}
-                        description = {<LiveRecordingsDescription recordings = {item} />}
+                            title={<div className="d-flex justify-content-between w-100" >
+                                <p>{item.title}</p>
+                                <Popover
+                                    trigger="click"
+                                    content={
+                                        <div
+                                            className="text-center"
+                                            style={{ minWidth: "250px" }}
+                                        >
+                                            <div className="d-flex justify-content-center my-auto" >
+                                                <p className="mx-2 " >Edit</p>
+                                                <Tooltip title="Edit event" >
+                                                    <EditOutlined onClick={() => {
+                                                        // setSelectedItem(item)
+                                                        // openEditMotivationModal()
+                                                    }} style={{ color: "royalblue", fontSize: "1rem" }} />
+                                                </Tooltip>
+                                            </div  >
+                                            <hr />
+                                            <div className="d-flex justify-content-center">
+                                                <Tooltip title="Delete event" >
+                                                    <Popconfirm
+
+                                                        title="Are you sure you want to delete this event?"
+                                                        okText="Yes"
+                                                        cancelText="no"
+                                                        onConfirm={() => {
+                                                            // remove(item)
+                                                        }}
+                                                        okButtonProps={{ style: { backgroundColor: "#852c2c" } }}
+                                                        cancelButtonProps={{ style: { backgroundColor: "red", color: "#ffffff" } }}
+                                                        icon={<DeleteOutlined />}
+                                                    >
+                                                        <div className="d-flex justify-content-center">
+                                                            <p className="mx-2 ">Delete</p>
+
+                                                            <Tooltip title="More" >
+                                                                <DeleteOutlined style={{ color: "red", fontSize: "1.5rem" }} />
+
+                                                            </Tooltip>
+                                                        </div>
+                                                    </Popconfirm>
+
+                                                </Tooltip>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    placement="bottomLeft" >
+                                    <MoreOutlined style={{ fontSize: "1.5rem", fontWeight: "bold" }} />
+                                </Popover>
+
+                            </div>}                        
+                            description = {<LiveRecordingsDescription recordings = {item} />}
                         />
                     </List.Item>)}
                 />

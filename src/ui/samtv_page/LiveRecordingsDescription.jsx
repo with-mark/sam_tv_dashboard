@@ -1,5 +1,4 @@
 import React from 'react'
-import { Col, Row } from 'react-bootstrap'
 import "./styles/detailedDescription.scss"
 import ReactHtmlParser from "react-html-parser"
 
@@ -19,13 +18,6 @@ const LiveRecordingsDescription = ({ recordings }) => {
 
                 </div>
             </div>
-
-
-
-
-
-
-
         </div>
     )
 }
