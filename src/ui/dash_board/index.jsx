@@ -155,8 +155,8 @@ const LandingPage = ({
                     </Menu.Item>
 
                     <hr />
-                    <Menu.Item title="Motovations" path="/motivations" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faRunning} />} key="6" >
-                        <span hidden={state.menuCollapse} > Motovations</span>
+                    <Menu.Item title="Motivations" path="/motivations" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faRunning} />} key="6" >
+                        <span hidden={state.menuCollapse} > Motivations</span>
                     </Menu.Item>
                     <hr />
                     <Menu.Item title="Prayers request" path="/prayer-requests" icon={<FontAwesomeIcon style={{ marginRight: "1em" }} icon={faPray} />} key="7" >

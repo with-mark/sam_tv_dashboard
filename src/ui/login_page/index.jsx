@@ -99,7 +99,7 @@ const LoginPage = () => {
           </div>
           <div className="header">
             <h4 className="text-center ml-5 mb-3">
-              Adminstrator's Login
+              Administrator's Login
             </h4>
           </div>
           <Form
