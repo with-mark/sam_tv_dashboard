@@ -132,12 +132,15 @@ const EventsPage = ({ eventsInfo, removeEvent }) => {
                             description={<div className="mt-3">
 
                                 <Row>
+                                    {
+                                        item.registration_link && (<Col xs="12"  >
+                                            <a className="" target="blank" href={item.registration_link}>
+                                                Register here
+                                            </a>
+                                        </Col>
+                                        )
+                                    }
 
-                                    <Col xs="12"  >
-                                        <a className="" target="blank" href={item.registration_link}>
-                                            Register here
-                                        </a>
-                                    </Col>
                                     <Col xs="12" >
                                         <p> {item.caption} </p>
                                     </Col>

@@ -96,7 +96,7 @@ const CreateEventsDrawer = ({visible,closeModal}) => {
                             placeholder = "Ener title of event" />
                     </Form.Item>
                    
-                    <Form.Item  rules = {[{required:true,message:"Sermon's video is required"}]} label = "Reg. Link" name = "registration_link" >
+                    <Form.Item   label = "Reg. Link" name = "registration_link" >
                     <Input.TextArea placeholder = "Enter registration link" />
                     </Form.Item>
                     <Form.Item 
