@@ -46,6 +46,7 @@ const ConferencePage = ({
 
   useEffect(() => {
     if (client.connectionState === "DISCONNECTED") {
+    
       startStreaming(tracks, ready, client)
     }
 
